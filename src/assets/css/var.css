@@ -1,0 +1,15 @@
+:root {
+  --main-bg: #ffffff;
+  --main-color: #000000;
+  --link-color: #3272DB;
+  --link-hover-color: #3272DB;
+  --btn-bg: #3272DB;
+  --btn-color: #fff;
+  --btn-hover-bg: #3272DB;
+  --btn-hover-color: #fff;
+  --page-card-bg: #353535;
+  --page-card-color: #fff;
+
+  --secondary-color: #a1a1a1;
+  --border-color: #e9e9e9;
+}

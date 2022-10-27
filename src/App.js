@@ -1,58 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import './assets/css/var.css'
+import './assets/css/main.css'
 
-function App() {
+import React, { useEffect } from 'react'
+import {
+  useSelector,
+  useDispatch,
+} from 'react-redux'
+import { Outlet } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
+import {
+  getInitData,
+  selectInit,
+} from './features/init/initSlice'
+import ScrollToTop from './components/ScrollToTop/ScrollToTop'
+import Header from './components/Header/Header'
+import Modal from './components/Modal/Modal'
+import Lang from './components/Lang/Lang'
+
+const App = () => {
+  const dispatch = useDispatch()
+  const {
+    initData,
+    initStatus,
+  } = useSelector(selectInit)
+
+  useEffect(() => {
+    dispatch(getInitData())
+  }, [dispatch])
+
+  if (initStatus === 'loading') {
+    return 'Loading...'
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
+    <>
+      <Helmet>
+        <title>{initData.hotel.name}</title>
+        <style>{initData.hotel.cssStyles}</style>
+      </Helmet>
+
+      <ScrollToTop>
+        <Header />
+        <Outlet />
+        <Modal />
+        <Lang />
+      </ScrollToTop>
+    </>
+  )
 }
 
-export default App;
+export default App

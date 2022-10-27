@@ -1,0 +1,72 @@
+.page-card {
+  --border-radius: 8px;
+  display: block;
+  position: relative;
+  border-radius: var(--border-radius);
+  background-color: var(--page-card-bg);
+  color: var(--page-card-color);
+  text-decoration: none;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.page-card:hover {
+  color: var(--page-card-color);
+}
+
+.page-card:before {
+  content: '';
+  display: block;
+  padding-top: 200px;
+}
+
+.page-card__image {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: var(--border-radius);
+}
+
+.page-card__icon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-card__icon img {
+  max-width: 50px;
+  max-height: 50px;
+}
+
+.page-card__content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.page-card__image~.page-card__content {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+.page-card__title {
+  font-size: 16px;
+  text-align: center;
+}
