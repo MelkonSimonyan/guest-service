@@ -16,7 +16,7 @@ import {
   selectVisibility
 } from '../../features/visibility/visibilitySlice'
 import { getModal } from '../../utils/getModal'
-import Popup from '../Popup/Popup'
+import ModalLayout from './ModalLayout'
 
 const Modal = () => {
   const dispatch = useDispatch()
@@ -27,12 +27,11 @@ const Modal = () => {
 
   useEffect(() => {
     let modalType = searchParams.get('modalType')
-    let modalId = searchParams.get('modalId')
 
     if (modalType) {
+      let modalId = searchParams.get('modalId')
       let currentModalData = getModal(initData.pages, modalType, modalId)
       setModalData(currentModalData)
-      dispatch(modalShow())
     } else {
       if (modalVisible) {
         dispatch(modalHide())
@@ -40,45 +39,64 @@ const Modal = () => {
     }
   }, [searchParams])
 
+  useEffect(() => {
+    if (modalData) {
+      dispatch(modalShow())
+    }
+  }, [modalData])
+
   return (
-    <Popup
+    <ModalLayout
       visible={modalVisible}
       close={() => {
         searchParams.delete('modalType')
         searchParams.delete('modalId')
         setSearchParams(searchParams)
       }}
+      image={modalData && modalData.pic}
+      footer={modalData
+        ? modalData.services
+          ? <button
+            type='button'
+            className='btn'
+            onClick={() => {
+              alert(modalData.services.id)
+            }}
+          >
+            Отправить запрос {modalData.services.price ? <>({modalData.services.price} {initData.hotel.currency})</> : ''}
+          </button>
+          : modalData.link
+            ? <a className='btn' href={modalData.link.link} target='_blank'>{modalData.link.title}</a>
+            : null
+        : null}
     >
       {modalData
-        ? <div>
-          {modalData.pic
-            ? <img src={modalData.pic} />
-            : null
-          }
-          {modalData.title
-            ? <h2>{modalData.title}</h2>
-            : null
-          }
-          {modalData.subTitle
-            ? <h3>{modalData.subTitle}</h3>
-            : null
-          }
+        ? <>
+          <div className='modal__header'>
+            {modalData.title
+              ? <h2 className='modal__title'>{modalData.title}</h2>
+              : null
+            }
+            {modalData.subTitle
+              ? <div className='modal__subtitle'>{modalData.subTitle}</div>
+              : null
+            }
+          </div>
           {modalData.desc
-            ? <div dangerouslySetInnerHTML={{ __html: modalData.desc }} />
+            ? <div className='modal__desc' dangerouslySetInnerHTML={{ __html: modalData.desc }} />
             : null
           }
           {modalData.workTime
-            ? <div>Время работы: {modalData.workTime}</div>
+            ? <div className='modal__worktime'>
+              <div className='modal__worktime-time'>Часы работы:</div>
+              <div>{modalData.workTime}</div>
+            </div>
             : null
           }
-          {modalData.link
-            ? <a href={modalData.link.link} target='_blank'>{modalData.link.title}</a>
-            : null
-          }
-        </div>
+        </>
         : null
       }
-    </Popup>
+    </ModalLayout>
   )
 }
 

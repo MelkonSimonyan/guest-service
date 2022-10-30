@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import initReducer from '../features/init/initSlice';
-import currentPageReducer from '../features/currentPage/currentPageSlice';
+import pageInfoReducer from '../features/pageInfo/pageInfoSlice';
 import visibilityReducer from '../features/visibility/visibilitySlice';
 
 export const store = configureStore({
   reducer: {
     init: initReducer,
-    currentPage: currentPageReducer,
+    pageInfo: pageInfoReducer,
     visibility: visibilityReducer,
   },
 });

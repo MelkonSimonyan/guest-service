@@ -4,5 +4,14 @@ import { selectInit } from '../features/init/initSlice'
 export const useLang = () => {
   const { initData } = useSelector(selectInit)
 
-  return (text) => (initData.messages[text] ? initData.messages[text] : '!__' + text + '__!')
+  const messages = {
+    ...initData.messages,
+    "languages": "Языки",
+    "select_language": "Выбрать язык",
+    "ru": "Русский",
+    "am": "Հայերեն",
+    "en": "English",
+  }
+
+  return (text) => (messages[text] ? messages[text] : '!__' + text + '__!')
 }

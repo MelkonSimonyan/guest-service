@@ -1,17 +1,24 @@
 import './OrderItem.css'
 
 import React from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { selectInit } from '../../features/init/initSlice'
 
 const OrderItem = ({ item }) => {
   const { initData } = useSelector(selectInit)
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const clickHandler = () => {
+    searchParams.set('modalType', 'order')
+    searchParams.set('modalId', item.id)
+    setSearchParams(searchParams)
+  }
 
   return (
-    <Link
+    <div
       className='order-item'
-      to={'?modalType=order&modalId=' + item.id}
+      onClick={clickHandler}
     >
       <div className='order-item__content'>
         {item.title
@@ -30,7 +37,7 @@ const OrderItem = ({ item }) => {
         </div>
         : null
       }
-    </Link>
+    </div>
   )
 }
 

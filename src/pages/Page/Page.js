@@ -1,49 +1,63 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   useSelector,
   useDispatch,
 } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { selectInit } from '../../features/init/initSlice'
-import {
-  setCurrentPage,
-  selectCurrentPage,
-} from '../../features/currentPage/currentPageSlice'
-import PageCard from '../../components/PageCard/PageCard'
+import { setPageInfo } from '../../features/pageInfo/pageInfoSlice'
+import PageItem from '../../components/PageItem/PageItem'
 import { getPage } from '../../utils/getPage'
-import OrderItem from '../../components/OrderItem/OrderItem'
+import Catalog from '../../components/Catalog/Catalog'
 
 const Page = () => {
   const { initData } = useSelector(selectInit)
-  const { currentPageData } = useSelector(selectCurrentPage)
   const dispatch = useDispatch()
   const params = useParams()
+  const [pageData, setPageData] = useState({})
+  const [categories, setCategories] = useState(null)
 
   useEffect(() => {
-    let pageData = getPage(initData.pages, params.id)
-    dispatch(setCurrentPage(pageData))
+    const data = getPage(initData.pages, params.id)
+    dispatch(setPageInfo({
+      pageTitle: data.title,
+      parentLink: data.parentLink
+    }))
+    setPageData(data)
   }, [params.id])
 
-  if (!currentPageData || (!currentPageData.pages && !currentPageData.items)) {
-    return null
-  }
+  useEffect(() => {
+    if (pageData.items) {
+      let cats = []
+
+      pageData.items.map(item => {
+        if (!cats.find(category => category.title === item.category)) {
+          cats.push({
+            id: item.category.split(' (')[0],
+            title: item.category
+          })
+        }
+      })
+
+      setCategories(cats)
+    }
+  }, [pageData])
 
   return (
-    <div className='container'>
-      {currentPageData.pages
-        ? currentPageData.pages.map((page, index) => (
-          <PageCard
-            page={page}
-            key={page.id + '' + index}
-          />
-        ))
-        : currentPageData.items.map((item) => (
-          <OrderItem
-            item={item}
-            key={item.id}
-          />
-        ))
-      }
+    <div className='content'>
+      <div className='container'>
+        {pageData.pages
+          ? pageData.pages.map((page, index) => (
+            <PageItem
+              page={page}
+              key={page.id + '' + index}
+            />
+          ))
+          : categories
+            ? <Catalog items={pageData.items} categories={categories} />
+            : null
+        }
+      </div>
     </div>
   )
 }

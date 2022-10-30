@@ -1,0 +1,43 @@
+.lang__list {
+  margin-top: -10px;
+}
+
+.lang__item {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  line-height: 24px;
+  position: relative;
+  cursor: pointer;
+  padding: 5px 40px 5px 10px;
+  margin: 0 -10px;
+  border-radius: 3px;
+  transition: .3s;
+}
+
+.lang__item:last-child {
+  margin-bottom: 0;
+}
+
+.lang__item:hover {
+  background: rgba(0, 0, 0, .07);
+}
+
+.lang__item img {
+  width: 20px;
+  height: 20px;
+  margin-right: 16px;
+  box-shadow: 0 0 5px -1px rgb(0 0 0 / 30%);
+}
+
+.lang__item-icon {
+  position: absolute;
+  right: 3px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  font-size: 20px;
+}

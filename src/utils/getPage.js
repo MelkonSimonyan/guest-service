@@ -3,7 +3,7 @@ export const getPage = (data, id) => {
     if (item.id === id) {
       return {
         ...item,
-        parentId: '/'
+        parentLink: '/'
       }
     }
 
@@ -12,7 +12,7 @@ export const getPage = (data, id) => {
       if (result) {
         return {
           ...result,
-          parentId: item.id
+          parentLink: '/page/' + item.id
         }
       }
     }
