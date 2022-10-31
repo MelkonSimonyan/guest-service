@@ -8,6 +8,7 @@ import {
   useSelector,
   useDispatch
 } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 import { selectInit } from '../../features/init/initSlice'
 import {
   langHide,
@@ -23,10 +24,17 @@ const Languages = () => {
   const { langVisible } = useSelector(selectVisibility)
   const [selectedLang, setSelectedLang] = useState('')
   const getLang = useLang()
+  const location = useLocation()
 
   useEffect(() => {
     setSelectedLang(initData.lang)
   }, [])
+
+  useEffect(() => {
+    if (langVisible) {
+      dispatch(langHide())
+    }
+  }, [location.pathname])
 
   return (
     <ModalLayout

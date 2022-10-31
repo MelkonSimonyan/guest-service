@@ -1,27 +1,15 @@
 import './Modal.css'
 
-import {
-  useRef,
-  useEffect,
-} from 'react'
+import React from 'react'
+import { useRef } from 'react'
 import { MdClear } from 'react-icons/md'
 import { CSSTransition } from 'react-transition-group'
+import { useScrollLock } from '../../hooks/useScrollLock'
 
 const ModalLayout = ({ visible, close, children, footer, image }) => {
   const modalWindow = useRef(null)
 
-  useEffect(() => {
-    if (visible) {
-      document.documentElement.style.setProperty('--scrollbarWidth', window.innerWidth - document.documentElement.clientWidth + 'px')
-      document.documentElement.classList.add('is-modal-open')
-    } else {
-      document.documentElement.classList.remove('is-modal-open')
-    }
-
-    return () => {
-      document.documentElement.classList.remove('is-modal-open')
-    }
-  }, [visible])
+  useScrollLock(visible)
 
   return (
     <CSSTransition

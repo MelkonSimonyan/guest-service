@@ -46,6 +46,20 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+html.is-scroll-lock body {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
+html.is-scroll-lock body,
+html.is-scroll-lock .header,
+html.is-scroll-lock .catalog__nav,
+html.is-scroll-lock .cart-btn-wrapper,
+html.is-scroll-lock .modal__wrapper,
+html.is-scroll-lock .menu__inner {
+  margin-right: var(--scrollbarWidth);
+}
+
 body {
   font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   font-size: 14px;

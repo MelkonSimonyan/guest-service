@@ -25,6 +25,7 @@ import Languages from './components/Languages/Languages'
 import CartBtn from './components/CartBtn/CartBtn'
 import Home from './pages/Home/Home'
 import Page from './pages/Page/Page'
+import Menu from './components/Menu/Menu'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -75,6 +76,7 @@ const App = () => {
             <CartBtn />
             <Modal />
             <Languages />
+            <Menu />
           </ScrollToTop>
         </>
       }

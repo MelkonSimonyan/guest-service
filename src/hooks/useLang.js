@@ -8,6 +8,8 @@ export const useLang = () => {
     ...initData.messages,
     "languages": "Языки",
     "select_language": "Выбрать язык",
+    "my_orders": "Мои заказы",
+    "menu": "Меню",
     "ru": "Русский",
     "am": "Հայերեն",
     "en": "English",

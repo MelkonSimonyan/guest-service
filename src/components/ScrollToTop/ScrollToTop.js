@@ -5,7 +5,10 @@ const ScrollToTop = ({ children }) => {
   const location = useLocation()
 
   useLayoutEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
   }, [location.pathname])
 
   return children

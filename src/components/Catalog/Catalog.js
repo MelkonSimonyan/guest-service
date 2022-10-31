@@ -65,10 +65,10 @@ const Catalog = ({ items, categories }) => {
   // Menu Scroll
   useEffect(() => {
     if (activeCategoryId) {
-      const activeRef = refs.navRefs.find(item => item.id === activeCategoryId)
+      const activeLinkRef = refs.navRefs.find(ref => ref.id === activeCategoryId)
 
-      if (activeRef) {
-        const activeLink = activeRef.ref.current
+      if (activeLinkRef) {
+        const activeLink = activeLinkRef.ref.current
         const nav = navRef.current
 
         nav.scrollTo({
@@ -84,14 +84,14 @@ const Catalog = ({ items, categories }) => {
     const category = searchParams.get('category')
 
     if (category) {
-      const activeRef = refs.sectionRefs.find(item => item.id === category)
+      const activeSectionRef = refs.sectionRefs.find(item => item.id === category)
 
-      if (activeRef) {
+      if (activeSectionRef) {
         setActiveCategoryId(category)
 
         click.current = true
 
-        const activeSection = activeRef.ref.current
+        const activeSection = activeSectionRef.ref.current
 
         window.scrollTo({
           top: activeSection.getBoundingClientRect().top + window.pageYOffset - 126,
@@ -124,18 +124,18 @@ const Catalog = ({ items, categories }) => {
 
   // Arrows Click
   const clickArrowHandler = (dir) => {
-    let nextRef = null
-    const currentRef = refs.navRefs.find(item => item.id === activeCategoryId)
-    const currentIndex = refs.navRefs.indexOf(currentRef)
+    let nextLinkRef = null
+    const currentLinkRef = refs.navRefs.find(item => item.id === activeCategoryId)
+    const currentLinkIndex = refs.navRefs.indexOf(currentLinkRef)
 
     if (dir === 'prev') {
-      nextRef = refs.navRefs[currentIndex - 1]
+      nextLinkRef = refs.navRefs[currentLinkIndex - 1]
     } else if (dir === 'next') {
-      nextRef = refs.navRefs[currentIndex + 1]
+      nextLinkRef = refs.navRefs[currentLinkIndex + 1]
     }
 
-    if (nextRef) {
-      clickLinkHandler(nextRef.id)
+    if (nextLinkRef) {
+      clickLinkHandler(nextLinkRef.id)
     }
   }
 
