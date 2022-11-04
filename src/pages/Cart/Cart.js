@@ -36,6 +36,18 @@ const Cart = () => {
     return amount * 10 / 100
   }, [amount])
 
+  if (!cartProducts.length) {
+    return (
+      <div className='content'>
+        <div className='container'>
+          <div className='cart'>
+            <h1 style={{ textAlign: 'center' }}>Корзина пуста</h1>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className='content'>
       <div className='container'>
