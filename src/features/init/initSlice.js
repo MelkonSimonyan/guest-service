@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { apiRoot, headers } from '../../API/config'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { apiRoot, headers } from '../../API/config'
 
 const initialState = {
   initData: null,

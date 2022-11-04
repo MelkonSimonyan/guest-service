@@ -1,29 +1,19 @@
 import './Header.css'
 
 import React from 'react'
-import {
-  useSelector,
-  useDispatch
-} from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { MdOutlineKeyboardBackspace } from 'react-icons/md'
 import { selectInit } from '../../features/init/initSlice'
 import { selectPageInfo } from '../../features/pageInfo/pageInfoSlice'
-import {
-  menuShow,
-  menuHide,
-  langShow,
-  selectVisibility
-} from '../../features/visibility/visibilitySlice'
+import { menuShow, menuHide, langShow, selectVisibility } from '../../features/visibility/visibilitySlice'
 
 const Header = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const { initData } = useSelector(selectInit)
   const { pageTitle, parentLink } = useSelector(selectPageInfo)
-  const {
-    menuVisible,
-    langVisible
-  } = useSelector(selectVisibility)
+  const { menuVisible, langVisible } = useSelector(selectVisibility)
 
   return (
     <header className='header'>
@@ -31,12 +21,14 @@ const Header = () => {
         <div className='header__content'>
           <div className='header__left'>
             {parentLink
-              ? <Link
+              ? <button
                 className='back-btn'
-                to={parentLink}
+                onClick={() => (
+                  navigate(parentLink)
+                )}
               >
                 <MdOutlineKeyboardBackspace />
-              </Link>
+              </button>
               : <button
                 type='button'
                 className={`lang-btn ${langVisible ? 'is-active' : ''}`}

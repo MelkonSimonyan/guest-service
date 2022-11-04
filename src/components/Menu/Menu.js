@@ -1,29 +1,19 @@
 import './Menu.css'
 
 import React, { useEffect } from 'react'
-import {
-  useSelector,
-  useDispatch
-} from 'react-redux'
-import {
-  Link,
-  useLocation,
-} from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link, useLocation } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
-import {
-  menuHide,
-  langShow,
-  selectVisibility
-} from '../../features/visibility/visibilitySlice'
+import { MdChevronRight, MdLanguage, MdOutlineShoppingBasket } from 'react-icons/md'
+import { menuHide, langShow, selectVisibility } from '../../features/visibility/visibilitySlice'
 import { useLang } from '../../hooks/useLang'
 import { useScrollLock } from '../../hooks/useScrollLock'
-import { MdChevronRight, MdLanguage, MdOutlineShoppingBasket } from 'react-icons/md'
 
 const Menu = () => {
   const dispatch = useDispatch()
+  const location = useLocation()
   const { menuVisible } = useSelector(selectVisibility)
   const getLang = useLang()
-  const location = useLocation()
 
   useScrollLock(menuVisible)
 
@@ -50,24 +40,24 @@ const Menu = () => {
         <div className='menu__inner'>
           <div className='menu__content has-scrollbar'>
             <h2 className='menu__title'>{getLang('menu')}</h2>
-            <div className="menu__list">
-              <div className="menu__item">
-                <Link to='/cart/' className="menu__btn">
-                  <span className="menu__btn-icon">
+            <div className='menu__list'>
+              <div className='menu__item'>
+                <Link to='/cart/' className='menu__btn'>
+                  <span className='menu__btn-icon'>
                     <MdOutlineShoppingBasket />
                   </span>
-                  <span className="menu__btn-text">
+                  <span className='menu__btn-text'>
                     {getLang('my_orders')}
                   </span>
-                  <span className="menu__btn-arrow">
+                  <span className='menu__btn-arrow'>
                     <MdChevronRight />
                   </span>
                 </Link>
               </div>
 
-              <div className="menu__item">
+              <div className='menu__item'>
                 <button
-                  className="menu__btn"
+                  className='menu__btn'
                   type='button'
                   onClick={() => {
                     dispatch(menuHide())
@@ -75,13 +65,13 @@ const Menu = () => {
                       dispatch(langShow())
                     })
                   }}>
-                  <span className="menu__btn-icon">
+                  <span className='menu__btn-icon'>
                     <MdLanguage />
                   </span>
-                  <span className="menu__btn-text">
+                  <span className='menu__btn-text'>
                     {getLang('languages')}
                   </span>
-                  <span className="menu__btn-arrow">
+                  <span className='menu__btn-arrow'>
                     <MdChevronRight />
                   </span>
                 </button>

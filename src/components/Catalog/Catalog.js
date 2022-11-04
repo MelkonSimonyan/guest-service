@@ -1,17 +1,8 @@
 import './Catalog.css'
 
-import React, {
-  useEffect,
-  useState,
-  useMemo,
-  useRef,
-  createRef,
-} from 'react'
+import React, { useEffect, useState, useMemo, useRef, createRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import {
-  MdChevronLeft,
-  MdChevronRight,
-} from 'react-icons/md'
+import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
 import OrderItem from '../OrderItem/OrderItem'
 
 const Catalog = ({ items, categories }) => {
@@ -144,36 +135,37 @@ const Catalog = ({ items, categories }) => {
       <div className='catalog__nav'>
         <div className='container'>
           <div className='catalog__nav-wrapper'>
-            <div
+            <button
+              type='button'
               className='catalog__nav-arrow _prev'
               onClick={() => {
                 clickArrowHandler('prev')
               }}
-            >
-              <MdChevronLeft />
-            </div>
+            ><MdChevronLeft /></button>
+
             <div className='catalog__nav-scroll' ref={navRef}>
               <div className='catalog__nav-list'>
                 {categories.map((category, index) => (
-                  <span
+                  <button
+                    type='button'
                     ref={refs.navRefs[index].ref}
                     key={category.id}
                     className={`catalog__nav-btn ${category.id === activeCategoryId ? ' is-active' : ''}`}
                     onClick={() => {
                       clickLinkHandler(category.id)
                     }}
-                  >{category.title.split(' (')[0]}</span>
+                  >{category.title.split(' (')[0]}</button>
                 ))}
               </div>
             </div>
-            <div
+
+            <button
+              type='button'
               className='catalog__nav-arrow _next'
               onClick={() => {
                 clickArrowHandler('next')
               }}
-            >
-              <MdChevronRight />
-            </div>
+            ><MdChevronRight /></button>
           </div>
         </div>
       </div>

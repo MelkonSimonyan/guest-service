@@ -27,7 +27,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  user-select: none;
   font-size: 34px;
+  border: none;
+  background: none;
+  padding: 0;
 }
 
 .catalog__nav-arrow._prev {
@@ -62,11 +66,14 @@
 .catalog__nav-btn {
   display: inline-block;
   vertical-align: top;
-  cursor: pointer;
   padding: 8px 15px;
   border-radius: 8px;
   font-size: 16px;
   line-height: 20px;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  background: none;
 }
 
 .catalog__nav-btn.is-active {

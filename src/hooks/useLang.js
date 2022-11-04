@@ -13,6 +13,9 @@ export const useLang = () => {
     "ru": "Русский",
     "am": "Հայերեն",
     "en": "English",
+    "send_request": "Отправить запрос",
+    "cart": "Корзина",
+    "add_to_cart": "Добавить в корзину",
   }
 
   return (text) => (messages[text] ? messages[text] : '!__' + text + '__!')

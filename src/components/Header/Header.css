@@ -54,6 +54,9 @@
 }
 
 .back-btn {
+  padding: 0;
+  border: none;
+  background: none;
   color: inherit !important;
   font-size: 24px;
 }
@@ -94,7 +97,6 @@
   padding: 0;
   border-radius: 0;
   background-color: transparent;
-  pointer-events: all;
   transition: transform .6s cubic-bezier(.165, .84, .44, 1);
 }
 

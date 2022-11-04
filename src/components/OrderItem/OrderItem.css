@@ -5,6 +5,7 @@
   align-items: center;
   text-decoration: none;
   cursor: pointer;
+  user-select: none;
   margin-bottom: 10px;
   color: var(--page-item-color);
   box-shadow: var(--page-item-shadow);
@@ -16,7 +17,7 @@
 }
 
 .order-item:active {
-  background: var(--page-item-hover-bg);
+  background: var(--page-item-bg-hover);
 }
 
 .order-item__content {
@@ -44,6 +45,7 @@
 .order-item__image {
   flex-shrink: 0;
   margin-left: 12px;
+  position: relative;
 }
 
 .order-item__image img {
@@ -52,4 +54,20 @@
   height: 90px;
   object-fit: cover;
   border-radius: 8px;
+}
+
+.order-item__basket-count {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, .5);
+  font-size: 48px;
+  color: #fff;
 }

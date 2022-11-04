@@ -9,6 +9,7 @@
   line-height: 24px;
   position: relative;
   cursor: pointer;
+  user-select: none;
   padding: 5px 40px 5px 10px;
   margin: 0 -10px;
   border-radius: 3px;

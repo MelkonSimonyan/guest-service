@@ -6,16 +6,18 @@
   z-index: 500;
 }
 
+.cart-btn-wrapper .container {
+  padding: 0 10px;
+}
+
 .cart-btn {
   width: 100%;
   text-align: left;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  text-transform: uppercase;
   padding-left: 17px;
   padding-right: 17px;
-  box-shadow: var(--page-item-shadow);
 }
 
 .cart-btn__count {

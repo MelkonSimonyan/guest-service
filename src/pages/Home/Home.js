@@ -1,20 +1,18 @@
 import './Home.css'
 
 import React, { useEffect } from 'react'
-import {
-  useSelector,
-  useDispatch,
-} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { selectInit } from '../../features/init/initSlice'
 import { setPageInfo } from '../../features/pageInfo/pageInfoSlice'
 import PageItem from '../../components/PageItem/PageItem'
 
 const Home = () => {
-  const { initData } = useSelector(selectInit)
   const dispatch = useDispatch()
+  const { initData } = useSelector(selectInit)
 
   useEffect(() => {
     dispatch(setPageInfo({
+      pageId: '',
       pageTitle: '',
       parentLink: ''
     }))

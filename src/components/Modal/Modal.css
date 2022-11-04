@@ -89,6 +89,7 @@
   right: 15px;
   top: 15px;
   cursor: pointer;
+  user-select: none;
   z-index: 100;
   padding: 0;
   border: none;
@@ -148,10 +149,31 @@
   margin-bottom: 0;
 }
 
+.modal__price {
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: 500;
+  opacity: .5;
+}
+
 .modal__desc {}
 
-.modal__desc p:last-child {
-  margin-bottom: 0;
+.modal__tags {
+  margin-bottom: 8px;
+}
+
+.modal__tags>span {
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: inherit;
+  padding: 7px 8px;
+  margin: 0 10px 10px 0;
+  line-height: 12px;
 }
 
 .modal__worktime {

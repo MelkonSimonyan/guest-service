@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import {
-  useSelector,
-  useDispatch,
-} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { selectInit } from '../../features/init/initSlice'
 import { setPageInfo } from '../../features/pageInfo/pageInfoSlice'
-import PageItem from '../../components/PageItem/PageItem'
 import { getPage } from '../../utils/getPage'
+import PageItem from '../../components/PageItem/PageItem'
 import Catalog from '../../components/Catalog/Catalog'
 
 const Page = () => {
-  const { initData } = useSelector(selectInit)
   const dispatch = useDispatch()
+  const { initData } = useSelector(selectInit)
   const params = useParams()
   const [pageData, setPageData] = useState({})
   const [categories, setCategories] = useState(null)
@@ -20,6 +17,7 @@ const Page = () => {
   useEffect(() => {
     const data = getPage(initData.pages, params.id)
     dispatch(setPageInfo({
+      pageId: data.id,
       pageTitle: data.title,
       parentLink: data.parentLink
     }))

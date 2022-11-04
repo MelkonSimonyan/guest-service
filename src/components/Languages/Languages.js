@@ -1,30 +1,21 @@
 import './Languages.css'
 
-import {
-  useEffect,
-  useState
-} from 'react'
-import {
-  useSelector,
-  useDispatch
-} from 'react-redux'
+import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
+import { BsFillCheckCircleFill } from 'react-icons/bs'
 import { selectInit } from '../../features/init/initSlice'
-import {
-  langHide,
-  selectVisibility
-} from '../../features/visibility/visibilitySlice'
+import { langHide, selectVisibility } from '../../features/visibility/visibilitySlice'
 import { useLang } from '../../hooks/useLang'
 import ModalLayout from '../Modal/ModalLayout'
-import { BsFillCheckCircleFill } from 'react-icons/bs'
 
 const Languages = () => {
   const dispatch = useDispatch()
+  const location = useLocation()
   const { initData } = useSelector(selectInit)
   const { langVisible } = useSelector(selectVisibility)
   const [selectedLang, setSelectedLang] = useState('')
   const getLang = useLang()
-  const location = useLocation()
 
   useEffect(() => {
     setSelectedLang(initData.lang)
@@ -44,7 +35,7 @@ const Languages = () => {
       }}
       footer={<button
         type='button'
-        className='btn'
+        className='btn btn_lg'
         onClick={() => {
           dispatch(langHide())
           localStorage.setItem('lang', selectedLang)

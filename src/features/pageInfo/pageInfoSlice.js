@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
+  pageId: '',
   pageTitle: '',
   parentLink: ''
 }
@@ -10,6 +11,7 @@ export const pageInfoSlice = createSlice({
   initialState,
   reducers: {
     setPageInfo: (state, action) => {
+      state.pageId = action.payload.pageId
       state.pageTitle = action.payload.pageTitle
       state.parentLink = action.payload.parentLink
     },

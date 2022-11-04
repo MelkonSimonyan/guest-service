@@ -2,38 +2,27 @@ import './assets/css/var.css'
 import './assets/css/main.css'
 
 import React, { useEffect } from 'react'
-import {
-  useSelector,
-  useDispatch,
-} from 'react-redux'
-import {
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-} from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
-import {
-  getInitData,
-  selectInit,
-} from './features/init/initSlice'
+import { getInitData, selectInit } from './features/init/initSlice'
+import { selectPageInfo } from './features/pageInfo/pageInfoSlice'
+import Home from './pages/Home/Home'
+import Page from './pages/Page/Page'
+import Cart from './pages/Cart/Cart'
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'
 import Header from './components/Header/Header'
 import Modal from './components/Modal/Modal'
 import Languages from './components/Languages/Languages'
-import CartBtn from './components/CartBtn/CartBtn'
-import Home from './pages/Home/Home'
-import Page from './pages/Page/Page'
 import Menu from './components/Menu/Menu'
+import CartBtn from './components/CartBtn/CartBtn'
 
 const App = () => {
   const dispatch = useDispatch()
   const location = useLocation()
-  const {
-    initData,
-    initStatus,
-  } = useSelector(selectInit)
+  const { initData, initStatus } = useSelector(selectInit)
+  const { pageId } = useSelector(selectPageInfo)
 
   useEffect(() => {
     dispatch(getInitData())
@@ -68,12 +57,14 @@ const App = () => {
                 <Routes location={location}>
                   <Route path='/' element={<Home />} />
                   <Route path='/page/:id' element={<Page />} />
+                  <Route path='/cart/' element={<Cart />} />
                   <Route path='*' element={<Navigate to='/' />} />
                 </Routes>
               </CSSTransition>
             </TransitionGroup>
 
-            <CartBtn />
+            {pageId === 'cart' ? null : <CartBtn />}
+
             <Modal />
             <Languages />
             <Menu />

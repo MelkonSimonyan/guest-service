@@ -1,14 +1,29 @@
 :root {
   --main-bg: #ffffff;
+  --btn-color: #ffffff;
+  --btn-color-hover: #ffffff;
+
   --main-color: #000000;
-  --link-color: #3272DB;
-  --link-hover-color: #3272DB;
-  --btn-bg: #3272DB;
-  --btn-color: #fff;
-  --btn-hover-bg: #3272DB;
-  --btn-hover-color: #fff;
-  --page-item-bg: #f2f2f2;
-  --page-item-hover-bg: #f7f7f7;
-  --page-item-shadow: 0px 3px 6px -4px rgb(0 0 0 / 40%);
   --page-item-color: #000000;
+  --btn-secondary-color: #000000;
+  --btn-secondary-color-hover: #000000;
+
+  --page-item-bg: #f2f2f2;
+  --btn-secondary-bg: #f2f2f2;
+
+  --page-item-bg-hover: #f7f7f7;
+  --btn-secondary-bg-hover: #f7f7f7;
+
+  --link-color: #3272DB;
+  --link-color-hover: #3272DB;
+  --btn-bg: #3272DB;
+  --btn-bg-hover: #3272DB;
+
+  --border-color: rgba(0, 0, 0, .2);
+
+  --secondary-color: rgba(0, 0, 0, .4);
+
+  --btn-shadow: 0px 3px 6px -4px rgba(0, 0, 0, .4);
+  --page-item-shadow: 0px 3px 6px -4px rgba(0, 0, 0, .4);
+
 }
