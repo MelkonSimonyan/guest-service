@@ -27,23 +27,3 @@
 .cart__data-row._total {
   font-weight: bold;
 }
-
-.cart__row {
-  margin-bottom: 19px;
-}
-
-.cart__row-label {
-  text-transform: uppercase;
-  margin-bottom: 9px;
-  font-weight: 500;
-}
-
-.cart__row-content {}
-
-.cart__btn-row {
-  margin: 0 -5px;
-}
-
-.cart__btn {
-  width: 100%;
-}

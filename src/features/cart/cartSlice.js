@@ -8,6 +8,11 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    setToCartFromLocalStorage: (state) => {
+      if (localStorage.getItem('cart')) {
+        state.cartProducts = JSON.parse(localStorage.getItem('cart'))
+      }
+    },
     setToCart: (state, action) => {
       const exist = state.cartProducts.find(x => x.id === action.payload.id)
       if (exist) {
@@ -36,6 +41,7 @@ export const cartSlice = createSlice({
 })
 
 export const {
+  setToCartFromLocalStorage,
   setToCart,
   removeFromCart,
   decreaseCart,

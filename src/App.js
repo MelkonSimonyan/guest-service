@@ -8,6 +8,7 @@ import { Helmet } from 'react-helmet'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { getInitData, selectInit } from './features/init/initSlice'
 import { selectPageInfo } from './features/pageInfo/pageInfoSlice'
+import { selectCart, setToCartFromLocalStorage } from './features/cart/cartSlice'
 import Home from './pages/Home/Home'
 import Page from './pages/Page/Page'
 import Cart from './pages/Cart/Cart'
@@ -23,10 +24,16 @@ const App = () => {
   const location = useLocation()
   const { initData, initStatus } = useSelector(selectInit)
   const { pageId } = useSelector(selectPageInfo)
+  const { cartProducts } = useSelector(selectCart)
 
   useEffect(() => {
+    dispatch(setToCartFromLocalStorage())
     dispatch(getInitData())
-  }, [dispatch])
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartProducts))
+  }, [cartProducts])
 
   return (
     <>
@@ -63,7 +70,7 @@ const App = () => {
               </CSSTransition>
             </TransitionGroup>
 
-            {pageId === 'cart' ? null : <CartBtn />}
+            {cartProducts.length && pageId !== 'cart' ? <CartBtn /> : null}
 
             <Modal />
             <Languages />

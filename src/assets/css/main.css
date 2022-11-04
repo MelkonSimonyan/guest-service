@@ -394,7 +394,8 @@ h6,
 .form-select {
   max-width: 100%;
   margin: 0;
-  padding-right: 25px;
+  padding-right: 35px;
+  cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23383838' stroke-width='2'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 8px center;
@@ -515,45 +516,6 @@ label.error {
   margin-bottom: -18px;
 }
 
-.timepicker {}
-
-.timepicker__label {
-  width: 100%;
-  text-align: left;
-  border-radius: 8px;
-  padding: 9px 15px;
-  display: flex;
-  align-items: center;
-  font-size: 15px;
-  line-height: 24px;
-}
-
-.timepicker__label-icon,
-.timepicker__label-arrow {
-  font-size: 24px;
-  line-height: 1;
-}
-
-.timepicker__label-icon svg,
-.timepicker__label-arrow svg {
-  display: block;
-}
-
-.timepicker__label-icon {
-  margin-right: 7px;
-}
-
-.timepicker__label-text {
-  flex-grow: 1;
-  min-width: 1px;
-}
-
-.timepicker__label-arrow {
-  margin-left: auto;
-}
-
-.timepicker__dropdown {}
-
 .grecaptcha-badge {
   opacity: 0;
 }
@@ -627,7 +589,6 @@ label.error {
 
 .content {
   background: var(--main-bg);
-  will-change: opacity;
 }
 
 .content-enter,

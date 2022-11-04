@@ -1,0 +1,81 @@
+.timepicker {}
+
+.timepicker__label {
+  width: 100%;
+  text-align: left;
+  border-radius: 8px;
+  padding: 9px 15px;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.timepicker__label-icon,
+.timepicker__label-arrow {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.timepicker__label-icon svg,
+.timepicker__label-arrow svg {
+  display: block;
+}
+
+.timepicker__label-icon {
+  margin-right: 7px;
+}
+
+.timepicker__label-text {
+  flex-grow: 1;
+  min-width: 1px;
+}
+
+.timepicker__label-arrow {
+  margin-left: auto;
+}
+
+.timepicker__dropdown {}
+
+.timepicker__row {
+  display: flex;
+  align-items: center;
+  margin: 0 -5px;
+}
+
+.timepicker__col {
+  flex: 0 0 auto;
+  padding: 0 5px;
+  margin-bottom: 10px;
+}
+
+.timepicker__col._day {
+  width: 50%;
+}
+
+.timepicker__col._hour,
+.timepicker__col._minute {
+  width: calc(25% - 5px);
+}
+
+.timepicker__col._divident {
+  padding-left: 0;
+  padding-right: 0;
+  width: 10px;
+  text-align: center;
+}
+
+@media (max-width: 575.98px) {
+  .timepicker__row {
+    flex-wrap: wrap;
+  }
+
+  .timepicker__col._day {
+    width: 100%;
+  }
+
+  .timepicker__col._hour,
+  .timepicker__col._minute {
+    width: calc(50% - 5px);
+  }
+}
