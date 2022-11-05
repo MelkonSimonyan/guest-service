@@ -2,7 +2,7 @@ import './Modal.css'
 
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import { selectInit } from '../../features/init/initSlice'
 import { modalShow, modalHide, selectVisibility } from '../../features/visibility/visibilitySlice'
 import { setToCart } from '../../features/cart/cartSlice'
@@ -12,6 +12,7 @@ import ModalLayout from './ModalLayout'
 
 const Modal = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { initData } = useSelector(selectInit)
   const { modalVisible } = useSelector(selectVisibility)
   const [searchParams, setSearchParams] = useSearchParams()
@@ -50,7 +51,8 @@ const Modal = () => {
   }
 
   const sendRequest = (id) => {
-    alert(id)
+    close()
+    navigate('/cart?shopId=' + id)
   }
 
   if (!modalData) {
@@ -76,7 +78,7 @@ const Modal = () => {
               type='button'
               className='btn btn_lg'
               onClick={() => {
-                sendRequest(modalData.services.id)
+                sendRequest(modalData.id)
               }}
             >{getLang('send_request')}</button>
             : modalData.link ?

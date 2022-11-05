@@ -48,7 +48,11 @@ const Timepicker = ({ time, waitTime }) => {
     const day = date.getDate()
     const month = date.getMonth()
 
-    return dayNames[dayOfWeek] + ' ' + ('0' + day).slice(-2) + ' ' + monthNames[month]
+    if (dayNames[dayOfWeek] && monthNames[month]) {
+      return dayNames[dayOfWeek] + ' ' + ('0' + day).slice(-2) + ' ' + monthNames[month]
+    }
+
+    return ''
   }
 
   useEffect(() => {
@@ -93,14 +97,13 @@ const Timepicker = ({ time, waitTime }) => {
 
       const t = d.getTime()
 
-      setSelectedTime(t + selectedDay * 24 * 60 * 60 * 1000 + selectedHours * 60 * 60 * 1000 + selectedMinutes * 60 * 1000)
-
       if (selectedDay === 0 && selectedHours < startHours) {
         setSelectedHours(startHours)
-      }
-
-      if (selectedDay === 0 && selectedHours === startHours && selectedMinutes < startMinutes) {
         setSelectedMinutes(startMinutes)
+      } else if (selectedDay === 0 && selectedHours === startHours && selectedMinutes < startMinutes) {
+        setSelectedMinutes(startMinutes)
+      } else {
+        setSelectedTime(t + selectedDay * 24 * 60 * 60 * 1000 + selectedHours * 60 * 60 * 1000 + selectedMinutes * 60 * 1000)
       }
     }
   }, [selectedDay, selectedHours, selectedMinutes])
@@ -115,7 +118,9 @@ const Timepicker = ({ time, waitTime }) => {
         }}
       >
         <span className='timepicker__label-icon'><MdOutlineAccessTime /></span>
-        <span className='timepicker__label-text'>{getDateString(selectedTime) + ', ' + ('0' + selectedHours).slice(-2) + ':' + ('0' + selectedMinutes).slice(-2)}</span>
+        <span className='timepicker__label-text'>{
+          selectedTime ? getDateString(selectedTime) + ', ' + ('0' + selectedHours).slice(-2) + ':' + ('0' + selectedMinutes).slice(-2) : null
+        }</span>
         <span className='timepicker__label-arrow'><MdChevronRight /></span>
       </button>
 

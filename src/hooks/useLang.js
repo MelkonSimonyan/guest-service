@@ -36,6 +36,9 @@ export const useLang = () => {
     "confirm_order": "Подтвердить заказ",
     "select": "Выбрать",
     "select_date_and_time": "Выберите дату и время",
+    "basket_empty_title": "Ваша корзина пока пуста.",
+    "basket_empty_subtitle": "Для оформления заказа добавьте в корзину позиции.",
+    "go_to_home": "Главное меню",
   }
 
   return (text) => (messages[text] ? messages[text] : '!__' + text + '__!')
