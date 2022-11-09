@@ -73,7 +73,9 @@ const App = () => {
             {cartProducts.length && pageId !== 'cart' ? <CartBtn /> : null}
 
             <Modal />
+
             <Languages />
+
             <Menu />
           </ScrollToTop>
         </>
