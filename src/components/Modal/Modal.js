@@ -65,7 +65,7 @@ const Modal = () => {
       close={close}
       image={modalData.pic}
       footer={
-        modalData.type === 'order' ?
+        modalData.type === 'store' ?
           <button
             type='button'
             className='btn btn_lg'
@@ -73,7 +73,7 @@ const Modal = () => {
               addToCart(modalData)
             }}
           >{getLang('add_to_cart')}</button>
-          : modalData.services ?
+          : modalData.service ?
             <button
               type='button'
               className='btn btn_lg'
@@ -96,8 +96,8 @@ const Modal = () => {
             ? <h2 className='modal__title'>{modalData.title}</h2>
             : null
           }
-          {modalData.price || (modalData.services && modalData.services.price)
-            ? <div className='modal__price'>{modalData.price || modalData.services.price} {initData.hotel.currency}</div>
+          {modalData.price || (modalData.service && modalData.service.price)
+            ? <div className='modal__price'>{modalData.price || modalData.service.price}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
             : modalData.subTitle
               ? <div className='modal__subtitle'>{modalData.subTitle}</div>
               : null

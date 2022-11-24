@@ -1,6 +1,6 @@
 export const getPage = (data, id) => {
   for (let item of data) {
-    if (item.id === id) {
+    if (item.id == id) {
       return {
         ...item,
         parentLink: '/'

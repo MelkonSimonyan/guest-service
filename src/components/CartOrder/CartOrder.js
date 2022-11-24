@@ -48,17 +48,17 @@ const CartOrder = () => {
       <div className='cart__data'>
         <div className='cart__data-row'>
           <div className='cart__data-title'>{getLang('order_cost')}</div>
-          <div className='cart__data-value'>{amount}&nbsp;{initData.hotel.currency}</div>
+          <div className='cart__data-value'>{amount}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
         </div>
 
         <div className='cart__data-row'>
           <div className='cart__data-title'>{getLang('service_fee')}</div>
-          <div className='cart__data-value'>{serviceFee}&nbsp;{initData.hotel.currency}</div>
+          <div className='cart__data-value'>{serviceFee}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
         </div>
 
         <div className='cart__data-row _total'>
           <div className='cart__data-title'>{getLang('total')}</div>
-          <div className='cart__data-value'>{amount + serviceFee}&nbsp;{initData.hotel.currency}</div>
+          <div className='cart__data-value'>{amount + serviceFee}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
         </div>
       </div>
 

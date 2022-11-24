@@ -10,7 +10,7 @@ const PageItem = ({ page }) => {
   const clickHandler = () => {
     if (page.type === 'section') {
       navigate('/page/' + page.id)
-    } else if (page.type === 'order') {
+    } else if (page.type === 'store') {
       navigate('/page/' + page.id)
     } else if (page.type === 'feedback') {
       navigate('/feedback/')

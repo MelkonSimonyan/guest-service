@@ -26,7 +26,7 @@ const Cart = () => {
     if (searchParams.get('shopId')) {
       setCartType('service')
     } else {
-      setCartType('order')
+      setCartType('store')
     }
   }, [searchParams])
 
@@ -35,7 +35,7 @@ const Cart = () => {
       <div className='container'>
         {!cartType
           ? null
-          : cartType === 'order'
+          : cartType === 'store'
             ? <CartOrder />
             : cartType === 'service'
               ? <CartService />

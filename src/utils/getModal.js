@@ -16,7 +16,7 @@ export const getModal = (data, type, id) => {
       if (result) {
         return {
           ...result,
-          type: 'order'
+          type: 'store'
         }
       }
     }

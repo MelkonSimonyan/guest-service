@@ -22,7 +22,7 @@ const OrderItem = ({ item }) => {
   }, [cartProducts])
 
   const clickHandler = () => {
-    searchParams.set('modalType', 'order')
+    searchParams.set('modalType', 'store')
     searchParams.set('modalId', item.id)
     setSearchParams(searchParams)
   }
@@ -38,7 +38,7 @@ const OrderItem = ({ item }) => {
           : null
         }
         {item.price
-          ? <div className='order-item__price'>{item.price} {initData.hotel.currency}</div>
+          ? <div className='order-item__price'>{item.price} <span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
           : null
         }
       </div>

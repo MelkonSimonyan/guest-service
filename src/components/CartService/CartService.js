@@ -28,7 +28,7 @@ const CartService = () => {
 
   useEffect(() => {
     if (serviceData) {
-      let amount = serviceData.services.price
+      let amount = serviceData.service.price
       setAmount(amount)
     }
   }, [serviceData])
@@ -61,18 +61,18 @@ const CartService = () => {
       <div className='cart__data'>
         <div className='cart__data-row'>
           <div className='cart__data-title'>{getLang('order_cost')}</div>
-          <div className='cart__data-value'>{amount}&nbsp;{initData.hotel.currency}</div>
+          <div className='cart__data-value'>{amount}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
         </div>
 
         {serviceFee ? <>
           <div className='cart__data-row'>
             <div className='cart__data-title'>{getLang('service_fee')}</div>
-            <div className='cart__data-value'>{serviceFee}&nbsp;{initData.hotel.currency}</div>
+            <div className='cart__data-value'>{serviceFee}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
           </div>
 
           <div className='cart__data-row _total'>
             <div className='cart__data-title'>{getLang('total')}</div>
-            <div className='cart__data-value'>{Number(amount) + serviceFee}&nbsp;{initData.hotel.currency}</div>
+            <div className='cart__data-value'>{Number(amount) + serviceFee}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
           </div>
         </> : null}
       </div>
