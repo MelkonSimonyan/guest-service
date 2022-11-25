@@ -44,7 +44,7 @@ const CartItem = ({ item }) => {
           </div>
 
           <div className='cart-item__price-cell'>
-            <div className='cart-item__price'>{item.quantity * item.price}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
+            <div className='cart-item__price'>{item.quantity * item.price}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div>
           </div>
         </div>
       </div>

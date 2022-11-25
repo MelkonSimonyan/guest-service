@@ -17,7 +17,7 @@ const Cart = () => {
   useEffect(() => {
     dispatch(setPageInfo({
       pageId: 'cart',
-      pageTitle: getLang('cart'),
+      pageTitle: getLang('basket'),
       parentLink: window.history.state && window.history.state.key ? -1 : '/'
     }))
   }, [])

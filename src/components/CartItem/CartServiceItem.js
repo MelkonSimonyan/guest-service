@@ -34,7 +34,7 @@ const CartServiceItem = ({ item, remove }) => {
           </div>
 
           <div className='cart-item__price-cell'>
-            <div className='cart-item__price'>{item.service.price}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
+            <div className='cart-item__price'>{item.service.price}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div>
           </div>
         </div>
       </div>

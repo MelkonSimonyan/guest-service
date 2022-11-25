@@ -15,12 +15,14 @@
 
 .header__left {
   flex: 0 0 auto;
-  width: 50px;
+  width: 70px;
+  display: flex;
+  align-items: center;
 }
 
 .header__right {
   flex: 0 0 auto;
-  width: 50px;
+  width: 70px;
 }
 
 .header__center {
@@ -65,9 +67,10 @@
   display: block;
 }
 
-.lang-btn {
+.lang-btn,
+.currency-btn {
   position: relative;
-  margin: auto auto auto -6px;
+  margin-left: -6px;
   height: 30px;
   width: 32px;
   display: flex;
@@ -77,6 +80,7 @@
   border: 0;
   padding: 0;
   background-color: transparent;
+  flex-shrink: 0;
 }
 
 .lang-btn img {
@@ -84,6 +88,16 @@
   width: 21px;
   height: 21px;
   box-shadow: 0 0 5px -1px rgb(0 0 0 / 30%);
+}
+
+.currency-btn {
+  margin-left: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.currency-btn:hover {
+  color: var(--link-color-hover);
 }
 
 .burger-btn {

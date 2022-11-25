@@ -4,6 +4,7 @@ const initialState = {
   modalVisible: false,
   menuVisible: false,
   langVisible: false,
+  currencyVisible: false,
 }
 
 export const visibilitySlice = createSlice({
@@ -28,6 +29,12 @@ export const visibilitySlice = createSlice({
     langHide: (state) => {
       state.langVisible = false
     },
+    currencyShow: (state) => {
+      state.currencyVisible = true
+    },
+    currencyHide: (state) => {
+      state.currencyVisible = false
+    },
   }
 })
 
@@ -40,6 +47,8 @@ export const {
   menuHide,
   langShow,
   langHide,
+  currencyShow,
+  currencyHide,
 } = visibilitySlice.actions
 
 export default visibilitySlice.reducer

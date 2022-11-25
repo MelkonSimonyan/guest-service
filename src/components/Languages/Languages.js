@@ -41,29 +41,29 @@ const Languages = () => {
           localStorage.setItem('lang', selectedLang)
           window.location.reload()
         }}
-      >{getLang('select_language')}</button>}
+      >{getLang('ChooseLanguage')}</button>}
     >
       <div className='modal__header'>
         <h2 className='modal__title'>{getLang('languages')}</h2>
       </div>
 
       <div className='lang__list'>
-        {initData.langs.map((curLang) => (
+        {Object.entries(initData.langs).map(([key, curLang]) => (
           <div
             className='lang__item'
-            key={curLang}
+            key={key}
             onClick={() => {
-              setSelectedLang(curLang)
+              setSelectedLang(curLang.code)
             }}
           >
             <img
-              src={`/assets/images/lang/flag-${curLang}.svg`}
+              src={`/assets/images/lang/flag-${curLang.code}.svg`}
               width='20'
               height='20'
-              alt={curLang}
+              alt={curLang.name}
             />
-            {getLang(curLang)}
-            {curLang === selectedLang
+            {curLang.name}
+            {curLang.code === selectedLang
               ? <div className='lang__item-icon'>
                 <BsFillCheckCircleFill />
               </div>

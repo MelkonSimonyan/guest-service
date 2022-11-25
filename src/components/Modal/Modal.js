@@ -72,7 +72,7 @@ const Modal = () => {
             onClick={() => {
               addToCart(modalData)
             }}
-          >{getLang('add_to_cart')}</button>
+          >{getLang('addToBasket')}</button>
           : modalData.service ?
             <button
               type='button'
@@ -80,7 +80,7 @@ const Modal = () => {
               onClick={() => {
                 sendRequest(modalData.id)
               }}
-            >{getLang('send_request')}</button>
+            >{getLang('sendRequest')}</button>
             : modalData.link ?
               <a
                 className='btn btn_lg'
@@ -97,7 +97,7 @@ const Modal = () => {
             : null
           }
           {modalData.price || (modalData.service && modalData.service.price)
-            ? <div className='modal__price'>{modalData.price || modalData.service.price}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
+            ? <div className='modal__price'>{modalData.price || modalData.service.price}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div>
             : modalData.subTitle
               ? <div className='modal__subtitle'>{modalData.subTitle}</div>
               : null

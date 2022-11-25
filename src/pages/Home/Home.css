@@ -1,3 +1,15 @@
+.home-banner {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.home-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
 .page-grid {
   --bs-gutter-x: 8px;
   justify-content: center;

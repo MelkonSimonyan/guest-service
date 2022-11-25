@@ -38,7 +38,7 @@ const OrderItem = ({ item }) => {
           : null
         }
         {item.price
-          ? <div className='order-item__price'>{item.price} <span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
+          ? <div className='order-item__price'>{item.price} <span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div>
           : null
         }
       </div>

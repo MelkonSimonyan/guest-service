@@ -37,9 +37,9 @@ const CartBtn = () => {
           to='/cart/'
         >
           <span>
-            {getLang('cart')} <span className='cart-btn__count'>{quantity}</span>
+            {getLang('basket')} <span className='cart-btn__count'>{quantity}</span>
           </span>
-          <span>{amount}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currency }} /></span>
+          <span>{amount}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></span>
         </Link>
       </div>
     </div>

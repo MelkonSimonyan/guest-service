@@ -14,9 +14,9 @@ const CartEmpty = () => {
         <div className='cart-empty__icon'>
           <MdOutlineShoppingBasket />
         </div>
-        <div className='cart-empty__title'>{getLang('basket_empty_title')}</div>
-        <div className='cart-empty__subtitle'>{getLang('basket_empty_subtitle')}</div>
-        <Link className='cart-empty__btn btn btn_lg' to='/'>{getLang('go_to_home')}</Link>
+        <div className='cart-empty__title'>{getLang('emptyBasket')}</div>
+        <div className='cart-empty__subtitle'>{getLang('forOrderAddItems')}</div>
+        <Link className='cart-empty__btn btn btn_lg' to='/'>{getLang('mainMenu')}</Link>
       </div>
     </div>
   )

@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 import { MdChevronRight, MdLanguage, MdOutlineShoppingBasket } from 'react-icons/md'
-import { menuHide, langShow, selectVisibility } from '../../features/visibility/visibilitySlice'
+import { FaRegMoneyBillAlt } from 'react-icons/fa'
+import { menuHide, langShow, currencyShow, selectVisibility } from '../../features/visibility/visibilitySlice'
 import { useLang } from '../../hooks/useLang'
 import { useScrollLock } from '../../hooks/useScrollLock'
 
@@ -39,7 +40,7 @@ const Menu = () => {
         ></div>
         <div className='menu__inner'>
           <div className='menu__content has-scrollbar'>
-            <h2 className='menu__title'>{getLang('menu')}</h2>
+            <h2 className='menu__title'>{getLang('mainMenu')}</h2>
             <div className='menu__list'>
               <div className='menu__item'>
                 <Link to='/cart/' className='menu__btn'>
@@ -47,7 +48,7 @@ const Menu = () => {
                     <MdOutlineShoppingBasket />
                   </span>
                   <span className='menu__btn-text'>
-                    {getLang('my_orders')}
+                    {getLang('myOrder')}
                   </span>
                   <span className='menu__btn-arrow'>
                     <MdChevronRight />
@@ -70,6 +71,28 @@ const Menu = () => {
                   </span>
                   <span className='menu__btn-text'>
                     {getLang('languages')}
+                  </span>
+                  <span className='menu__btn-arrow'>
+                    <MdChevronRight />
+                  </span>
+                </button>
+              </div>
+
+              <div className='menu__item'>
+                <button
+                  className='menu__btn'
+                  type='button'
+                  onClick={() => {
+                    dispatch(menuHide())
+                    setTimeout(function () {
+                      dispatch(currencyShow())
+                    })
+                  }}>
+                  <span className='menu__btn-icon'>
+                    <FaRegMoneyBillAlt />
+                  </span>
+                  <span className='menu__btn-text'>
+                    {getLang('currency')}
                   </span>
                   <span className='menu__btn-arrow'>
                     <MdChevronRight />

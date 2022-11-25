@@ -6,14 +6,14 @@ import { useNavigate } from 'react-router-dom'
 import { MdOutlineKeyboardBackspace } from 'react-icons/md'
 import { selectInit } from '../../features/init/initSlice'
 import { selectPageInfo } from '../../features/pageInfo/pageInfoSlice'
-import { menuShow, menuHide, langShow, selectVisibility } from '../../features/visibility/visibilitySlice'
+import { menuShow, menuHide, langShow, currencyShow, selectVisibility } from '../../features/visibility/visibilitySlice'
 
 const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { initData } = useSelector(selectInit)
   const { pageTitle, parentLink } = useSelector(selectPageInfo)
-  const { menuVisible, langVisible } = useSelector(selectVisibility)
+  const { menuVisible, langVisible, currencyVisible } = useSelector(selectVisibility)
 
   return (
     <header className='header'>
@@ -29,15 +29,27 @@ const Header = () => {
               >
                 <MdOutlineKeyboardBackspace />
               </button>
-              : <button
-                type='button'
-                className={`lang-btn ${langVisible ? 'is-active' : ''}`}
-                onClick={() => {
-                  dispatch(langShow())
-                }}
-              >
-                <img src={`/assets/images/lang/flag-${initData.lang}.svg`} alt={initData.lang} />
-              </button>
+              : <>
+                <button
+                  type='button'
+                  className={`lang-btn ${langVisible ? 'is-active' : ''}`}
+                  onClick={() => {
+                    dispatch(langShow())
+                  }}
+                >
+                  <img src={`/assets/images/lang/flag-${initData.lang}.svg`} alt={initData.lang} />
+                </button>
+
+                <button
+                  type='button'
+                  className={`currency-btn ${currencyVisible ? 'is-active' : ''}`}
+                  onClick={() => {
+                    dispatch(currencyShow())
+                  }}
+                >
+                  <span>{initData.currency}</span>
+                </button>
+              </>
             }
           </div>
 

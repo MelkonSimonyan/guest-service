@@ -37,8 +37,6 @@ const CartOrder = () => {
 
   return (
     <div className='cart'>
-      {/* <div className='cart__head-note'>Примерное время ожидания - 15 мин</div> */}
-
       <div className='cart__list'>
         {cartProducts.map(item => (
           <CartItem item={item} key={item.id} />
@@ -47,18 +45,18 @@ const CartOrder = () => {
 
       <div className='cart__data'>
         <div className='cart__data-row'>
-          <div className='cart__data-title'>{getLang('order_cost')}</div>
-          <div className='cart__data-value'>{amount}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
+          <div className='cart__data-title'>{getLang('orderPrice')}</div>
+          <div className='cart__data-value'>{amount}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div>
         </div>
 
         <div className='cart__data-row'>
-          <div className='cart__data-title'>{getLang('service_fee')}</div>
-          <div className='cart__data-value'>{serviceFee}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
+          <div className='cart__data-title'>{getLang('serviceFee')}</div>
+          <div className='cart__data-value'>{serviceFee}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div>
         </div>
 
         <div className='cart__data-row _total'>
-          <div className='cart__data-title'>{getLang('total')}</div>
-          <div className='cart__data-value'>{amount + serviceFee}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currency }} /></div>
+          <div className='cart__data-title'>{getLang('amount')}</div>
+          <div className='cart__data-value'>{amount + serviceFee}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div>
         </div>
       </div>
 

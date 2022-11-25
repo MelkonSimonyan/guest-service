@@ -1,7 +1,9 @@
 import './CartForm.css'
 
 import React, { useEffect, useState, useRef } from 'react'
+import { useSelector } from 'react-redux'
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
+import { selectInit } from '../../features/init/initSlice'
 import NumberControl from '../NumberControl/NumberControl'
 import { useLang } from '../../hooks/useLang'
 import Timepicker from '../Timepicker/Timepicker'
@@ -9,12 +11,18 @@ import Timepicker from '../Timepicker/Timepicker'
 const CartForm = () => {
   const textareaRef = useRef(null)
   const getLang = useLang()
+  const { initData } = useSelector(selectInit)
   const [textareaValue, setTextareaValue] = useState('')
   const [personsCount, setPersonsCount] = useState(1)
+  const [payMethod, setPayMethod] = useState({})
   const [time, setTime] = useState(
     /* 1667703900000 */
     (new Date()).getTime()
   )
+
+  useEffect(() => {
+    setPayMethod(initData.payMethods[0].id)
+  }, [])
 
   useEffect(() => {
     textareaRef.current.rows = 2
@@ -24,7 +32,7 @@ const CartForm = () => {
   return (
     <>
       <div className='cart__row'>
-        <div className='cart__row-label'>{getLang('number_persons')}</div>
+        <div className='cart__row-label'>{getLang('persons')}</div>
 
         <div className='cart__row-content'>
           <NumberControl
@@ -40,7 +48,7 @@ const CartForm = () => {
       </div>
 
       <div className='cart__row'>
-        <div className='cart__row-label'>{getLang('delivery_time')}</div>
+        <div className='cart__row-label'>{getLang('deliveryTime')}</div>
 
         <div className='cart__row-content'>
           <Timepicker time={time} setTime={setTime} waitTime={60 * 60 * 1000} />
@@ -48,18 +56,7 @@ const CartForm = () => {
       </div>
 
       <div className='cart__row'>
-        <div className='cart__row-label'>{getLang('hotel_stay')}</div>
-
-        <div className='cart__row-content'>
-          <div className='btn-group'>
-            <button type='button' className='btn-group__btn btn'>{getLang('hotel_guest')}</button>
-            <button type='button' className='btn-group__btn btn btn_secondary'>{getLang('not_hotel_guest')}</button>
-          </div>
-        </div>
-      </div>
-
-      <div className='cart__row'>
-        <div className='cart__row-label'>{getLang('payment_method')}</div>
+        <div className='cart__row-label'>{getLang('payment')}</div>
 
         <div className='cart__row-content'>
           <div className='btn-list'>
@@ -70,10 +67,15 @@ const CartForm = () => {
 
             <div className='btn-list__scroll'>
               <div className='btn-list__list'>
-                <button type='button' className='btn-list__btn btn' dangerouslySetInnerHTML={{ __html: getLang('guest_account') }} />
-                <button type='button' className='btn-list__btn btn btn_secondary' dangerouslySetInnerHTML={{ __html: getLang('pay_online') }} />
-                <button type='button' className='btn-list__btn btn btn_secondary' dangerouslySetInnerHTML={{ __html: getLang('card_upon_receipt') }} />
-                <button type='button' className='btn-list__btn btn btn_secondary' dangerouslySetInnerHTML={{ __html: getLang('cash') }} />
+                {initData.payMethods.map(method => (
+                  <button
+                    type='button'
+                    className={`btn-list__btn btn ${payMethod === method.id ? '' : 'btn_secondary'}`}
+                    onClick={() => {
+                      setPayMethod(method.id)
+                    }}
+                  >{method.name}</button>
+                ))}
               </div>
             </div>
 
@@ -86,17 +88,22 @@ const CartForm = () => {
       </div>
 
       <div className='cart__row'>
-        <div className='cart__row-label'>{getLang('contact_details')}</div>
+        <div className='cart__row-label'>{getLang('contacts')}</div>
 
         <div className='cart__row-content'>
           <div className='form-group form-floating'>
             <input type='text' placeholder='&nbsp;' className='form-control' required />
-            <label className='form-label'>{getLang('room_number')}</label>
+            <label className='form-label'>{getLang('numRoom')}</label>
           </div>
 
           <div className='form-group form-floating'>
             <input type='text' placeholder='&nbsp;' className='form-control' required />
-            <label className='form-label'>{getLang('surname_latin')}</label>
+            <label className='form-label'>{getLang('formClientName')}</label>
+          </div>
+
+          <div className='form-group form-floating'>
+            <input type='text' placeholder='&nbsp;' className='form-control' required />
+            <label className='form-label'>{getLang('formPhone')}</label>
           </div>
 
           <div className='form-group form-floating'>
@@ -110,13 +117,13 @@ const CartForm = () => {
                 setTextareaValue(e.target.value)
               }}
             ></textarea>
-            <label className='form-label'>{getLang('other_wishes')}</label>
+            <label className='form-label'>{getLang('formComment')}</label>
           </div>
         </div>
       </div>
 
       <div className='cart__btn-row'>
-        <button type='button' className='cart__btn btn btn_lg'>{getLang('confirm_order')}</button>
+        <button type='button' className='cart__btn btn btn_lg'>{getLang('acceptOrder')}</button>
       </div>
     </>
   )

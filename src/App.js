@@ -18,6 +18,7 @@ import Modal from './components/Modal/Modal'
 import Languages from './components/Languages/Languages'
 import Menu from './components/Menu/Menu'
 import CartBtn from './components/CartBtn/CartBtn'
+import Currency from './components/Currency/Currency'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -75,6 +76,8 @@ const App = () => {
             <Modal />
 
             <Languages />
+
+            <Currency />
 
             <Menu />
           </ScrollToTop>

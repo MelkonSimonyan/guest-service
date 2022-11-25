@@ -1,10 +1,35 @@
 import './Home.css'
 
 import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectInit } from '../../features/init/initSlice'
 import { setPageInfo } from '../../features/pageInfo/pageInfoSlice'
 import PageItem from '../../components/PageItem/PageItem'
+
+const HomeBanner = ({ pic, link, blank }) => {
+  if (link) {
+    if (blank) {
+      return (
+        <a className='home-banner' href={link} target='_blank'>
+          <img src={pic} alt='' />
+        </a>
+      )
+    }
+
+    return (
+      <Link className='home-banner' to={link}>
+        <img src={pic} alt='' />
+      </Link>
+    )
+  }
+
+  return (
+    <div className='home-banner' to={link}>
+      <img src={pic} alt='' />
+    </div>
+  )
+}
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -21,6 +46,14 @@ const Home = () => {
   return (
     <div className='content'>
       <div className='container'>
+        {initData.hotel?.banner?.pic
+          ? <HomeBanner
+            pic={initData.hotel.banner.pic}
+            link={initData.hotel.banner.link}
+            blank={initData.hotel.banner.blank}
+          />
+          : null
+        }
         {initData.pages ?
           <div className='page-grid row'>
             {initData.pages.map((page, index) => (

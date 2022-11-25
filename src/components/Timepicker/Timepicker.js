@@ -136,10 +136,10 @@ const Timepicker = ({ time, waitTime }) => {
             console.log(selectedTime)
             setOpen(false)
           }}
-        >{getLang('select')}</button>}
+        >{getLang('choose')}</button>}
       >
         <div className='modal__header'>
-          <h2 className='modal__title'>{getLang('select_date_and_time')}</h2>
+          <h2 className='modal__title'>{getLang('deliveryTime')}</h2>
         </div>
         <div className='timepicker__row'>
           <div className='timepicker__col _day'>
