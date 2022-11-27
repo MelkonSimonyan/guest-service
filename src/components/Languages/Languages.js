@@ -1,12 +1,16 @@
-import './Languages.css'
-
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { BsFillCheckCircleFill } from 'react-icons/bs'
+
 import { selectInit } from '../../features/init/initSlice'
-import { langHide, selectVisibility } from '../../features/visibility/visibilitySlice'
+import {
+  selectVisibility,
+  langHide,
+} from '../../features/visibility/visibilitySlice'
+
 import { useLang } from '../../hooks/useLang'
+
 import ModalLayout from '../Modal/ModalLayout'
 
 const Languages = () => {
@@ -17,57 +21,65 @@ const Languages = () => {
   const [selectedLang, setSelectedLang] = useState('')
   const getLang = useLang()
 
+  const hideLanguages = () => {
+    dispatch(langHide())
+  }
+
+  const changeLangTemp = (lang) => {
+    setSelectedLang(lang)
+  }
+
+  const changeLang = () => {
+    localStorage.setItem('lang', selectedLang)
+    hideLanguages()
+    window.location.reload()
+  }
+
   useEffect(() => {
     setSelectedLang(initData.lang)
   }, [])
 
   useEffect(() => {
     if (langVisible) {
-      dispatch(langHide())
+      hideLanguages()
     }
   }, [location.pathname])
 
   return (
     <ModalLayout
       visible={langVisible}
-      close={() => {
-        dispatch(langHide())
-      }}
+      close={hideLanguages}
       footer={<button
         type='button'
         className='btn btn_lg'
-        onClick={() => {
-          dispatch(langHide())
-          localStorage.setItem('lang', selectedLang)
-          window.location.reload()
-        }}
+        onClick={changeLang}
       >{getLang('ChooseLanguage')}</button>}
     >
       <div className='modal__header'>
         <h2 className='modal__title'>{getLang('languages')}</h2>
       </div>
 
-      <div className='lang__list'>
-        {Object.entries(initData.langs).map(([key, curLang]) => (
+      <div className='modal-list'>
+        {Object.entries(initData.langs).map(([key, lang]) => (
           <div
-            className='lang__item'
+            className={`modal-list__item ${lang.code === selectedLang ? 'is-active' : ''}`}
             key={key}
             onClick={() => {
-              setSelectedLang(curLang.code)
+              changeLangTemp(lang.code)
             }}
           >
-            <img
-              src={`/assets/images/lang/flag-${curLang.code}.svg`}
-              width='20'
-              height='20'
-              alt={curLang.name}
-            />
-            {curLang.name}
-            {curLang.code === selectedLang
-              ? <div className='lang__item-icon'>
+            <span
+              className='modal-list__flag'
+              style={{
+                backgroundImage: `url(/assets/images/lang/flag-${lang.code}.svg)`
+              }}></span>
+
+            <span className='modal-list__text'>{lang.name}</span>
+
+            {lang.code === selectedLang ?
+              <span className='modal-list__select-icon'>
                 <BsFillCheckCircleFill />
-              </div>
-              : ''
+              </span> : ''
             }
           </div>
         ))}

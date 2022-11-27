@@ -3,22 +3,22 @@ import './CartForm.css'
 import React, { useEffect, useState, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
+
 import { selectInit } from '../../features/init/initSlice'
-import NumberControl from '../NumberControl/NumberControl'
+
 import { useLang } from '../../hooks/useLang'
+
+import NumberControl from '../NumberControl/NumberControl'
 import Timepicker from '../Timepicker/Timepicker'
 
 const CartForm = () => {
-  const textareaRef = useRef(null)
   const getLang = useLang()
+  const textareaRef = useRef(null)
   const { initData } = useSelector(selectInit)
   const [textareaValue, setTextareaValue] = useState('')
   const [personsCount, setPersonsCount] = useState(1)
   const [payMethod, setPayMethod] = useState({})
-  const [time, setTime] = useState(
-    /* 1667703900000 */
-    (new Date()).getTime()
-  )
+  const [time, setTime] = useState((new Date()).getTime())
 
   useEffect(() => {
     setPayMethod(initData.payMethods[0].id)
@@ -51,7 +51,12 @@ const CartForm = () => {
         <div className='cart__row-label'>{getLang('deliveryTime')}</div>
 
         <div className='cart__row-content'>
-          <Timepicker time={time} setTime={setTime} waitTime={60 * 60 * 1000} />
+          <Timepicker
+            time={time}
+            setTime={setTime}
+            waitTime={60 * 60 * 1000}
+            maxDaysDelivery={5}
+          />
         </div>
       </div>
 
@@ -60,16 +65,12 @@ const CartForm = () => {
 
         <div className='cart__row-content'>
           <div className='btn-list'>
-            <button
-              type='button'
-              className='btn-list__arrow _prev'
-            ><MdChevronLeft /></button>
-
             <div className='btn-list__scroll'>
               <div className='btn-list__list'>
                 {initData.payMethods.map(method => (
                   <button
                     type='button'
+                    key={method.id}
                     className={`btn-list__btn btn ${payMethod === method.id ? '' : 'btn_secondary'}`}
                     onClick={() => {
                       setPayMethod(method.id)
@@ -78,6 +79,11 @@ const CartForm = () => {
                 ))}
               </div>
             </div>
+
+            <button
+              type='button'
+              className='btn-list__arrow _prev'
+            ><MdChevronLeft /></button>
 
             <button
               type='button'

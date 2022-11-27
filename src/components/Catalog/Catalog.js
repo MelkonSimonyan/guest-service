@@ -3,7 +3,7 @@ import './Catalog.css'
 import React, { useEffect, useState, useMemo, useRef, createRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
-import OrderItem from '../OrderItem/OrderItem'
+import CatalogItem from '../CatalogItem/CatalogItem'
 
 const Catalog = ({ items, categories }) => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -135,14 +135,6 @@ const Catalog = ({ items, categories }) => {
       <div className='catalog__nav'>
         <div className='container'>
           <div className='catalog__nav-wrapper'>
-            <button
-              type='button'
-              className='catalog__nav-arrow _prev'
-              onClick={() => {
-                clickArrowHandler('prev')
-              }}
-            ><MdChevronLeft /></button>
-
             <div className='catalog__nav-scroll' ref={navRef}>
               <div className='catalog__nav-list'>
                 {categories.map((category, index) => (
@@ -154,10 +146,18 @@ const Catalog = ({ items, categories }) => {
                     onClick={() => {
                       clickLinkHandler(category.id)
                     }}
-                  >{category.title.split(' (')[0]}</button>
+                  >{category.title}</button>
                 ))}
               </div>
             </div>
+
+            <button
+              type='button'
+              className='catalog__nav-arrow _prev'
+              onClick={() => {
+                clickArrowHandler('prev')
+              }}
+            ><MdChevronLeft /></button>
 
             <button
               type='button'
@@ -179,7 +179,7 @@ const Catalog = ({ items, categories }) => {
           <h2 className='catalog__section-title'>{category.title}</h2>
 
           {items.filter((item) => item.category === category.title).map(item => (
-            <OrderItem
+            <CatalogItem
               item={item}
               key={item.id}
             />

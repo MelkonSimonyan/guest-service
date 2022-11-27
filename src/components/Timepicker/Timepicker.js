@@ -1,10 +1,17 @@
 import './Timepicker.css'
 import React, { useState, useEffect } from 'react'
 import { MdChevronRight, MdOutlineAccessTime } from 'react-icons/md'
+
 import { useLang } from '../../hooks/useLang'
+
 import ModalLayout from '../Modal/ModalLayout'
 
-const Timepicker = ({ time, waitTime }) => {
+const Timepicker = ({
+  time,
+  setTime,
+  waitTime,
+  maxDaysDelivery,
+}) => {
   const getLang = useLang()
   const [open, setOpen] = useState(false)
 
@@ -40,10 +47,11 @@ const Timepicker = ({ time, waitTime }) => {
   }
 
   const getDateString = (time) => {
-    const monthNames = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек']
-    const dayNames = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+    const monthNames = getLang('monthNames')
+    const dayNames = getLang('dayNames')
 
     const date = new Date(time)
+
     const dayOfWeek = date.getDay()
     const day = date.getDate()
     const month = date.getMonth()
@@ -69,6 +77,7 @@ const Timepicker = ({ time, waitTime }) => {
   useEffect(() => {
     if (startTime) {
       const startDate = new Date(startTime)
+
       setStartHours(startDate.getHours())
       setStartMinutes(startDate.getMinutes())
     }
@@ -79,11 +88,15 @@ const Timepicker = ({ time, waitTime }) => {
       if (startTime) {
         const startD = new Date(startTime)
         const selectedD = new Date(selectedTime)
+
         startD.setHours(0, 0, 0, 0)
         selectedD.setHours(0, 0, 0, 0)
+
         setSelectedDay((selectedD.getTime() - startD.getTime()) / (24 * 60 * 60 * 1000))
       }
+
       const selectedDate = new Date(selectedTime)
+
       setSelectedHours(selectedDate.getHours())
       setSelectedMinutes(selectedDate.getMinutes())
     }
@@ -119,7 +132,8 @@ const Timepicker = ({ time, waitTime }) => {
       >
         <span className='timepicker__label-icon'><MdOutlineAccessTime /></span>
         <span className='timepicker__label-text'>{
-          selectedTime ? getDateString(selectedTime) + ', ' + ('0' + selectedHours).slice(-2) + ':' + ('0' + selectedMinutes).slice(-2) : null
+          selectedTime ?
+            getDateString(selectedTime) + ', ' + ('0' + selectedHours).slice(-2) + ':' + ('0' + selectedMinutes).slice(-2) : null
         }</span>
         <span className='timepicker__label-arrow'><MdChevronRight /></span>
       </button>
@@ -133,7 +147,7 @@ const Timepicker = ({ time, waitTime }) => {
           type='button'
           className='btn btn_lg'
           onClick={() => {
-            console.log(selectedTime)
+            setTime(selectedTime)
             setOpen(false)
           }}
         >{getLang('choose')}</button>}
@@ -141,6 +155,7 @@ const Timepicker = ({ time, waitTime }) => {
         <div className='modal__header'>
           <h2 className='modal__title'>{getLang('deliveryTime')}</h2>
         </div>
+
         <div className='timepicker__row'>
           <div className='timepicker__col _day'>
             <select
@@ -150,11 +165,12 @@ const Timepicker = ({ time, waitTime }) => {
                 setSelectedDay(Number(e.target.value))
               }}
             >
-              {[...Array(5)].map((x, i) =>
+              {[...Array(maxDaysDelivery)].map((x, i) =>
                 <option value={i} key={i}>{getDateString(startTime + 24 * 60 * 60 * 1000 * i)}</option>
               )}
             </select>
           </div>
+
           <div className='timepicker__col _hour'>
             <select
               className='form-select'
@@ -168,7 +184,9 @@ const Timepicker = ({ time, waitTime }) => {
               )}
             </select>
           </div>
+
           <div className='timepicker__col _divident'>:</div>
+
           <div className='timepicker__col _minute'>
             <select
               className='form-select'

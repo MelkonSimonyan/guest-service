@@ -11,7 +11,7 @@ const PageItem = ({ page }) => {
     if (page.type === 'section') {
       navigate('/page/' + page.id)
     } else if (page.type === 'store') {
-      navigate('/page/' + page.id)
+      navigate('/catalog/' + page.id)
     } else if (page.type === 'feedback') {
       navigate('/feedback/')
     } else {
@@ -26,19 +26,20 @@ const PageItem = ({ page }) => {
       className='page-item'
       onClick={clickHandler}
     >
-      {page.pic
-        ? <div className='page-item__image' style={{ backgroundImage: 'url(' + page.pic + ')' }}></div>
-        : page.icon
-          ? <div className='page-item__icon'>
+      {page.pic ?
+        <div className='page-item__image' style={{
+          backgroundImage: 'url(' + page.pic + ')'
+        }}></div> :
+        page.icon ?
+          <div className='page-item__icon'>
             <img src={page.icon} alt={page.title} />
-          </div>
-          : null
+          </div> : null
       }
+
       <div className='page-item__content'>
         <div className='page-item__title'>{page.title}</div>
-        {page.subTitle
-          ? <div className='page-item__subtitle'>{page.subTitle}</div>
-          : null
+        {page.subTitle ?
+          <div className='page-item__subtitle'>{page.subTitle}</div> : null
         }
       </div>
     </div>

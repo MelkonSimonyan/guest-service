@@ -83,6 +83,11 @@
 
 .catalog__section {
   padding-top: 10px;
+  margin-bottom: 10px;
+}
+
+.catalog__section:last-child {
+  margin-bottom: 0;
 }
 
 .catalog__section-title {

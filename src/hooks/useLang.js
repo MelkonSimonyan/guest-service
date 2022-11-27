@@ -8,6 +8,7 @@ export const useLang = () => {
     ...initData.messages,
     "choose": "Выбрать",
     "ChooseCurrency": "Выбрать валюту",
+    "WorkTime": "Часы работы:",
   }
 
   return (text) => (messages[text] ? messages[text] : '!__' + text + '__!')

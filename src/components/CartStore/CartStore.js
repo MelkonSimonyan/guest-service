@@ -1,25 +1,30 @@
-import './CartOrder.css'
+import './CartStore.css'
 
 import React, { useEffect, useState, useMemo } from 'react'
 import { useSelector } from 'react-redux'
+
 import { selectInit } from '../../features/init/initSlice'
 import { selectCart } from '../../features/cart/cartSlice'
+
 import { useLang } from '../../hooks/useLang'
+
 import CartItem from '../CartItem/CartItem'
 import CartForm from '../CartForm/CartForm'
 import CartEmpty from '../CartEmpty/CartEmpty'
 
-const CartOrder = () => {
+const CartStore = () => {
+  const getLang = useLang()
   const { initData } = useSelector(selectInit)
   const { cartProducts } = useSelector(selectCart)
   const [amount, setAmount] = useState(0)
-  const getLang = useLang()
 
   useEffect(() => {
     let amount = 0
+
     for (let idx in cartProducts) {
       amount += cartProducts[idx].quantity * cartProducts[idx].price
     }
+
     setAmount(amount)
   }, [cartProducts])
 
@@ -65,4 +70,4 @@ const CartOrder = () => {
   )
 }
 
-export default CartOrder
+export default CartStore

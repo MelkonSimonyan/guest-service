@@ -2,13 +2,10 @@ import './CartItem.css'
 
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { MdClose } from 'react-icons/md';
+import { MdClose } from 'react-icons/md'
 import { selectInit } from '../../features/init/initSlice'
-import { removeFromCart, decreaseCart, increaseCart } from '../../features/cart/cartSlice'
-import NumberControl from '../NumberControl/NumberControl';
 
 const CartServiceItem = ({ item, remove }) => {
-  const dispatch = useDispatch()
   const { initData } = useSelector(selectInit)
 
   return (

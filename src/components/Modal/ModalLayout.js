@@ -4,9 +4,16 @@ import React from 'react'
 import { useRef } from 'react'
 import { MdClear } from 'react-icons/md'
 import { CSSTransition } from 'react-transition-group'
+
 import { useScrollLock } from '../../hooks/useScrollLock'
 
-const ModalLayout = ({ visible, close, children, footer, image }) => {
+const ModalLayout = ({
+  visible,
+  close,
+  image,
+  children,
+  footer,
+}) => {
   const modalWindow = useRef(null)
 
   useScrollLock(visible)
@@ -27,6 +34,7 @@ const ModalLayout = ({ visible, close, children, footer, image }) => {
         }}
       >
         <div className='modal__bg'></div>
+
         <div className='modal__wrapper'>
           <div className='container'>
             <div
@@ -35,20 +43,20 @@ const ModalLayout = ({ visible, close, children, footer, image }) => {
             >
               <div className='modal__inner'>
                 <div className='modal__main has-scrollbar'>
-                  {image
-                    ? <div
+                  {image ?
+                    <div
                       className='modal__image'
-                      style={{ backgroundImage: 'url(' + image + ')' }}
-                    ></div>
-                    : null
+                      style={{
+                        backgroundImage: 'url(' + image + ')'
+                      }}
+                    ></div> : null
                   }
                   {children}
                 </div>
-                {footer
-                  ? <div className='modal__footer'>
+                {footer ?
+                  <div className='modal__footer'>
                     {footer}
-                  </div>
-                  : null
+                  </div> : null
                 }
               </div>
               <button

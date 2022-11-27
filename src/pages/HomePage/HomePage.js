@@ -1,10 +1,12 @@
-import './Home.css'
+import './HomePage.css'
 
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+
 import { selectInit } from '../../features/init/initSlice'
 import { setPageInfo } from '../../features/pageInfo/pageInfoSlice'
+
 import PageItem from '../../components/PageItem/PageItem'
 
 const HomeBanner = ({ pic, link, blank }) => {
@@ -25,13 +27,13 @@ const HomeBanner = ({ pic, link, blank }) => {
   }
 
   return (
-    <div className='home-banner' to={link}>
+    <div className='home-banner'>
       <img src={pic} alt='' />
     </div>
   )
 }
 
-const Home = () => {
+const HomePage = () => {
   const dispatch = useDispatch()
   const { initData } = useSelector(selectInit)
 
@@ -46,14 +48,14 @@ const Home = () => {
   return (
     <div className='content'>
       <div className='container'>
-        {initData.hotel?.banner?.pic
-          ? <HomeBanner
+        {initData.hotel?.banner?.pic ?
+          <HomeBanner
             pic={initData.hotel.banner.pic}
             link={initData.hotel.banner.link}
             blank={initData.hotel.banner.blank}
-          />
-          : null
+          /> : null
         }
+
         {initData.pages ?
           <div className='page-grid row'>
             {initData.pages.map((page, index) => (
@@ -64,11 +66,10 @@ const Home = () => {
                 <PageItem page={page} />
               </div>
             ))}
-          </div>
-          : null}
+          </div> : null}
       </div>
     </div>
   )
 }
 
-export default Home
+export default HomePage

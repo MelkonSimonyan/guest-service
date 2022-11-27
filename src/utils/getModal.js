@@ -1,7 +1,18 @@
 export const getModal = (data, type, id) => {
   for (let item of data) {
-    if ((item.type === type || !item.type) && item.id == id) {
-      return { ...item }
+    if (item.id == id) {
+      if (!item.type) {
+        if (type === 'item') {
+          return {
+            ...item,
+            type: 'item'
+          }
+        }
+      } else {
+        if (item.type === type) {
+          return { ...item }
+        }
+      }
     }
 
     if (item.pages) {
@@ -14,10 +25,7 @@ export const getModal = (data, type, id) => {
     if (item.items) {
       let result = getModal(item.items, type, id)
       if (result) {
-        return {
-          ...result,
-          type: 'store'
-        }
+        return { ...result }
       }
     }
   }

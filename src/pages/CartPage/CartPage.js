@@ -1,16 +1,19 @@
-import './Cart.css'
+import './CartPage.css'
 
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
+
 import { setPageInfo } from '../../features/pageInfo/pageInfoSlice'
+
 import { useLang } from '../../hooks/useLang'
-import CartOrder from '../../components/CartOrder/CartOrder'
+
+import CartStore from '../../components/CartStore/CartStore'
 import CartService from '../../components/CartService/CartService'
 
-const Cart = () => {
-  const dispatch = useDispatch()
+const CartPage = () => {
   const getLang = useLang()
+  const dispatch = useDispatch()
   const [searchParams] = useSearchParams()
   const [cartType, setCartType] = useState(null)
 
@@ -18,32 +21,33 @@ const Cart = () => {
     dispatch(setPageInfo({
       pageId: 'cart',
       pageTitle: getLang('basket'),
-      parentLink: window.history.state && window.history.state.key ? -1 : '/'
+      parentLink: window.history.state?.key ? -1 : '/'
     }))
   }, [])
 
   useEffect(() => {
-    if (searchParams.get('shopId')) {
+    if (searchParams.get('serviceId')) {
       setCartType('service')
     } else {
       setCartType('store')
     }
   }, [searchParams])
 
+  if (!cartType) {
+    return null
+  }
+
   return (
     <div className='content'>
       <div className='container'>
-        {!cartType
-          ? null
-          : cartType === 'store'
-            ? <CartOrder />
-            : cartType === 'service'
-              ? <CartService />
-              : null
+        {cartType === 'store' ?
+          <CartStore /> :
+          cartType === 'service' ?
+            <CartService /> : null
         }
       </div>
     </div>
   )
 }
 
-export default Cart
+export default CartPage

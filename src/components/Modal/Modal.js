@@ -3,21 +3,48 @@ import './Modal.css'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useSearchParams, useNavigate } from 'react-router-dom'
+
 import { selectInit } from '../../features/init/initSlice'
-import { modalShow, modalHide, selectVisibility } from '../../features/visibility/visibilitySlice'
 import { setToCart } from '../../features/cart/cartSlice'
+import {
+  selectVisibility,
+  modalShow,
+  modalHide,
+} from '../../features/visibility/visibilitySlice'
+
 import { useLang } from '../../hooks/useLang'
 import { getModal } from '../../utils/getModal'
+
 import ModalLayout from './ModalLayout'
 
 const Modal = () => {
+  const getLang = useLang()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { initData } = useSelector(selectInit)
   const { modalVisible } = useSelector(selectVisibility)
   const [searchParams, setSearchParams] = useSearchParams()
   const [modalData, setModalData] = useState(null)
-  const getLang = useLang()
+
+  const openModal = () => {
+    dispatch(modalShow())
+  }
+
+  const closeModal = () => {
+    searchParams.delete('modalType')
+    searchParams.delete('modalId')
+    setSearchParams(searchParams)
+  }
+
+  const addToCart = () => {
+    closeModal()
+    dispatch(setToCart(modalData))
+  }
+
+  const orderService = () => {
+    closeModal()
+    navigate('/cart?serviceId=' + modalData.id)
+  }
 
   useEffect(() => {
     let modalType = searchParams.get('modalType')
@@ -35,25 +62,9 @@ const Modal = () => {
 
   useEffect(() => {
     if (modalData) {
-      dispatch(modalShow())
+      openModal()
     }
   }, [modalData])
-
-  const close = () => {
-    searchParams.delete('modalType')
-    searchParams.delete('modalId')
-    setSearchParams(searchParams)
-  }
-
-  const addToCart = (item) => {
-    dispatch(setToCart(item))
-    close()
-  }
-
-  const sendRequest = (id) => {
-    close()
-    navigate('/cart?shopId=' + id)
-  }
 
   if (!modalData) {
     return null
@@ -62,65 +73,66 @@ const Modal = () => {
   return (
     <ModalLayout
       visible={modalVisible}
-      close={close}
+      close={closeModal}
       image={modalData.pic}
       footer={
-        modalData.type === 'store' ?
-          <button
-            type='button'
+        modalData.type === 'item' ?
+          <button type='button'
             className='btn btn_lg'
-            onClick={() => {
-              addToCart(modalData)
-            }}
-          >{getLang('addToBasket')}</button>
-          : modalData.service ?
-            <button
-              type='button'
+            onClick={addToCart}
+          >
+            {getLang('addToBasket')}
+          </button> :
+
+          modalData.type === 'service' ?
+            <button type='button'
               className='btn btn_lg'
-              onClick={() => {
-                sendRequest(modalData.id)
-              }}
-            >{getLang('sendRequest')}</button>
-            : modalData.link ?
-              <a
+              onClick={orderService}
+            >
+              {getLang('sendRequest')}
+            </button> :
+
+            modalData.type === 'link' ?
+              <a target='_blank'
                 className='btn btn_lg'
-                href={modalData.link.link}
-                target='_blank'
-              >{modalData.link.title}</a>
-              : null
+                href={modalData.link?.link}
+              >
+                {modalData.link?.title}
+              </a> : null
       }
     >
       <>
         <div className='modal__header'>
-          {modalData.title
-            ? <h2 className='modal__title'>{modalData.title}</h2>
-            : null
+          {modalData.title ?
+            <h2 className='modal__title'>{modalData.title}</h2> : null
           }
-          {modalData.price || (modalData.service && modalData.service.price)
-            ? <div className='modal__price'>{modalData.price || modalData.service.price}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div>
-            : modalData.subTitle
-              ? <div className='modal__subtitle'>{modalData.subTitle}</div>
-              : null
+
+          {modalData.subTitle ?
+            <div className='modal__subtitle'>{modalData.subTitle}</div> : null
+          }
+
+          {(modalData.price || modalData.service?.price) ?
+            <div className='modal__price'>{modalData.price || modalData.service?.price}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div> : null
           }
         </div>
-        {modalData.desc
-          ? <div className='modal__desc' dangerouslySetInnerHTML={{ __html: modalData.desc }} />
-          : null
+
+        {modalData.desc ?
+          <div className='modal__desc' dangerouslySetInnerHTML={{ __html: modalData.desc }} /> : null
         }
-        {modalData.tags
-          ? <div className='modal__tags'>
+
+        {modalData.tags ?
+          <div className='modal__tags'>
             {modalData.tags.map(tag => (
               <span key={tag}>{tag}</span>
             ))}
-          </div>
-          : null
+          </div> : null
         }
-        {modalData.workTime
-          ? <div className='modal__worktime'>
-            <div className='modal__worktime-time'>Часы работы:</div>
+
+        {modalData.workTime ?
+          <div className='modal__worktime'>
+            <div className='modal__worktime-title'>{getLang('WorkTime')}</div>
             <div>{modalData.workTime}</div>
-          </div>
-          : null
+          </div> : null
         }
       </>
     </ModalLayout>

@@ -13,6 +13,10 @@
   background: var(--page-item-bg);
 }
 
+.page-item:last-child {
+  margin-bottom: 0;
+}
+
 .page-item:hover {
   color: var(--page-item-color);
 }

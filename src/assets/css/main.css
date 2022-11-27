@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+
 .has-scrollbar {
   overflow: hidden;
   overflow-y: auto;
@@ -69,7 +71,7 @@ body {
   overflow-y: scroll;
   background-color: var(--main-bg);
   color: var(--main-color);
-  padding: 80px 0 70px;
+  padding-bottom: 15px;
 }
 
 button,
@@ -357,7 +359,7 @@ h6,
 }
 
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: 15px;
 }
 
 .form-label {
@@ -512,8 +514,8 @@ label.error {
   display: block;
   color: var(--error-color);
   font-size: 12px;
-  line-height: 18px;
-  margin-bottom: -18px;
+  line-height: 15px;
+  margin-bottom: -15px;
 }
 
 .grecaptcha-badge {

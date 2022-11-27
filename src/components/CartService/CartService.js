@@ -1,24 +1,27 @@
 import './CartService.css'
 
 import React, { useEffect, useState, useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
+
 import { selectInit } from '../../features/init/initSlice'
+
 import { useLang } from '../../hooks/useLang'
-import CartServiceItem from '../../components/CartItem/CartServiceItem'
-import CartForm from '../../components/CartForm/CartForm'
 import { getService } from '../../utils/getService'
+
+import CartServiceItem from '../CartItem/CartServiceItem'
+import CartForm from '../CartForm/CartForm'
 import CartEmpty from '../CartEmpty/CartEmpty'
 
 const CartService = () => {
+  const getLang = useLang()
   const { initData } = useSelector(selectInit)
   const [searchParams] = useSearchParams()
-  const getLang = useLang()
   const [serviceData, setServiceData] = useState(null)
   const [amount, setAmount] = useState(0)
 
   useEffect(() => {
-    let serviceId = searchParams.get('shopId')
+    let serviceId = searchParams.get('serviceId')
 
     if (serviceId) {
       let currentServiceData = getService(initData.pages, serviceId)

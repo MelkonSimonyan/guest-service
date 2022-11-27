@@ -1,4 +1,5 @@
 import './NumberControl.css'
+
 import React from 'react'
 
 const NumberControl = ({ value, decrease, increase }) => {
@@ -9,7 +10,9 @@ const NumberControl = ({ value, decrease, increase }) => {
         className='number-control__btn _decrease'
         onClick={decrease}
       ></button>
+
       <span className='number-control__value'>{value}</span>
+
       <button
         type='button'
         className='number-control__btn _increase'
