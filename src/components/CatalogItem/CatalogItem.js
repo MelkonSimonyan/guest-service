@@ -7,25 +7,26 @@ import { useSelector } from 'react-redux'
 import { selectInit } from '../../features/init/initSlice'
 import { selectCart } from '../../features/cart/cartSlice'
 
-const CatalogItem = ({ item }) => {
-  const { cartProducts } = useSelector(selectCart)
+const CatalogItem = ({ item, storeId }) => {
+  const { carts } = useSelector(selectCart)
   const { initData } = useSelector(selectInit)
   const [searchParams, setSearchParams] = useSearchParams()
   const [quantity, setQuantity] = useState(0)
 
   useEffect(() => {
-    const exist = cartProducts.find(x => x.id === item.id)
+    const exist = carts.find(x => x.storeId == storeId).products.find(x => x.id === item.id)
 
     if (exist) {
       setQuantity(exist.quantity)
     } else {
       setQuantity(0)
     }
-  }, [cartProducts])
+  }, [carts])
 
   const clickHandler = () => {
     searchParams.set('modalType', 'item')
     searchParams.set('modalId', item.id)
+    searchParams.set('storeId', storeId)
     setSearchParams(searchParams)
   }
 

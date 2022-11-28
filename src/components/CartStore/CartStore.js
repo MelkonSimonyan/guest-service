@@ -2,11 +2,13 @@ import './CartStore.css'
 
 import React, { useEffect, useState, useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
 import { selectInit } from '../../features/init/initSlice'
 import { selectCart } from '../../features/cart/cartSlice'
 
 import { useLang } from '../../hooks/useLang'
+import { getItem } from '../../utils/getItem'
 
 import CartItem from '../CartItem/CartItem'
 import CartForm from '../CartForm/CartForm'
@@ -14,16 +16,33 @@ import CartEmpty from '../CartEmpty/CartEmpty'
 
 const CartStore = () => {
   const getLang = useLang()
+  const params = useParams()
   const { initData } = useSelector(selectInit)
-  const { cartProducts } = useSelector(selectCart)
+  const { carts } = useSelector(selectCart)
   const [amount, setAmount] = useState(0)
+  const [cartProducts, setCartProducts] = useState([])
+
+  useEffect(() => {
+    let cartProducts = []
+
+    carts.find(x => x.storeId == params.id).products.forEach(productData => {
+      const product = getItem(initData.pages, productData.id, productData.storeId)
+
+      cartProducts.push({
+        ...product,
+        quantity: productData.quantity
+      })
+    })
+
+    setCartProducts(cartProducts)
+  }, [carts])
 
   useEffect(() => {
     let amount = 0
 
-    for (let idx in cartProducts) {
-      amount += cartProducts[idx].quantity * cartProducts[idx].price
-    }
+    cartProducts.forEach(cartProduct => {
+      amount += cartProduct.quantity * cartProduct.price
+    })
 
     setAmount(amount)
   }, [cartProducts])

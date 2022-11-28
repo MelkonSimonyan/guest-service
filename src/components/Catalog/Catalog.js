@@ -5,7 +5,11 @@ import { useSearchParams } from 'react-router-dom'
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
 import CatalogItem from '../CatalogItem/CatalogItem'
 
-const Catalog = ({ items, categories }) => {
+const Catalog = ({
+  items,
+  categories,
+  storeId,
+}) => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [activeCategoryId, setActiveCategoryId] = useState(null)
   const click = useRef(false)
@@ -181,6 +185,7 @@ const Catalog = ({ items, categories }) => {
           {items.filter((item) => item.category === category.title).map(item => (
             <CatalogItem
               item={item}
+              storeId={storeId}
               key={item.id}
             />
           ))}

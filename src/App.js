@@ -10,6 +10,8 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { selectInit, getInitData } from './features/init/initSlice'
 import { selectCart, setCart } from './features/cart/cartSlice'
 
+import { getStores } from './utils/getStores'
+
 import HomePage from './pages/HomePage/HomePage'
 import CommonPage from './pages/CommonPage/CommonPage'
 import CatalogPage from './pages/CatalogPage/CatalogPage'
@@ -23,18 +25,28 @@ const App = () => {
   const dispatch = useDispatch()
   const location = useLocation()
   const { initData, initStatus } = useSelector(selectInit)
-  const { cartProducts } = useSelector(selectCart)
+  const { carts } = useSelector(selectCart)
 
   useEffect(() => {
-    if (localStorage.getItem('cart')) {
-      dispatch(setCart(JSON.parse(localStorage.getItem('cart'))))
-    }
     dispatch(getInitData())
   }, [])
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cartProducts))
-  }, [cartProducts])
+    if (initData) {
+      let stores = getStores(initData.pages)
+
+      if (localStorage.getItem('cart') && JSON.parse(localStorage.getItem('cart')).length === stores.length) {
+        stores = JSON.parse(localStorage.getItem('cart'))
+      }
+      dispatch(setCart(stores))
+    }
+  }, [initData])
+
+  useEffect(() => {
+    if (carts?.length) {
+      localStorage.setItem('cart', JSON.stringify(carts))
+    }
+  }, [carts])
 
   useLayoutEffect(() => {
     window.scrollTo({
@@ -82,7 +94,7 @@ const App = () => {
                 <Route path='/' element={<HomePage />} />
                 <Route path='/page/:id' element={<CommonPage />} />
                 <Route path='/catalog/:id' element={<CatalogPage />} />
-                <Route path='/cart/' element={<CartPage />} />
+                <Route path='/cart/:id' element={<CartPage />} />
                 <Route path='/feedback/' element={<div />} />
                 <Route path='*' element={<Navigate to='/' />} />
               </Routes>

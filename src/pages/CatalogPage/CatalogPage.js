@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import { selectInit } from '../../features/init/initSlice'
 import { setPageInfo } from '../../features/pageInfo/pageInfoSlice'
 
-import { getPage } from '../../utils/getPage'
+import { getStore } from '../../utils/getStore'
 
 import Catalog from '../../components/Catalog/Catalog'
 
@@ -17,7 +17,7 @@ const CatalogPage = () => {
   const [categories, setCategories] = useState(null)
 
   useEffect(() => {
-    const data = getPage(initData.pages, params.id)
+    const data = getStore(initData.pages, params.id)
 
     setPageData(data)
 
@@ -29,7 +29,7 @@ const CatalogPage = () => {
   }, [params.id])
 
   useEffect(() => {
-    if (pageData.items) {
+    if (pageData?.items) {
       let cats = []
 
       pageData.items.map(item => {
@@ -49,7 +49,11 @@ const CatalogPage = () => {
     <div className='content'>
       <div className='container'>
         {categories ?
-          <Catalog items={pageData.items} categories={categories} /> : null
+          <Catalog
+            items={pageData.items}
+            categories={categories}
+            storeId={params.id}
+          /> : null
         }
       </div>
     </div>

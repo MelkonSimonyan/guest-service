@@ -33,6 +33,7 @@ const Modal = () => {
   const closeModal = () => {
     searchParams.delete('modalType')
     searchParams.delete('modalId')
+    searchParams.delete('storeId')
     setSearchParams(searchParams)
   }
 
@@ -51,7 +52,8 @@ const Modal = () => {
 
     if (modalType) {
       let modalId = searchParams.get('modalId')
-      let currentModalData = getModal(initData.pages, modalType, modalId)
+      let storeId = searchParams.get('storeId')
+      let currentModalData = getModal(initData.pages, modalType, modalId, storeId)
       setModalData(currentModalData)
     } else {
       if (modalVisible) {

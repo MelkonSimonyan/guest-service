@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, current } from '@reduxjs/toolkit'
 
 const initialState = {
-  cartProducts: []
+  carts: []
 }
 
 export const cartSlice = createSlice({
@@ -9,30 +9,36 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     setCart: (state, action) => {
-      state.cartProducts = action.payload
+      state.carts = action.payload
     },
     setToCart: (state, action) => {
-      const exist = state.cartProducts.find(x => x.id === action.payload.id)
+      const store = state.carts.find(x => x.storeId == action.payload.storeId)
+      const exist = store.products.find(x => x.id == action.payload.id)
+
       if (exist) {
         exist.quantity++
       } else {
-        state.cartProducts.push({
-          ...action.payload,
+        store.products.push({
+          id: action.payload.id,
+          storeId: action.payload.storeId,
           quantity: 1
         })
       }
     },
     removeFromCart: (state, action) => {
-      state.cartProducts = state.cartProducts.filter(x => x.id !== action.payload.id)
+      const store = state.carts.find(x => x.storeId == action.payload.storeId)
+      store.products = store.products.filter(x => x.id !== action.payload.id)
     },
     decreaseCart: (state, action) => {
-      const exist = state.cartProducts.find(x => x.id === action.payload.id)
+      const store = state.carts.find(x => x.storeId == action.payload.storeId)
+      const exist = store.products.find(x => x.id === action.payload.id)
       if (exist.quantity > 1) {
         exist.quantity--
       }
     },
     increaseCart: (state, action) => {
-      const exist = state.cartProducts.find(x => x.id === action.payload.id)
+      const store = state.carts.find(x => x.storeId == action.payload.storeId)
+      const exist = store.products.find(x => x.id === action.payload.id)
       exist.quantity++
     },
   }

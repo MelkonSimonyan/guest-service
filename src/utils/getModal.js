@@ -1,29 +1,28 @@
-export const getModal = (data, type, id) => {
+export const getModal = (data, type, id, storeId) => {
   for (let item of data) {
     if (item.id == id) {
-      if (!item.type) {
-        if (type === 'item') {
-          return {
-            ...item,
-            type: 'item'
-          }
+      if (type === 'item' && !item.type) {
+        return {
+          ...item,
+          type: 'item',
+          storeId: storeId
         }
-      } else {
-        if (item.type === type) {
-          return { ...item }
-        }
+      }
+
+      if (item.type === type) {
+        return { ...item }
       }
     }
 
     if (item.pages) {
-      let result = getModal(item.pages, type, id)
+      let result = getModal(item.pages, type, id, storeId)
       if (result) {
         return { ...result }
       }
     }
 
-    if (item.items) {
-      let result = getModal(item.items, type, id)
+    if (item.items && item.id == storeId) {
+      let result = getModal(item.items, type, id, storeId)
       if (result) {
         return { ...result }
       }

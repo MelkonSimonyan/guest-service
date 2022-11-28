@@ -29,7 +29,10 @@ const CartItem = ({ item }) => {
             type='button'
             className='cart-item__remove'
             onClick={() => {
-              dispatch(removeFromCart(item))
+              dispatch(removeFromCart({
+                id: item.id,
+                storeId: item.storeId
+              }))
             }}
           ><MdClose /></button>
 
@@ -41,10 +44,16 @@ const CartItem = ({ item }) => {
             <NumberControl
               value={item.quantity}
               decrease={() => {
-                dispatch(decreaseCart(item))
+                dispatch(decreaseCart({
+                  id: item.id,
+                  storeId: item.storeId
+                }))
               }}
               increase={() => {
-                dispatch(increaseCart(item))
+                dispatch(increaseCart({
+                  id: item.id,
+                  storeId: item.storeId
+                }))
               }}
             />
           </div>
