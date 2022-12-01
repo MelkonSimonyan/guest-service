@@ -11,6 +11,10 @@ export const cartSlice = createSlice({
     setCart: (state, action) => {
       state.carts = action.payload
     },
+    clearCart: (state, action) => {
+      const store = state.carts.find(x => x.storeId == action.payload.storeId)
+      store.products = []
+    },
     setToCart: (state, action) => {
       const store = state.carts.find(x => x.storeId == action.payload.storeId)
       const exist = store.products.find(x => x.id == action.payload.id)
@@ -46,6 +50,7 @@ export const cartSlice = createSlice({
 
 export const {
   setCart,
+  clearCart,
   setToCart,
   removeFromCart,
   decreaseCart,

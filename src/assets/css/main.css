@@ -151,6 +151,10 @@ a:hover {
   color: var(--link-color-hover);
 }
 
+.is-hidden {
+  display: none !important;
+}
+
 .btn {
   vertical-align: middle;
   display: inline-block;
@@ -221,63 +225,21 @@ a:hover {
 }
 
 .btn-list {
-  padding: 0 26px;
-  position: relative;
-}
-
-.btn-list__arrow {
-  width: 36px;
-  height: 36px;
-  position: absolute;
-  top: 50%;
-  margin-top: -18px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
-  font-size: 34px;
-  border: none;
-  background: none;
-  padding: 0;
-}
-
-.btn-list__arrow._prev {
-  left: -10px;
-}
-
-.btn-list__arrow._next {
-  right: -10px;
-}
-
-.btn-list__scroll {
-  overflow: hidden;
-  overflow-x: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.btn-list__scroll::-webkit-scrollbar {
-  display: none;
-}
-
-.btn-list__list {
-  display: inline-flex;
-  vertical-align: top;
+  flex-wrap: wrap;
+  position: relative;
+  margin: 0 -5px -10px;
 }
 
 .btn-list__btn {
-  margin-right: 10px;
-  display: inline-flex;
+  margin: 0 5px 10px;
+  display: flex;
   align-items: center;
-  padding: 6px 22px;
-}
-
-.btn-list__btn:last-child {
-  margin-right: 0;
+  justify-content: center;
+  text-align: center;
+  white-space: normal;
+  padding: 6px 20px;
+  flex-grow: 1;
 }
 
 h1 a,
@@ -364,8 +326,9 @@ h6,
 
 .form-label {
   display: block;
+  text-transform: uppercase;
+  margin-bottom: 8px;
   font-weight: 500;
-  margin-bottom: 2px;
 }
 
 .form-control,
@@ -495,7 +458,7 @@ textarea.form-control {
   transition: transform 0.25s ease-in-out;
 }
 
-.form-floating [required]~.form-label {
+.form-floating .form-control._required~.form-label {
   color: var(--main-color);
 }
 
@@ -510,7 +473,7 @@ textarea.form-control {
   transform: translateY(-12px) scale(0.75);
 }
 
-label.error {
+.form-error {
   display: block;
   color: var(--error-color);
   font-size: 12px;
@@ -529,9 +492,15 @@ label.error {
   top: 0;
   bottom: 0;
   z-index: 10001;
-  background: var(--main-bg);
   opacity: 1;
   transition: 300ms;
+  background: rgba(0, 0, 0, .5);
+  color: #fff;
+}
+
+.loader._start {
+  background: var(--main-bg);
+  color: var(--main-color);
 }
 
 .loader.exit-active {
@@ -615,6 +584,73 @@ label.error {
   top: 0;
   min-height: 100%;
   z-index: -1;
+}
+
+.page-desc {
+  margin-bottom: 16px;
+}
+
+.footer-btn-placeholder {
+  height: 63px;
+}
+
+.footer-btn-wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-bottom: 15px;
+  z-index: 500;
+}
+
+.footer-btn-wrapper .container {
+  padding: 0 10px;
+}
+
+.footer-btn-row {
+  display: flex;
+  margin: 0 -4px;
+}
+
+.footer-btn-col {
+  flex-basis: 0;
+  flex-grow: 1;
+  min-width: 1px;
+  padding: 0 4px;
+}
+
+.page-message {
+  height: calc(100vh - 150px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-message__content {
+  width: 100%;
+  max-width: 480px;
+  margin: auto;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.page-message__icon {
+  line-height: 1;
+  font-size: 80px;
+}
+
+.page-message__title {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.page-message__subtitle {
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+.page-message__btn {
+  width: 100%;
 }
 
 @media (max-width: 1399.98px) {}

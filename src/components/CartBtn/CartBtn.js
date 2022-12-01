@@ -10,6 +10,7 @@ import { selectCart } from '../../features/cart/cartSlice'
 
 import { useLang } from '../../hooks/useLang'
 import { getItem } from '../../utils/getItem'
+import { getStore } from '../../utils/getStore'
 
 const CartBtn = () => {
   const getLang = useLang()
@@ -25,6 +26,7 @@ const CartBtn = () => {
       carts.forEach(cart => {
         const storeId = cart.storeId
         const products = cart.products
+        const store = getStore(initData.pages, storeId)
 
         let quantity = 0
         let amount = 0
@@ -34,7 +36,12 @@ const CartBtn = () => {
           amount += product.quantity * getItem(initData.pages, product.id, product.storeId).price
         })
 
+        if (store.fee) {
+          amount = store.fee.type === 'percent' ? amount + amount * store.fee.value / 100 : amount + store.fee.value
+        }
+
         cartBtnData.push({
+          storeTitle: store.title,
           storeId,
           quantity,
           amount
@@ -45,37 +52,38 @@ const CartBtn = () => {
     }
   }, [carts])
 
-  /* useEffect(() => {
-    if (cartBtnData.length) {
-      console.log(cartBtnData)
-    }
-  }, [cartBtnData]) */
-
-  /* if (!cartBtnData.quantity || pageId === 'cart') {
+  if (pageId === 'cart' || pageId === 'feedback') {
     return null
-  } */
+  }
 
   return (
     <>
-      <div className='cart-btn-wrapper'>
+      <div className='footer-btn-wrapper'>
         <div className='container'>
-          {cartBtnData.map((btnData) => (
-            <Link
-              className='cart-btn btn btn_lg'
-              key={btnData.storeId}
-              to={'/cart/' + btnData.storeId}
-            >
-              <span>
-                {getLang('basket')} <span className='cart-btn__count'>{btnData.quantity}</span>
-              </span>
+          <div className='footer-btn-row'>
+            {cartBtnData.map((btnData) => (
+              !btnData.quantity ? null :
+                <div
+                  key={btnData.storeId}
+                  className='footer-btn-col'
+                >
+                  <Link
+                    className='cart-btn btn btn_lg'
+                    to={'/cart/' + btnData.storeId}
+                  >
+                    <span className='cart-btn__content'>
+                      <span className='cart-btn__title'>{btnData.storeTitle || getLang('basket')}</span>
+                      <span className='cart-btn__count'>{btnData.quantity}</span>
+                    </span>
 
-              <span>{btnData.amount}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></span>
-            </Link>
-          ))}
+                    <span className='cart-btn__amount'>{btnData.amount}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></span>
+                  </Link>
+                </div>
+            ))}
+          </div>
         </div>
       </div>
-
-      <div className='cart-btn-placeholder'></div>
+      <div className='footer-btn-placeholder'></div>
     </>
   )
 }

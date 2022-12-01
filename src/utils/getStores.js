@@ -5,7 +5,7 @@ export const getStores = (data) => {
     for (let item of data) {
       if (item.type === 'store') {
         result.push({
-          storeId: item.id,
+          storeId: item.storeId,
           products: []
         })
       }

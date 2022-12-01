@@ -22,7 +22,7 @@ const CatalogPage = () => {
     setPageData(data)
 
     dispatch(setPageInfo({
-      pageId: data.id,
+      pageId: 'catalog/' + params.id,
       pageTitle: data.title,
       parentLink: data.parentLink
     }))

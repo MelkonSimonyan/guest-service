@@ -1,6 +1,6 @@
 export const getStore = (data, id) => {
   for (let item of data) {
-    if (item.type === 'store' && item.id == id) {
+    if (item.type === 'store' && item.storeId == id) {
       return {
         ...item,
         parentLink: '/'

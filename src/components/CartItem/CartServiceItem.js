@@ -1,11 +1,13 @@
 import './CartItem.css'
 
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { MdClose } from 'react-icons/md'
 import { selectInit } from '../../features/init/initSlice'
 
-const CartServiceItem = ({ item, remove }) => {
+const CartServiceItem = ({ item }) => {
+  const navigate = useNavigate()
   const { initData } = useSelector(selectInit)
 
   return (
@@ -19,7 +21,9 @@ const CartServiceItem = ({ item, remove }) => {
           <button
             type='button'
             className='cart-item__remove'
-            onClick={remove}
+            onClick={() => {
+              navigate(window.history.state?.key ? -1 : '/')
+            }}
           ><MdClose /></button>
 
           <div className='cart-item__title'>{item.title}</div>

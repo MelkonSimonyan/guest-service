@@ -3,7 +3,7 @@ import './assets/css/main.css'
 
 import React, { useEffect, useLayoutEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
@@ -20,14 +20,20 @@ import CartPage from './pages/CartPage/CartPage'
 import Header from './components/Header/Header'
 import CartBtn from './components/CartBtn/CartBtn'
 import Modal from './components/Modal/Modal'
+import FeedbackPage from './pages/FeedbackPage/FeedbackPage'
 
 const App = () => {
   const dispatch = useDispatch()
   const location = useLocation()
   const { initData, initStatus } = useSelector(selectInit)
   const { carts } = useSelector(selectCart)
+  const [searchParams] = useSearchParams()
 
   useEffect(() => {
+    if (searchParams.get('room')) {
+      localStorage.setItem('formDataRoom', searchParams.get('room'))
+    }
+
     dispatch(getInitData())
   }, [])
 
@@ -61,9 +67,9 @@ const App = () => {
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
         <meta name="theme-color" content="#000000" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/favicon192.png" />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href={`${process.env.REACT_APP_WIDGET_URL}/favicon.ico`} />
+        <link rel="apple-touch-icon" href={`${process.env.REACT_APP_WIDGET_URL}/favicon192.png`} />
+        {/* <link rel="manifest" href={`${process.env.REACT_APP_WIDGET_URL}/manifest.json`} /> */}
       </Helmet>
 
       <CSSTransition
@@ -71,7 +77,7 @@ const App = () => {
         timeout={500}
         unmountOnExit
       >
-        <div className='loader'></div>
+        <div className='loader _start'></div>
       </CSSTransition>
 
       {initStatus === 'loading' ? null :
@@ -95,7 +101,8 @@ const App = () => {
                 <Route path='/page/:id' element={<CommonPage />} />
                 <Route path='/catalog/:id' element={<CatalogPage />} />
                 <Route path='/cart/:id' element={<CartPage />} />
-                <Route path='/feedback/' element={<div />} />
+                <Route path='/cart/' element={<CartPage />} />
+                <Route path='/feedback/' element={<FeedbackPage />} />
                 <Route path='*' element={<Navigate to='/' />} />
               </Routes>
             </CSSTransition>

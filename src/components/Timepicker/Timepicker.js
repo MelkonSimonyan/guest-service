@@ -71,7 +71,7 @@ const Timepicker = ({
     }
 
     setStartTime(clearTime(currentTime + waitTime))
-    setSelectedTime(clearTime(time))
+    setSelectedTime(clearTime(currentTime + waitTime))
   }, [])
 
   useEffect(() => {
@@ -99,6 +99,7 @@ const Timepicker = ({
 
       setSelectedHours(selectedDate.getHours())
       setSelectedMinutes(selectedDate.getMinutes())
+      setTime(clearTime(selectedTime))
     }
   }, [startTime, selectedTime])
 

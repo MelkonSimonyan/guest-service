@@ -2,23 +2,40 @@ import './CartForm.css'
 
 import React, { useEffect, useState, useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
+import ReCAPTCHA from 'react-google-recaptcha'
+import { useForm } from 'react-hook-form'
 
 import { selectInit } from '../../features/init/initSlice'
 
+import API from '../../API/API'
 import { useLang } from '../../hooks/useLang'
+import { useFetching } from '../../hooks/useFetching'
 
 import NumberControl from '../NumberControl/NumberControl'
 import Timepicker from '../Timepicker/Timepicker'
 
-const CartForm = () => {
+const CartForm = ({
+  cart,
+  type,
+  storeId,
+  setError,
+  setSuccess,
+}) => {
   const getLang = useLang()
   const textareaRef = useRef(null)
+  const recaptchaRef = useRef()
   const { initData } = useSelector(selectInit)
   const [textareaValue, setTextareaValue] = useState('')
-  const [personsCount, setPersonsCount] = useState(1)
+  const [person, setPerson] = useState(1)
   const [payMethod, setPayMethod] = useState({})
   const [time, setTime] = useState((new Date()).getTime())
+  const [orderSuccess, setOrderSuccess] = useState(null)
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
 
   useEffect(() => {
     setPayMethod(initData.payMethods[0].id)
@@ -29,19 +46,53 @@ const CartForm = () => {
     textareaRef.current.rows = parseInt((textareaRef.current.scrollHeight - 22) / 20)
   }, [textareaValue])
 
+  const [fetchOrder, isOrderLoading, orderError] = useFetching(async (data) => {
+    localStorage.setItem('formDataRoom', data.room)
+    localStorage.setItem('formDataName', data.name)
+    localStorage.setItem('formDataPhone', data.phone)
+
+    const token = await recaptchaRef.current.executeAsync()
+
+    const response = await API.order({
+      ...data,
+      type,
+      storeId,
+      cart,
+      person,
+      payMethod,
+      time,
+      text: textareaValue,
+      recaptcha: token,
+    })
+
+    setOrderSuccess(response.data)
+  })
+
+  useEffect(() => {
+    if (orderError || orderSuccess?.error) {
+      setError(orderError ? orderError : orderSuccess.error)
+    } else if (orderSuccess?.success) {
+      setSuccess(orderSuccess.success)
+    }
+  }, [orderError, orderSuccess])
+
   return (
-    <>
+    <form onSubmit={handleSubmit(fetchOrder)}>
+      {isOrderLoading && (
+        <div className='loader _fix'></div>
+      )}
+
       <div className='cart__row'>
         <div className='cart__row-label'>{getLang('persons')}</div>
 
         <div className='cart__row-content'>
           <NumberControl
-            value={personsCount}
+            value={person}
             decrease={() => {
-              setPersonsCount((count) => count > 1 ? count - 1 : count)
+              setPerson((count) => count > 1 ? count - 1 : count)
             }}
             increase={() => {
-              setPersonsCount((count) => count + 1)
+              setPerson((count) => count + 1)
             }}
           />
         </div>
@@ -54,8 +105,8 @@ const CartForm = () => {
           <Timepicker
             time={time}
             setTime={setTime}
-            waitTime={60 * 60 * 1000}
-            maxDaysDelivery={5}
+            waitTime={initData.waitTime * 60 * 1000}
+            maxDaysDelivery={initData.maxDaysDelivery}
           />
         </div>
       </div>
@@ -65,57 +116,59 @@ const CartForm = () => {
 
         <div className='cart__row-content'>
           <div className='btn-list'>
-            <div className='btn-list__scroll'>
-              <div className='btn-list__list'>
-                {initData.payMethods.map(method => (
-                  <button
-                    type='button'
-                    key={method.id}
-                    className={`btn-list__btn btn ${payMethod === method.id ? '' : 'btn_secondary'}`}
-                    onClick={() => {
-                      setPayMethod(method.id)
-                    }}
-                  >{method.name}</button>
-                ))}
-              </div>
-            </div>
-
-            <button
-              type='button'
-              className='btn-list__arrow _prev'
-            ><MdChevronLeft /></button>
-
-            <button
-              type='button'
-              className='btn-list__arrow _next'
-            ><MdChevronRight /></button>
+            {initData.payMethods.map(method => (
+              <button
+                type='button'
+                key={method.id}
+                className={`btn-list__btn btn ${payMethod === method.id ? '' : 'btn_secondary'}`}
+                onClick={() => {
+                  setPayMethod(method.id)
+                }}
+              >
+                <span style={{ maxWidth: '9em' }}>{method.name}</span>
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
       <div className='cart__row'>
+        <div className='cart__row-label'>{getLang('numRoom')}</div>
+        <div className='form-group'>
+          <select {...register('room', { required: true })} className={'form-select' + (errors.room ? ' error' : '')} defaultValue={localStorage.getItem('formDataRoom')}>
+            <option value=''></option>
+            {initData.rooms.map(room => (
+              <option
+                value={room.id}
+                key={room.id}
+              >{room.name}</option>
+            ))}
+          </select>
+          {errors.room && <div className='form-error'>{getLang('formErrorRequired')}</div>}
+        </div>
+      </div>
+
+      <div className='cart__row' style={{ marginBottom: '-15px' }}>
         <div className='cart__row-label'>{getLang('contacts')}</div>
 
         <div className='cart__row-content'>
           <div className='form-group form-floating'>
-            <input type='text' placeholder='&nbsp;' className='form-control' required />
-            <label className='form-label'>{getLang('numRoom')}</label>
-          </div>
-
-          <div className='form-group form-floating'>
-            <input type='text' placeholder='&nbsp;' className='form-control' required />
+            <input {...register('name', { required: true })} type='text' placeholder='&nbsp;' className={'form-control _required' + (errors.name ? ' error' : '')} autoComplete='off' defaultValue={localStorage.getItem('formDataName') || ''} />
             <label className='form-label'>{getLang('formClientName')}</label>
+            {errors.name && <div className='form-error'>{getLang('formErrorRequired')}</div>}
           </div>
 
           <div className='form-group form-floating'>
-            <input type='text' placeholder='&nbsp;' className='form-control' required />
+            <input {...register('phone', { required: true })} type='text' placeholder='&nbsp;' className={'form-control _required' + (errors.phone ? ' error' : '')} autoComplete='off' defaultValue={localStorage.getItem('formDataPhone') || ''} />
             <label className='form-label'>{getLang('formPhone')}</label>
+            {errors.phone && <div className='form-error'>{getLang('formErrorRequired')}</div>}
           </div>
 
           <div className='form-group form-floating'>
             <textarea
               placeholder='&nbsp;'
-              className='form-control has-scrollbar'
+              className='form-control'
+              {...register('text')}
               value={textareaValue}
               ref={textareaRef}
               rows='2'
@@ -128,10 +181,19 @@ const CartForm = () => {
         </div>
       </div>
 
-      <div className='cart__btn-row'>
-        <button type='button' className='cart__btn btn btn_lg'>{getLang('acceptOrder')}</button>
+      <ReCAPTCHA ref={recaptchaRef} size='invisible' sitekey={initData.recaptchaKey} />
+
+      <div className='footer-btn-wrapper'>
+        <div className='container'>
+          <div className='footer-btn-row'>
+            <div className='footer-btn-col'>
+              <button type='submit' className='cart__btn btn btn_lg'>{getLang('acceptOrder')}</button>
+            </div>
+          </div>
+        </div>
       </div>
-    </>
+      <div className='footer-btn-placeholder'></div>
+    </form>
   )
 }
 

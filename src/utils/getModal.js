@@ -21,7 +21,7 @@ export const getModal = (data, type, id, storeId) => {
       }
     }
 
-    if (item.items && item.id == storeId) {
+    if (item.items && item.storeId == storeId) {
       let result = getModal(item.items, type, id, storeId)
       if (result) {
         return { ...result }

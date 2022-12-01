@@ -1,10 +1,10 @@
 .cart__row {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .cart__row-label {
   text-transform: uppercase;
-  margin-bottom: 9px;
+  margin-bottom: 8px;
   font-weight: 500;
 }
 

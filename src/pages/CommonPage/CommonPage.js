@@ -30,6 +30,8 @@ const CommonPage = () => {
   return (
     <div className='content'>
       <div className='container'>
+        {pageData.desc ? <div className='page-desc' dangerouslySetInnerHTML={{ __html: pageData.desc }}></div> : null}
+
         {pageData.pages ?
           pageData.pages.map((page) => (
             <PageItem

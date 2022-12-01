@@ -71,7 +71,7 @@ const Languages = () => {
             <span
               className='modal-list__flag'
               style={{
-                backgroundImage: `url(/assets/images/lang/flag-${lang.code}.svg)`
+                backgroundImage: `url(${process.env.REACT_APP_WIDGET_URL}/assets/images/lang/flag-${lang.code}.svg)`
               }}></span>
 
             <span className='modal-list__text'>{lang.name}</span>

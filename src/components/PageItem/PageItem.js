@@ -11,7 +11,7 @@ const PageItem = ({ page }) => {
     if (page.type === 'section') {
       navigate('/page/' + page.id)
     } else if (page.type === 'store') {
-      navigate('/catalog/' + page.id)
+      navigate('/catalog/' + page.storeId)
     } else if (page.type === 'feedback') {
       navigate('/feedback/')
     } else {

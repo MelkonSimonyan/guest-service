@@ -63,7 +63,7 @@ const Menu = () => {
             <h2 className='menu__title'>{getLang('mainMenu')}</h2>
 
             <div className='menu__list'>
-              <div className='menu__item'>
+              {/* <div className='menu__item'>
                 <Link to='/cart/' className='menu__btn'>
                   <span className='menu__btn-icon'>
                     <MdOutlineShoppingBasket />
@@ -77,7 +77,7 @@ const Menu = () => {
                     <MdChevronRight />
                   </span>
                 </Link>
-              </div>
+              </div> */}
 
               <div className='menu__item'>
                 <button

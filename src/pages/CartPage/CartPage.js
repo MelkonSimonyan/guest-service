@@ -1,37 +1,48 @@
 import './CartPage.css'
 
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSearchParams } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useParams, useSearchParams } from 'react-router-dom'
 
+import { selectInit } from '../../features/init/initSlice'
 import { setPageInfo } from '../../features/pageInfo/pageInfoSlice'
 
 import { useLang } from '../../hooks/useLang'
+import { getStore } from '../../utils/getStore'
+import { getService } from '../../utils/getService'
 
-import CartStore from '../../components/CartStore/CartStore'
-import CartService from '../../components/CartService/CartService'
+import Cart from '../../components/Cart/Cart'
 
 const CartPage = () => {
   const getLang = useLang()
   const dispatch = useDispatch()
+  const params = useParams()
   const [searchParams] = useSearchParams()
-  const [cartType, setCartType] = useState(null)
+  const { initData } = useSelector(selectInit)
+  const [cartType, setCartType] = useState('')
+  const [store, setStore] = useState(null)
+  const [service, setService] = useState(null)
 
   useEffect(() => {
+    let store
+    let service
+
+    if (params.id) {
+      store = getStore(initData.pages, params.id)
+      setStore(store)
+      setCartType('store')
+    } else if (searchParams.get('serviceId')) {
+      service = getService(initData.pages, searchParams.get('serviceId'))
+      setService(service)
+      setCartType('service')
+    }
+
     dispatch(setPageInfo({
       pageId: 'cart',
-      pageTitle: getLang('basket'),
+      pageTitle: store?.title || service?.title || getLang('basket'),
       parentLink: window.history.state?.key ? -1 : '/'
     }))
   }, [])
-
-  useEffect(() => {
-    if (searchParams.get('serviceId')) {
-      setCartType('service')
-    } else {
-      setCartType('store')
-    }
-  }, [searchParams])
 
   if (!cartType) {
     return null
@@ -40,11 +51,11 @@ const CartPage = () => {
   return (
     <div className='content'>
       <div className='container'>
-        {cartType === 'store' ?
-          <CartStore /> :
-          cartType === 'service' ?
-            <CartService /> : null
-        }
+        <Cart
+          cartType={cartType}
+          store={store}
+          service={service}
+        />
       </div>
     </div>
   )

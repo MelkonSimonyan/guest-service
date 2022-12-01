@@ -75,7 +75,7 @@ const Header = () => {
                   >
                     <span
                       style={{
-                        backgroundImage: `url(/assets/images/lang/flag-${initData.lang}.svg)`
+                        backgroundImage: `url(${process.env.REACT_APP_WIDGET_URL}/assets/images/lang/flag-${initData.lang}.svg)`
                       }}
                     ></span>
                   </button>
