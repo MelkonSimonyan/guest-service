@@ -18,10 +18,12 @@ const CartBtn = () => {
   const { pageId } = useSelector(selectPageInfo)
   const { carts } = useSelector(selectCart)
   const [cartBtnData, setCartBtnData] = useState([])
+  const [cartBtnVisible, setCartBtnVisible] = useState(0)
 
   useEffect(() => {
     if (carts.length) {
       let cartBtnData = []
+      let cartBtnVisible = 0
 
       carts.forEach(cart => {
         const storeId = cart.storeId
@@ -40,6 +42,10 @@ const CartBtn = () => {
           amount = store.fee.type === 'percent' ? amount + amount * store.fee.value / 100 : amount + store.fee.value
         }
 
+        if (quantity) {
+          cartBtnVisible++
+        }
+
         cartBtnData.push({
           storeTitle: store.title,
           storeId,
@@ -49,10 +55,11 @@ const CartBtn = () => {
       })
 
       setCartBtnData(cartBtnData)
+      setCartBtnVisible(cartBtnVisible)
     }
   }, [carts])
 
-  if (pageId === 'cart' || pageId === 'feedback') {
+  if ((pageId === 'cart' || pageId === 'feedback') || !cartBtnVisible) {
     return null
   }
 

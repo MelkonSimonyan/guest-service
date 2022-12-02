@@ -17,6 +17,7 @@ export const useLang = () => {
     "formEmail": "E-mail",
     "formErrorRequired": "Обязательное поле",
     "send": "Отправить",
+    "pay": "Оплатить",
   }
 
   return (text) => (messages[text] ? messages[text] : '!__' + text + '__!')

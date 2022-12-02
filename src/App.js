@@ -21,6 +21,7 @@ import Header from './components/Header/Header'
 import CartBtn from './components/CartBtn/CartBtn'
 import Modal from './components/Modal/Modal'
 import FeedbackPage from './pages/FeedbackPage/FeedbackPage'
+import OrderPage from './pages/OrderPage/OrderPage'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -103,6 +104,7 @@ const App = () => {
                 <Route path='/cart/:id' element={<CartPage />} />
                 <Route path='/cart/' element={<CartPage />} />
                 <Route path='/feedback/' element={<FeedbackPage />} />
+                <Route path='/order/:id' element={<OrderPage />} />
                 <Route path='*' element={<Navigate to='/' />} />
               </Routes>
             </CSSTransition>

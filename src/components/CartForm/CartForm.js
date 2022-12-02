@@ -18,6 +18,8 @@ const CartForm = ({
   cart,
   type,
   storeId,
+  waitTime,
+  maxDaysDelivery,
   setError,
   setSuccess,
 }) => {
@@ -29,7 +31,7 @@ const CartForm = ({
   const [person, setPerson] = useState(1)
   const [payMethod, setPayMethod] = useState({})
   const [time, setTime] = useState((new Date()).getTime())
-  const [orderSuccess, setOrderSuccess] = useState(null)
+  const [orderData, setOrderData] = useState(null)
 
   const {
     register,
@@ -65,16 +67,16 @@ const CartForm = ({
       recaptcha: token,
     })
 
-    setOrderSuccess(response.data)
+    setOrderData(response.data)
   })
 
   useEffect(() => {
-    if (orderError || orderSuccess?.error) {
-      setError(orderError ? orderError : orderSuccess.error)
-    } else if (orderSuccess?.success) {
-      setSuccess(orderSuccess.success)
+    if (orderData?.success) {
+      setSuccess(orderData)
+    } else if (orderError || orderData?.pay?.error) {
+      setError(orderError || orderData?.pay?.error)
     }
-  }, [orderError, orderSuccess])
+  }, [orderError, orderData])
 
   return (
     <form onSubmit={handleSubmit(fetchOrder)}>
@@ -105,8 +107,8 @@ const CartForm = ({
           <Timepicker
             time={time}
             setTime={setTime}
-            waitTime={initData.waitTime * 60 * 1000}
-            maxDaysDelivery={initData.maxDaysDelivery}
+            waitTime={(waitTime || initData.waitTime) * 60 * 1000}
+            maxDaysDelivery={maxDaysDelivery || initData.maxDaysDelivery}
           />
         </div>
       </div>
