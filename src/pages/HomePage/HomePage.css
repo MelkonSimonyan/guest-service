@@ -35,11 +35,6 @@
   width: 33.33%;
 }
 
-.page-grid .page-item:before {
-  --cardRatio: .6;
-  padding-top: calc(var(--cardRatio) * (100% - var(--bs-gutter-x)) / 2);
-}
-
 .page-grid__item._size_2 .page-item:before,
 .page-grid__item._size_3 .page-item:before {
   padding-top: calc(var(--cardRatio) * 100%);
@@ -48,16 +43,4 @@
 .page-grid__item._size_3 .page-item__title {
   font-size: 13px;
   line-height: 1;
-}
-
-@media (max-width: 767.98px) {
-  .page-grid .page-item:before {
-    --cardRatio: .8;
-  }
-}
-
-@media (max-width: 575.98px) {
-  .page-grid .page-item:before {
-    --cardRatio: 1;
-  }
 }

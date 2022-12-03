@@ -1,13 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { MdErrorOutline, MdOutlineShoppingBasket, MdOutlineCheckCircleOutline } from 'react-icons/md'
 
 import API from '../../API/API'
+import { setPageInfo } from '../../features/pageInfo/pageInfoSlice'
 
 import { useFetching } from '../../hooks/useFetching'
 import { useLang } from '../../hooks/useLang'
 
+
 const OrderPage = () => {
+  const dispatch = useDispatch()
   const getLang = useLang()
   const params = useParams()
   const orderContent = useRef(null)
@@ -21,6 +25,12 @@ const OrderPage = () => {
 
   useEffect(() => {
     fetchOrder()
+
+    dispatch(setPageInfo({
+      pageId: 'order',
+      pageTitle: '',
+      parentLink: '/'
+    }))
   }, [])
 
   useEffect(() => {
@@ -51,46 +61,52 @@ const OrderPage = () => {
 
   if (orderData.success) {
     return (
-      <>
-        <div className='page-message'>
-          <div className='page-message__content'>
-            <div className='page-message__icon' style={{ color: 'var(--success-color)' }}>
-              <MdOutlineCheckCircleOutline />
-            </div>
+      <div className='content'>
+        <div className='container'>
+          <div className='page-message'>
+            <div className='page-message__content'>
+              <div className='page-message__icon' style={{ color: 'var(--success-color)' }}>
+                <MdOutlineCheckCircleOutline />
+              </div>
 
-            <div className='page-message__subtitle'>
-              <span dangerouslySetInnerHTML={{ __html: orderData.success || getLang('orderSuccess') }}></span>
-            </div>
+              <div className='page-message__subtitle'>
+                <span dangerouslySetInnerHTML={{ __html: orderData.success || getLang('orderSuccess') }}></span>
+              </div>
 
-            {orderData.pay ?
-              <div ref={orderContent}>
-                {orderData.pay.url ?
-                  <a className='page-message__btn btn btn_lg' href={orderData.pay.url}>{getLang('pay')}</a> :
-                  orderData.pay.html ?
-                    <div dangerouslySetInnerHTML={{ __html: orderData.pay.html }}></div> :
-                    <Link className='page-message__btn btn btn_lg' to='/'>{getLang('mainMenu')}</Link>
-                }
-              </div> :
-              <Link className='page-message__btn btn btn_lg' to='/'>{getLang('mainMenu')}</Link>
-            }
+              {orderData.pay ?
+                <div ref={orderContent}>
+                  {orderData.pay.url ?
+                    <a className='page-message__btn btn btn_lg' href={orderData.pay.url}>{getLang('pay')}</a> :
+                    orderData.pay.html ?
+                      <div dangerouslySetInnerHTML={{ __html: orderData.pay.html }}></div> :
+                      <Link className='page-message__btn btn btn_lg' to='/'>{getLang('mainMenu')}</Link>
+                  }
+                </div> :
+                <Link className='page-message__btn btn btn_lg' to='/'>{getLang('mainMenu')}</Link>
+              }
+            </div>
           </div>
         </div>
-      </>
+      </div>
     )
   }
 
   return (
-    <div className='page-message'>
-      <div className='page-message__content'>
-        <div className='page-message__icon' style={{ color: 'var(--error-color)' }}>
-          <MdErrorOutline />
-        </div>
+    <div className='content'>
+      <div className='container'>
+        <div className='page-message'>
+          <div className='page-message__content'>
+            <div className='page-message__icon' style={{ color: 'var(--error-color)' }}>
+              <MdErrorOutline />
+            </div>
 
-        <div className='page-message__subtitle'>
-          <span dangerouslySetInnerHTML={{ __html: orderError || orderData?.pay?.error }}></span>
-        </div>
+            <div className='page-message__subtitle'>
+              <span dangerouslySetInnerHTML={{ __html: orderError || orderData?.pay?.error }}></span>
+            </div>
 
-        <Link className='page-message__btn btn btn_lg' to='/'>{getLang('mainMenu')}</Link>
+            <Link className='page-message__btn btn btn_lg' to='/'>{getLang('mainMenu')}</Link>
+          </div>
+        </div>
       </div>
     </div>
   )

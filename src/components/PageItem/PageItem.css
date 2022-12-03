@@ -1,5 +1,6 @@
 .page-item {
   --border-radius: 8px;
+  --cardRatio: .6;
   display: block;
   position: relative;
   text-decoration: none;
@@ -13,6 +14,24 @@
   background: var(--page-item-bg);
 }
 
+@media (max-width: 767.98px) {
+  .page-item {
+    --cardRatio: .8;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .page-item {
+    --cardRatio: 1;
+  }
+}
+
+.page-item:before {
+  content: '';
+  display: block;
+  padding-top: calc(var(--cardRatio) * (100% - var(--bs-gutter-x, 8px)) / 2);
+}
+
 .page-item:last-child {
   margin-bottom: 0;
 }
@@ -23,12 +42,6 @@
 
 .page-item:active {
   background: var(--page-item-bg-hover);
-}
-
-.page-item:before {
-  content: '';
-  display: block;
-  padding-top: 161px;
 }
 
 .page-item__image {
