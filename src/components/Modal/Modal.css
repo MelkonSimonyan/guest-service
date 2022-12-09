@@ -130,14 +130,45 @@
   padding-bottom: 0;
 }
 
-.modal__image {
-  margin: -15px -20px 20px;
+.modal__image-wrapper,
+.modal__image,
+.modal__image img {
   border-radius: 15px 15px 0 0;
+}
+
+.modal__image-wrapper {
+  margin: -15px -20px 20px;
   height: 300px;
   max-height: 45vh;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
+
+.modal__image {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.modal__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover
+}
+
+.modal__slider,
+.modal__slider .slick-slider,
+.modal__slider .slick-list,
+.modal__slider .slick-track,
+.modal__slider .slick-slide,
+.modal__slider .slick-slide>div,
+.modal__slider .slick-slide img {
+  border-radius: 15px 15px 0 0;
+  height: 100%;
 }
 
 .modal__header {

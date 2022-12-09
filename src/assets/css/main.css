@@ -653,6 +653,102 @@ textarea.form-control {
   width: 100%;
 }
 
+.slick-dots {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex !important;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.slick-dots li button {
+  display: block;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  padding: 0;
+  position: relative;
+  cursor: pointer;
+  text-indent: -9999px;
+}
+
+.slick-dots li button:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin: -4px;
+  border-radius: 50%;
+  background: var(--main-color);
+  opacity: .3;
+}
+
+.slick-dots li.slick-active button:before {
+  opacity: .8;
+}
+
+.slick-arrow {
+  border: none;
+  padding: 0;
+  background: none;
+  position: absolute;
+  text-indent: -9999px;
+  z-index: 11;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .2);
+  color: var(--main-color);
+}
+
+.slick-arrow:hover {
+  background: rgba(255, 255, 255, .6);
+}
+
+.slick-prev {
+  left: 15px;
+}
+
+.slick-next {
+  right: 15px;
+}
+
+.slick-arrow:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px;
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+}
+
+.slick-prev:before {
+  transform: translateX(2px) rotate(135deg);
+}
+
+.slick-next:before {
+  transform: translateX(-2px) rotate(-45deg);
+}
+
+.slick-arrow.slick-disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+
 @media (max-width: 1399.98px) {}
 
 @media (max-width: 1199.98px) {}

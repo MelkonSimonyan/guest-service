@@ -58,10 +58,10 @@ const HomePage = () => {
 
         {initData.pages ?
           <div className='page-grid row'>
-            {initData.pages.map((page, index) => (
+            {initData.pages.map((page) => (
               <div
                 className={`page-grid__item _size_${page.size}`}
-                key={page.id + '' + index}
+                key={page.id}
               >
                 <PageItem page={page} />
               </div>

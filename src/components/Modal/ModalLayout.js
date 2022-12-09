@@ -6,11 +6,13 @@ import { MdClear } from 'react-icons/md'
 import { CSSTransition } from 'react-transition-group'
 
 import { useScrollLock } from '../../hooks/useScrollLock'
+import ModalSlider from './ModalSlider'
 
 const ModalLayout = ({
   visible,
   close,
   image,
+  slider,
   children,
   footer,
 }) => {
@@ -43,14 +45,16 @@ const ModalLayout = ({
             >
               <div className='modal__inner'>
                 <div className='modal__main has-scrollbar'>
-                  {image ?
-                    <div
-                      className='modal__image'
-                      style={{
-                        backgroundImage: 'url(' + image + ')'
-                      }}
-                    ></div> : null
-                  }
+                  {slider?.length || image ? <div className='modal__image-wrapper'>
+                    {slider?.length ?
+                      <div className='modal__slider'>
+                        <ModalSlider images={slider} />
+                      </div> :
+                      <div className='modal__image'>
+                        <img src={image} alt='' />
+                      </div>
+                    }
+                  </div> : null}
                   {children}
                 </div>
                 {footer ?

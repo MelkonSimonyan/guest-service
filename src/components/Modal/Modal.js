@@ -77,6 +77,7 @@ const Modal = () => {
       visible={modalVisible}
       close={closeModal}
       image={modalData.pic}
+      slider={modalData.slider}
       footer={
         modalData.type === 'item' ?
           <button type='button'

@@ -33,13 +33,16 @@ const CommonPage = () => {
         {pageData.desc ? <div className='page-desc' dangerouslySetInnerHTML={{ __html: pageData.desc }}></div> : null}
 
         {pageData.pages ?
-          pageData.pages.map((page) => (
-            <PageItem
-              page={page}
-              key={page.id}
-            />
-          )) : null
-        }
+          <div className='page-grid row'>
+            {pageData.pages.map((page) => (
+              <div
+                className={`page-grid__item _size_${page.size}`}
+                key={page.id}
+              >
+                <PageItem page={page} />
+              </div>
+            ))}
+          </div> : null}
       </div>
     </div>
   )

@@ -46,17 +46,12 @@ const Header = () => {
           <div className='header__content'>
             <div className='header__center'>
               <div className='header__title'>
-                {pageTitle ? null :
+                {!pageTitle && initData.hotel.logo ?
                   <div className='header__title-icon'>
                     <img src={initData.hotel.logo} alt={initData.hotel.name} />
-                  </div>
+                  </div> :
+                  <div className='header__title-text'>{pageTitle || initData.hotel.name}</div>
                 }
-
-                <div className='header__title-text'>{
-                  pageTitle
-                    ? pageTitle
-                    : initData.hotel.name
-                }</div>
               </div>
             </div>
 
@@ -69,23 +64,25 @@ const Header = () => {
                   <MdOutlineKeyboardBackspace />
                 </button> :
                 <>
-                  <button type='button'
-                    className='header__btn _lang'
-                    onClick={handleLangShow}
-                  >
-                    <span
-                      style={{
-                        backgroundImage: `url(${process.env.REACT_APP_WIDGET_URL}/assets/images/lang/flag-${initData.lang}.svg)`
-                      }}
-                    ></span>
-                  </button>
+                  {Object.keys(initData.langs).length > 1 ?
+                    <button type='button'
+                      className='header__btn _lang'
+                      onClick={handleLangShow}
+                    >
+                      <span
+                        style={{
+                          backgroundImage: `url(${process.env.REACT_APP_WIDGET_URL}/assets/images/lang/flag-${initData.lang}.svg)`
+                        }}
+                      ></span>
+                    </button> : null}
 
-                  <button type='button'
-                    className='header__btn _currency'
-                    onClick={handleCurrencyShow}
-                  >
-                    <span>{initData.currency}</span>
-                  </button>
+                  {Object.keys(initData.currencies).length > 1 ?
+                    <button type='button'
+                      className='header__btn _currency'
+                      onClick={handleCurrencyShow}
+                    >
+                      <span>{initData.currency}</span>
+                    </button> : null}
                 </>
               }
             </div>

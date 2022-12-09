@@ -117,3 +117,28 @@
   font-size: 24px;
   flex-shrink: 0;
 }
+
+.menu__data {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 20px 0 0;
+}
+
+.menu__data>div {
+  margin-bottom: 10px;
+}
+
+.menu__data dt {
+  display: inline;
+  font-weight: 600;
+}
+
+.menu__data dd {
+  display: inline;
+  margin: 0;
+}
+
+.menu__data a {
+  color: inherit;
+  text-decoration: none;
+}
