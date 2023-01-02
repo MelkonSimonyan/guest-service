@@ -1,197 +1,119 @@
 import './Catalog.css'
 
-import React, { useEffect, useState, useMemo, useRef, createRef } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import React, { useEffect, useRef } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
-import CatalogItem from '../CatalogItem/CatalogItem'
+import CatalogScroll from './CatalogScroll'
+import CatalogStatic from './CatalogStatic'
 
 const Catalog = ({
-  items,
   categories,
+  items,
   storeId,
+  categoryId,
 }) => {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const [activeCategoryId, setActiveCategoryId] = useState(null)
-  const click = useRef(false)
+  const navigate = useNavigate()
+  const menuClicked = useRef(true)
   const navRef = useRef(null)
+  const activeLinkRef = useRef(null)
 
-  // Construct Refs
-  const refs = useMemo(() => {
-    const refs = {
-      navRefs: [],
-      sectionRefs: [],
-    }
-
-    categories.map((category) => {
-      refs.navRefs.push({
-        id: category.id,
-        ref: createRef(null)
-      })
-
-      refs.sectionRefs.push({
-        id: category.id,
-        ref: createRef(null)
-      })
-    })
-
-    return refs
-  }, [])
-
-  // Scroll Listener
   useEffect(() => {
-    const handleScroll = () => {
-      refs.sectionRefs.map((refItem) => {
-        const rect = refItem.ref.current.getBoundingClientRect()
-        if (rect.top <= window.innerHeight / 2 && rect.bottom > window.innerHeight / 2) {
-          if (!click.current) {
-            setActiveCategoryId(refItem.id)
-          }
-        }
-      })
-    }
-
-    window.addEventListener('scroll', handleScroll, true);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll, true)
+    if (categoryId && (!categories.find(category => category.id === categoryId) || categories.find(category => category.id === categoryId).category_id !== 0)) {
+      navigate('/catalog/' + storeId)
+    } else {
+      setTimeout(() => {
+        menuClicked.current = false
+      }, 500)
     }
   }, [])
 
-  // Menu Scroll
   useEffect(() => {
-    if (activeCategoryId) {
-      const activeLinkRef = refs.navRefs.find(ref => ref.id === activeCategoryId)
+    if (activeLinkRef?.current && navRef?.current) {
+      const activeLink = activeLinkRef.current
+      const nav = navRef.current
 
-      if (activeLinkRef) {
-        const activeLink = activeLinkRef.ref.current
-        const nav = navRef.current
-
-        nav.scrollTo({
-          left: nav.scrollLeft + activeLink.getBoundingClientRect().left - nav.getBoundingClientRect().left,
-          behavior: 'smooth',
-        })
-      }
+      nav.scrollTo({
+        left: nav.scrollLeft + activeLink.getBoundingClientRect().left - nav.getBoundingClientRect().left,
+        behavior: 'smooth',
+      })
     }
-  }, [activeCategoryId])
+  }, [categoryId])
 
-  // Page Scroll
-  const scrollToCategory = () => {
-    const category = searchParams.get('category')
-
-    if (category) {
-      const activeSectionRef = refs.sectionRefs.find(item => item.id === category)
-
-      if (activeSectionRef) {
-        setActiveCategoryId(category)
-
-        click.current = true
-
-        const activeSection = activeSectionRef.ref.current
-
-        window.scrollTo({
-          top: activeSection.getBoundingClientRect().top + window.pageYOffset - 126,
-          behavior: 'smooth',
-        })
-
-        setTimeout(() => {
-          click.current = false
-        }, 500)
-      }
-    } else {
-      setActiveCategoryId(categories[0].id)
-    }
-  }
-
-  // SearchParams Change Listener
-  useEffect(() => {
-    scrollToCategory()
-  }, [searchParams])
-
-  // Links Click
-  const clickLinkHandler = (id) => {
-    if (searchParams.get('category') !== id) {
-      searchParams.set('category', id)
-      setSearchParams(searchParams)
-    } else {
-      scrollToCategory()
-    }
-  }
-
-  // Arrows Click
   const clickArrowHandler = (dir) => {
-    let nextLinkRef = null
-    const currentLinkRef = refs.navRefs.find(item => item.id === activeCategoryId)
-    const currentLinkIndex = refs.navRefs.indexOf(currentLinkRef)
+    let id
+    let cat = categories.filter(category => category.category_id === 0)
+    let item = cat.find(category => category.id === categoryId)
 
     if (dir === 'prev') {
-      nextLinkRef = refs.navRefs[currentLinkIndex - 1]
+      id = cat[cat.indexOf(item) - 1]?.id
     } else if (dir === 'next') {
-      nextLinkRef = refs.navRefs[currentLinkIndex + 1]
+      id = cat[cat.indexOf(item) + 1]?.id
     }
 
-    if (nextLinkRef) {
-      clickLinkHandler(nextLinkRef.id)
+    if (id) {
+      navigate('/catalog/' + storeId + '/' + id)
     }
   }
 
   return (
-    <div className='catalog'>
-      <div className='catalog__nav'>
-        <div className='container'>
-          <div className='catalog__nav-wrapper'>
-            <div className='catalog__nav-scroll' ref={navRef}>
-              <div className='catalog__nav-list'>
-                {categories.map((category, index) => (
-                  <button
-                    type='button'
-                    ref={refs.navRefs[index].ref}
-                    key={category.id}
-                    className={`catalog__nav-btn ${category.id === activeCategoryId ? ' is-active' : ''}`}
-                    onClick={() => {
-                      clickLinkHandler(category.id)
-                    }}
-                  >{category.title}</button>
-                ))}
+    <>
+      {categories.find(category => category.category_id !== 0) ?
+        <div className='catalog'>
+          <div className='catalog__nav'>
+            <div className='catalog__nav-wrapper'>
+              <div className='catalog__nav-scroll' ref={navRef}>
+                <div className='catalog__nav-list'>
+                  {categories.filter(category => category.category_id === 0).map((category) => (
+                    <Link
+                      to={`/catalog/${storeId}/${category.id}`}
+                      key={category.id}
+                      ref={category.id === categoryId ? activeLinkRef : null}
+                      className={`catalog__nav-btn ${category.id === categoryId ? ' is-active' : ''}`}
+                    >{category.name}</Link>
+                  ))}
+                </div>
               </div>
+
+              <button
+                type='button'
+                className='catalog__nav-arrow _prev'
+                onClick={() => {
+                  clickArrowHandler('prev')
+                }}
+              ><MdChevronLeft /></button>
+
+              <button
+                type='button'
+                className='catalog__nav-arrow _next'
+                onClick={() => {
+                  clickArrowHandler('next')
+                }}
+              ><MdChevronRight /></button>
             </div>
-
-            <button
-              type='button'
-              className='catalog__nav-arrow _prev'
-              onClick={() => {
-                clickArrowHandler('prev')
-              }}
-            ><MdChevronLeft /></button>
-
-            <button
-              type='button'
-              className='catalog__nav-arrow _next'
-              onClick={() => {
-                clickArrowHandler('next')
-              }}
-            ><MdChevronRight /></button>
           </div>
-        </div>
-      </div>
 
-      {categories.map((category, index) => (
-        <div
-          className='catalog__section'
-          ref={refs.sectionRefs[index].ref}
-          key={category.id}
-        >
-          <h2 className='catalog__section-title'>{category.title}</h2>
-
-          {items.filter((item) => item.category === category.title).map(item => (
-            <CatalogItem
-              item={item}
+          {categories.find(category => category.category_id === categoryId) ?
+            <CatalogScroll
+              categories={categories.filter(category => category.category_id === categoryId)}
+              items={items}
               storeId={storeId}
-              key={item.id}
+            /> :
+            <CatalogStatic
+              categories={categories.filter(category => category.id === categoryId)}
+              items={items}
+              storeId={storeId}
             />
-          ))}
+          }
+        </div> :
+        <div className='catalog'>
+          <CatalogScroll
+            categories={categories}
+            items={items}
+            storeId={storeId}
+          />
         </div>
-      ))}
-    </div>
+      }
+    </>
   )
 }
 

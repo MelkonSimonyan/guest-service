@@ -100,7 +100,8 @@ const App = () => {
               <Routes location={location}>
                 <Route path='/' element={<HomePage />} />
                 <Route path='/page/:id' element={<CommonPage />} />
-                <Route path='/catalog/:id' element={<CatalogPage />} />
+                <Route path='/catalog/:storeId' element={<CatalogPage />} />
+                <Route path='/catalog/:storeId/:categoryId' element={<CatalogPage />} />
                 <Route path='/cart/:id' element={<CartPage />} />
                 <Route path='/cart/' element={<CartPage />} />
                 <Route path='/feedback/' element={<FeedbackPage />} />

@@ -2,12 +2,18 @@ import './CatalogItem.css'
 
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { selectInit } from '../../features/init/initSlice'
-import { selectCart } from '../../features/cart/cartSlice'
+import { selectCart, setToCart } from '../../features/cart/cartSlice'
+import { MdOutlineShoppingBasket } from 'react-icons/md'
 
-const CatalogItem = ({ item, storeId }) => {
+const CatalogItem = ({
+  item,
+  storeId,
+  type,
+}) => {
+  const dispatch = useDispatch()
   const { carts } = useSelector(selectCart)
   const { initData } = useSelector(selectInit)
   const [searchParams, setSearchParams] = useSearchParams()
@@ -23,28 +29,25 @@ const CatalogItem = ({ item, storeId }) => {
     }
   }, [carts])
 
-  const clickHandler = () => {
+  const openModal = () => {
     searchParams.set('modalType', 'item')
     searchParams.set('modalId', item.id)
     searchParams.set('storeId', storeId)
     setSearchParams(searchParams)
   }
 
+  const setToCard = () => {
+    dispatch(setToCart({
+      ...item,
+      storeId,
+    }))
+  }
+
   return (
     <div
-      className='catalog-item'
-      onClick={clickHandler}
+      className={`catalog-item ${type === 'small' ? '_small' : ''} ${quantity ? 'is-active' : ''}`}
+      onClick={type !== 'small' ? openModal : setToCard}
     >
-      <div className='catalog-item__content'>
-        {item.title ?
-          <div className='catalog-item__title'>{item.title}</div> : null
-        }
-
-        {item.price ?
-          <div className='catalog-item__price'>{item.price}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div> : null
-        }
-      </div>
-
       {item.pic ?
         <div className='catalog-item__image'>
           <img src={item.pic} />
@@ -54,6 +57,30 @@ const CatalogItem = ({ item, storeId }) => {
           }
         </div> : null
       }
+
+      <div className='catalog-item__content'>
+        {item.title ?
+          <div className='catalog-item__title'>{item.title}</div> : null
+        }
+
+        <div className='catalog-item__price-row'>
+          {item.price ?
+            <div className='catalog-item__price'>{item.price}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div> : null
+          }
+
+          {type !== 'small' ?
+            <button type='button'
+              className='catalog-item__btn btn'
+              onClick={(e) => {
+                e.stopPropagation()
+                setToCard()
+              }}
+            >
+              <MdOutlineShoppingBasket />
+            </button> : null
+          }
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,0 +1,29 @@
+.reccommend {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.reccommend-slider {
+  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  margin: 0 -15px;
+}
+
+.reccommend-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.reccommend-slider__inner {
+  display: inline-flex;
+  vertical-align: top;
+  padding-left: 15px;
+}
+
+.reccommend-slider .catalog-item {
+  margin-right: 15px;
+  flex-shrink: 0;
+  margin-bottom: 0;
+}

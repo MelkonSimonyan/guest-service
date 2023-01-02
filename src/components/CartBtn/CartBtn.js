@@ -38,8 +38,8 @@ const CartBtn = () => {
           amount += product.quantity * getItem(initData.pages, product.id, product.storeId).price
         })
 
-        if (store.fee) {
-          amount = store.fee.type === 'percent' ? amount + amount * store.fee.value / 100 : amount + store.fee.value
+        if (store.serviceFee) {
+          amount = store.serviceFee.type === 'percent' ? amount + amount * store.serviceFee.value / 100 : amount + store.serviceFee.value
         }
 
         if (quantity) {

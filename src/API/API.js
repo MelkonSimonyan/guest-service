@@ -24,4 +24,9 @@ export default class API {
     const response = await axios.post(apiRoot + 'feedback', { ...params }, { headers })
     return response
   }
+
+  static async recommend(params, storeId) {
+    const response = await axios.post(apiRoot + 'recommend' + '/' + storeId, { ...params }, { headers })
+    return response
+  }
 }

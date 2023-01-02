@@ -14,6 +14,7 @@ import { getItem } from '../../utils/getItem'
 import CartItem from '../CartItem/CartItem'
 import CartServiceItem from '../CartItem/CartServiceItem'
 import CartForm from '../CartForm/CartForm'
+import Recommend from '../Recommend/Recommend'
 
 const Cart = ({
   cartType,
@@ -151,6 +152,14 @@ const Cart = ({
           <CartServiceItem item={cartService} /> : null
         }
       </div>
+
+      {cartProducts ? <Recommend
+        card={cartProducts.map(item => (
+          item.id
+        ))}
+        storeId={store.storeId}
+      /> : null
+      }
 
       <div className='cart__data'>
         {total?.fee ?
