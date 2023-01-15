@@ -77,6 +77,8 @@
 .menu__content {
   height: 100%;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .menu__title {
@@ -141,4 +143,12 @@
 .menu__data a {
   color: inherit;
   text-decoration: none;
+}
+
+.menu__main {
+  margin-bottom: auto;
+}
+
+.menu__copyright {
+  margin-top: 20px;
 }

@@ -15,6 +15,9 @@ const Timepicker = ({
   const getLang = useLang()
   const [open, setOpen] = useState(false)
 
+  const [asap, setAsap] = useState(false)
+  const [selectedAsap, setSelectedAsap] = useState(false)
+
   const [startTime, setStartTime] = useState('')
   const [startHours, setStartHours] = useState('')
   const [startMinutes, setStartMinutes] = useState('')
@@ -64,42 +67,32 @@ const Timepicker = ({
   }
 
   useEffect(() => {
-    const currentTime = (new Date()).getTime()
+    const tempTime = clearTime(time + waitTime)
+    const tempDate = new Date(tempTime)
 
-    if (time < currentTime) {
-      time = currentTime
+    setStartTime(tempTime)
+    setStartHours(tempDate.getHours())
+    setStartMinutes(tempDate.getMinutes())
+
+    setSelectedTime(tempTime)
+
+    if (!waitTime) {
+      setAsap(true)
+      setSelectedAsap(true)
     }
-
-    setStartTime(clearTime(currentTime + waitTime))
-    setSelectedTime(clearTime(currentTime + waitTime))
   }, [])
 
   useEffect(() => {
-    if (startTime) {
-      const startDate = new Date(startTime)
+    if (startTime && selectedTime) {
+      const selectedD = new Date(selectedTime)
+      const startD = new Date(startTime)
+      selectedD.setHours(0, 0, 0, 0)
+      startD.setHours(0, 0, 0, 0)
 
-      setStartHours(startDate.getHours())
-      setStartMinutes(startDate.getMinutes())
-    }
-  }, [startTime])
-
-  useEffect(() => {
-    if (selectedTime) {
-      if (startTime) {
-        const startD = new Date(startTime)
-        const selectedD = new Date(selectedTime)
-
-        startD.setHours(0, 0, 0, 0)
-        selectedD.setHours(0, 0, 0, 0)
-
-        setSelectedDay((selectedD.getTime() - startD.getTime()) / (24 * 60 * 60 * 1000))
-      }
-
-      const selectedDate = new Date(selectedTime)
-
-      setSelectedHours(selectedDate.getHours())
-      setSelectedMinutes(selectedDate.getMinutes())
-      setTime(clearTime(selectedTime))
+      setSelectedDay((selectedD.getTime() - startD.getTime()) / (24 * 60 * 60 * 1000))
+      setSelectedHours((new Date(selectedTime)).getHours())
+      setSelectedMinutes((new Date(selectedTime)).getMinutes())
+      setTime(selectedAsap ? '' : clearTime(selectedTime))
     }
   }, [startTime, selectedTime])
 
@@ -134,7 +127,9 @@ const Timepicker = ({
         <span className='timepicker__label-icon'><MdOutlineAccessTime /></span>
         <span className='timepicker__label-text'>{
           selectedTime ?
-            getDateString(selectedTime) + ', ' + ('0' + selectedHours).slice(-2) + ':' + ('0' + selectedMinutes).slice(-2) : null
+            selectedAsap ? getLang('asCanSoon') :
+              getDateString(selectedTime) + ', ' + ('0' + selectedHours).slice(-2) + ':' + ('0' + selectedMinutes).slice(-2) :
+            null
         }</span>
         <span className='timepicker__label-arrow'><MdChevronRight /></span>
       </button>
@@ -148,7 +143,7 @@ const Timepicker = ({
           type='button'
           className='btn btn_lg'
           onClick={() => {
-            setTime(selectedTime)
+            setTime(selectedAsap ? '' : clearTime(selectedTime))
             setOpen(false)
           }}
         >{getLang('choose')}</button>}
@@ -161,46 +156,50 @@ const Timepicker = ({
           <div className='timepicker__col _day'>
             <select
               className='form-select'
-              value={selectedDay}
+              value={selectedAsap ? '' : selectedDay}
               onChange={(e) => {
                 setSelectedDay(Number(e.target.value))
+                setSelectedAsap(e.target.value === '')
               }}
             >
+              {asap ? <option value=''>{getLang('asCanSoon')}</option> : null}
               {[...Array(maxDaysDelivery)].map((x, i) =>
                 <option value={i} key={i}>{getDateString(startTime + 24 * 60 * 60 * 1000 * i)}</option>
               )}
             </select>
           </div>
 
-          <div className='timepicker__col _hour'>
-            <select
-              className='form-select'
-              value={selectedHours}
-              onChange={(e) => {
-                setSelectedHours(Number(e.target.value))
-              }}
-            >
-              {[...Array(16)].map((x, i) =>
-                <option value={i + 7} key={i} disabled={selectedDay === 0 && i + 7 < startHours}>{('0' + (i + 7)).slice(-2)}</option>
-              )}
-            </select>
-          </div>
+          {selectedAsap ? null : <>
+            <div className='timepicker__col _hour'>
+              <select
+                className='form-select'
+                value={selectedHours}
+                onChange={(e) => {
+                  setSelectedHours(Number(e.target.value))
+                }}
+              >
+                {[...Array(16)].map((x, i) =>
+                  <option value={i + 7} key={i} disabled={selectedDay === 0 && i + 7 < startHours}>{('0' + (i + 7)).slice(-2)}</option>
+                )}
+              </select>
+            </div>
 
-          <div className='timepicker__col _divident'>:</div>
+            <div className='timepicker__col _divident'>:</div>
 
-          <div className='timepicker__col _minute'>
-            <select
-              className='form-select'
-              value={selectedMinutes}
-              onChange={(e) => {
-                setSelectedMinutes(Number(e.target.value))
-              }}
-            >
-              {[...Array(12)].map((x, i) =>
-                <option value={i * 5} key={i} disabled={selectedDay === 0 && selectedHours === startHours && (i * 5) < startMinutes}>{('0' + (i * 5)).slice(-2)}</option>
-              )}
-            </select>
-          </div>
+            <div className='timepicker__col _minute'>
+              <select
+                className='form-select'
+                value={selectedMinutes}
+                onChange={(e) => {
+                  setSelectedMinutes(Number(e.target.value))
+                }}
+              >
+                {[...Array(12)].map((x, i) =>
+                  <option value={i * 5} key={i} disabled={selectedDay === 0 && selectedHours === startHours && (i * 5) < startMinutes}>{('0' + (i * 5)).slice(-2)}</option>
+                )}
+              </select>
+            </div>
+          </>}
         </div>
       </ModalLayout>
     </div>

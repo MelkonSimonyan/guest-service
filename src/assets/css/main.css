@@ -749,6 +749,15 @@ textarea.form-control {
   pointer-events: none;
 }
 
+.lazy-load-image-background.opacity {
+  opacity: 0;
+}
+
+.lazy-load-image-background.opacity.lazy-load-image-loaded {
+  opacity: 1;
+  transition: opacity .3s;
+}
+
 @media (max-width: 1399.98px) {}
 
 @media (max-width: 1199.98px) {}

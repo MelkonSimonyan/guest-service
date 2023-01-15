@@ -19,7 +19,10 @@ const CartForm = ({
   type,
   storeId,
   waitTime,
+  noTime,
+  noPersons,
   maxDaysDelivery,
+  hidePrice,
   setError,
   setSuccess,
 }) => {
@@ -40,6 +43,10 @@ const CartForm = ({
   } = useForm()
 
   useEffect(() => {
+    if (noTime) {
+      setTime('')
+    }
+
     setPayMethod(initData.payMethods[0].id)
   }, [])
 
@@ -84,55 +91,63 @@ const CartForm = ({
         <div className='loader _fix'></div>
       )}
 
-      <div className='cart__row'>
-        <div className='cart__row-label'>{getLang('persons')}</div>
+      {!noPersons ?
+        <div className='cart__row'>
+          <div className='cart__row-label'>{getLang('persons')}</div>
 
-        <div className='cart__row-content'>
-          <NumberControl
-            value={person}
-            decrease={() => {
-              setPerson((count) => count > 1 ? count - 1 : count)
-            }}
-            increase={() => {
-              setPerson((count) => count + 1)
-            }}
-          />
-        </div>
-      </div>
+          <div className='cart__row-content'>
+            <NumberControl
+              value={person}
+              decrease={() => {
+                setPerson((count) => count > 1 ? count - 1 : count)
+              }}
+              increase={() => {
+                setPerson((count) => count + 1)
+              }}
+            />
+          </div>
+        </div> : null
+      }
 
-      <div className='cart__row'>
-        <div className='cart__row-label'>{getLang('deliveryTime')}</div>
+      {!noTime ?
+        <div className='cart__row'>
+          <div className='cart__row-label'>{getLang('deliveryTime')}</div>
 
-        <div className='cart__row-content'>
-          <Timepicker
-            time={time}
-            setTime={setTime}
-            waitTime={(waitTime || initData.waitTime) * 60 * 1000}
-            maxDaysDelivery={maxDaysDelivery || initData.maxDaysDelivery}
-          />
-        </div>
-      </div>
+          <div className='cart__row-content'>
+            <Timepicker
+              time={time}
+              setTime={setTime}
+              waitTime={((waitTime || initData.waitTime) * 60 * 1000) || 0}
+              noTime={noTime}
+              maxDaysDelivery={maxDaysDelivery || initData.maxDaysDelivery}
+            />
+          </div>
+        </div> : null
+      }
 
-      <div className='cart__row'>
-        <div className='cart__row-label'>{getLang('payment')}</div>
+      {!hidePrice ?
+        <div className='cart__row'>
+          <div className='cart__row-label'>{getLang('payment')}</div>
 
-        <div className='cart__row-content'>
-          <div className='btn-list'>
-            {initData.payMethods.map(method => (
-              <button
-                type='button'
-                key={method.id}
-                className={`btn-list__btn btn ${payMethod === method.id ? '' : 'btn_secondary'}`}
-                onClick={() => {
-                  setPayMethod(method.id)
-                }}
-              >
-                <span style={{ maxWidth: '9em' }}>{method.name}</span>
-              </button>
-            ))}
+          <div className='cart__row-content'>
+            <div className='btn-list'>
+              {initData.payMethods.map(method => (
+                <button
+                  type='button'
+                  key={method.id}
+                  className={`btn-list__btn btn ${payMethod === method.id ? '' : 'btn_secondary'}`}
+                  onClick={() => {
+                    setPayMethod(method.id)
+                  }}
+                >
+                  <span style={{ maxWidth: '9em' }}>{method.name}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+        : null
+      }
 
       <div className='cart__row'>
         <div className='cart__row-label'>{getLang('numRoom')}</div>

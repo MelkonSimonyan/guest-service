@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { MdClose } from 'react-icons/md'
 import { selectInit } from '../../features/init/initSlice'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 const CartServiceItem = ({ item }) => {
   const navigate = useNavigate()
@@ -13,7 +14,11 @@ const CartServiceItem = ({ item }) => {
   return (
     <div className='cart-item'>
       <div className='cart-item__image'>
-        <img src={item.pic} alt={item.title} />
+        <LazyLoadImage
+          src={item.picSmall || item.pic}
+          alt={item.title}
+          effect='opacity'
+        />
       </div>
 
       <div className='cart-item__content'>
@@ -35,7 +40,9 @@ const CartServiceItem = ({ item }) => {
           </div>
 
           <div className='cart-item__price-cell'>
-            <div className='cart-item__price'>{item.service.price}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div>
+            {item.service?.price ?
+              <div className='cart-item__price'>{item.service.price}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div> : null
+            }
           </div>
         </div>
       </div>

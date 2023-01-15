@@ -161,26 +161,28 @@ const Cart = ({
       /> : null
       }
 
-      <div className='cart__data'>
-        {total?.fee ?
-          <>
-            <div className='cart__data-row'>
-              <div className='cart__data-title'>{getLang('orderPrice')}</div>
-              <div className='cart__data-value'>{total?.amount}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div>
-            </div>
+      {total?.amount ?
+        <div className='cart__data'>
+          {total?.fee ?
+            <>
+              <div className='cart__data-row'>
+                <div className='cart__data-title'>{getLang('orderPrice')}</div>
+                <div className='cart__data-value'>{total?.amount}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div>
+              </div>
 
-            <div className='cart__data-row'>
-              <div className='cart__data-title'>{getLang('serviceFee')}</div>
-              <div className='cart__data-value'>{total?.fee}</div>
-            </div>
-          </> : null
-        }
+              <div className='cart__data-row'>
+                <div className='cart__data-title'>{getLang('serviceFee')}</div>
+                <div className='cart__data-value'>{total?.fee}</div>
+              </div>
+            </> : null
+          }
 
-        <div className='cart__data-row _total'>
-          <div className='cart__data-title'>{getLang('amount')}</div>
-          <div className='cart__data-value'>{total?.amountWithFee}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div>
-        </div>
-      </div>
+          <div className='cart__data-row _total'>
+            <div className='cart__data-title'>{getLang('amount')}</div>
+            <div className='cart__data-value'>{total?.amountWithFee}&nbsp;<span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} /></div>
+          </div>
+        </div> : null
+      }
 
       <CartForm
         type={cartType}
@@ -189,7 +191,10 @@ const Cart = ({
         setError={setError}
         setSuccess={setSuccess}
         waitTime={store?.waitTime || service?.waitTime}
+        noTime={store?.noTime || service?.noTime}
+        noPersons={store?.noPersons || service?.noPersons}
         maxDaysDelivery={store?.maxDaysDelivery || service?.maxDaysDelivery}
+        hidePrice={total?.amount ? false : true}
       />
     </div>
   )

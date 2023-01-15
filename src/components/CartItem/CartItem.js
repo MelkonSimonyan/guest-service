@@ -3,6 +3,7 @@ import './CartItem.css'
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { MdClose } from 'react-icons/md'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 import { selectInit } from '../../features/init/initSlice'
 import {
@@ -20,7 +21,11 @@ const CartItem = ({ item }) => {
   return (
     <div className='cart-item'>
       <div className='cart-item__image'>
-        <img src={item.pic} alt={item.title} />
+        <LazyLoadImage
+          src={item.picSmall || item.pic}
+          alt={item.title}
+          effect='opacity'
+        />
       </div>
 
       <div className='cart-item__content'>

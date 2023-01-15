@@ -3,33 +3,28 @@ import './HomePage.css'
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 import { selectInit } from '../../features/init/initSlice'
 import { setPageInfo } from '../../features/pageInfo/pageInfoSlice'
 
 import PageItem from '../../components/PageItem/PageItem'
 
-const HomeBanner = ({ pic, link, blank }) => {
+const HomeBanner = ({ link, blank, children }) => {
   if (link) {
     if (blank) {
       return (
-        <a className='home-banner' href={link} target='_blank'>
-          <img src={pic} alt='' />
-        </a>
+        <a className='home-banner' href={link} target='_blank'>{children}</a>
       )
     }
 
     return (
-      <Link className='home-banner' to={link}>
-        <img src={pic} alt='' />
-      </Link>
+      <Link className='home-banner' to={link}>{children}</Link>
     )
   }
 
   return (
-    <div className='home-banner'>
-      <img src={pic} alt='' />
-    </div>
+    <div className='home-banner'>{children}</div>
   )
 }
 
@@ -50,10 +45,15 @@ const HomePage = () => {
       <div className='container'>
         {initData.hotel?.banner?.pic ?
           <HomeBanner
-            pic={initData.hotel.banner.pic}
             link={initData.hotel.banner.link}
             blank={initData.hotel.banner.blank}
-          /> : null
+          >
+            <LazyLoadImage
+              src={initData.hotel.banner.pic}
+              alt=''
+              effect='opacity'
+            />
+          </HomeBanner> : null
         }
 
         {initData.pages ?

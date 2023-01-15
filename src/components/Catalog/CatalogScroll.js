@@ -15,6 +15,10 @@ const CatalogScroll = ({
 
   // Scroll Listener
   useEffect(() => {
+    setTimeout(() => {
+      menuClicked.current = false
+    }, 500)
+
     const handleScroll = () => {
       refs.sectionRefs.map((refItem) => {
         const rect = refItem.ref.current.getBoundingClientRect()
@@ -156,6 +160,7 @@ const CatalogScroll = ({
             </div>
           </div>
 
+          {/*
           <button
             type='button'
             className='catalog__nav-arrow _prev'
@@ -171,6 +176,7 @@ const CatalogScroll = ({
               clickArrowHandler('next')
             }}
           ><MdChevronRight /></button>
+          */}
         </div>
       </div>
 

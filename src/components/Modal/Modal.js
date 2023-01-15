@@ -92,7 +92,7 @@ const Modal = () => {
               className='btn btn_lg'
               onClick={orderService}
             >
-              {getLang('sendRequest')}
+              {modalData.btnText || getLang('sendRequest')}
             </button> :
 
             modalData.type === 'link' ?

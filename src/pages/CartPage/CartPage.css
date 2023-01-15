@@ -5,9 +5,12 @@
   margin-bottom: 2px;
 }
 
-.cart__list {}
+.cart__list {
+  margin-bottom: 19px;
+}
 
 .cart__data {
+  margin-top: -19px;
   margin-bottom: 19px;
   padding: 17px 0;
   border-bottom: 1px solid var(--border-color);

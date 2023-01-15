@@ -2,6 +2,7 @@ import './PageItem.css'
 
 import React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 const PageItem = ({ page }) => {
   const navigate = useNavigate()
@@ -27,12 +28,20 @@ const PageItem = ({ page }) => {
       onClick={clickHandler}
     >
       {page.pic ?
-        <div className='page-item__image' style={{
-          backgroundImage: 'url(' + page.pic + ')'
-        }}></div> :
+        <div className='page-item__image'>
+          <LazyLoadImage
+            src={page.pic}
+            alt=''
+            effect='opacity'
+          />
+        </div> :
         page.icon ?
           <div className='page-item__icon'>
-            <img src={page.icon} alt={page.title} />
+            <LazyLoadImage
+              src={page.icon}
+              alt={page.title}
+              effect='opacity'
+            />
           </div> : null
       }
 

@@ -3,6 +3,7 @@ import './CatalogItem.css'
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 import { selectInit } from '../../features/init/initSlice'
 import { selectCart, setToCart } from '../../features/cart/cartSlice'
@@ -50,7 +51,11 @@ const CatalogItem = ({
     >
       {item.pic ?
         <div className='catalog-item__image'>
-          <img src={item.pic} />
+          <LazyLoadImage
+            src={item.picSmall || item.pic}
+            alt={item.title}
+            effect='opacity'
+          />
 
           {quantity ?
             <span className='catalog-item__basket-count'>{quantity}</span> : null

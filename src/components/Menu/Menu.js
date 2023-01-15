@@ -62,100 +62,88 @@ const Menu = () => {
 
         <div className='menu__inner'>
           <div className='menu__content has-scrollbar'>
-            <h2 className='menu__title'>{getLang('mainMenu')}</h2>
+            <div className='menu__main'>
+              <h2 className='menu__title'>{getLang('mainMenu')}</h2>
 
-            <div className='menu__list'>
-              {/* <div className='menu__item'>
-                <Link to='/cart/' className='menu__btn'>
-                  <span className='menu__btn-icon'>
-                    <MdOutlineShoppingBasket />
-                  </span>
+              <div className='menu__list'>
+                {Object.keys(initData.menu).map(key => (
+                  <div className='menu__item' key={key}>
+                    <Link to={key} className='menu__btn'>
+                      <span className='menu__btn-icon'>
+                        <MdCheck />
+                      </span>
 
-                  <span className='menu__btn-text'>
-                    {getLang('myOrder')}
-                  </span>
+                      <span className='menu__btn-text'>
+                        {initData.menu[key]}
+                      </span>
 
-                  <span className='menu__btn-arrow'>
-                    <MdChevronRight />
-                  </span>
-                </Link>
-              </div> */}
+                      <span className='menu__btn-arrow'>
+                        <MdChevronRight />
+                      </span>
+                    </Link>
+                  </div>
+                ))}
 
-              {Object.keys(initData.menu).map(key => (
-                <div className='menu__item' key={key}>
-                  <Link to={key} className='menu__btn'>
-                    <span className='menu__btn-icon'>
-                      <MdCheck />
-                    </span>
+                {Object.keys(initData.langs).length > 1 ?
+                  <div className='menu__item'>
+                    <button
+                      className='menu__btn'
+                      type='button'
+                      onClick={openLang}
+                    >
+                      <span className='menu__btn-icon'>
+                        <MdLanguage />
+                      </span>
 
-                    <span className='menu__btn-text'>
-                      {initData.menu[key]}
-                    </span>
+                      <span className='menu__btn-text'>
+                        {getLang('languages')}
+                      </span>
 
-                    <span className='menu__btn-arrow'>
-                      <MdChevronRight />
-                    </span>
-                  </Link>
-                </div>
-              ))}
+                      <span className='menu__btn-arrow'>
+                        <MdChevronRight />
+                      </span>
+                    </button>
+                  </div> : null}
 
-              {Object.keys(initData.langs).length > 1 ?
-                <div className='menu__item'>
-                  <button
-                    className='menu__btn'
-                    type='button'
-                    onClick={openLang}
-                  >
-                    <span className='menu__btn-icon'>
-                      <MdLanguage />
-                    </span>
+                {Object.keys(initData.currencies).length > 1 ?
+                  <div className='menu__item'>
+                    <button
+                      className='menu__btn'
+                      type='button'
+                      onClick={openCurrency}
+                    >
+                      <span className='menu__btn-icon'>
+                        <FaRegMoneyBillAlt />
+                      </span>
 
-                    <span className='menu__btn-text'>
-                      {getLang('languages')}
-                    </span>
+                      <span className='menu__btn-text'>
+                        {getLang('currency')}
+                      </span>
 
-                    <span className='menu__btn-arrow'>
-                      <MdChevronRight />
-                    </span>
-                  </button>
+                      <span className='menu__btn-arrow'>
+                        <MdChevronRight />
+                      </span>
+                    </button>
+                  </div> : null}
+              </div>
+
+              <dl className='menu__data'>
+                {initData.hotel?.phone ? <div>
+                  <dt>{getLang('phone')}: </dt>
+                  <dd><a href={`tel:${initData.hotel.phone}`}>{initData.hotel.phone}</a></dd>
                 </div> : null}
-
-              {Object.keys(initData.currencies).length > 1 ?
-                <div className='menu__item'>
-                  <button
-                    className='menu__btn'
-                    type='button'
-                    onClick={openCurrency}
-                  >
-                    <span className='menu__btn-icon'>
-                      <FaRegMoneyBillAlt />
-                    </span>
-
-                    <span className='menu__btn-text'>
-                      {getLang('currency')}
-                    </span>
-
-                    <span className='menu__btn-arrow'>
-                      <MdChevronRight />
-                    </span>
-                  </button>
+                {initData.hotel?.email ? <div>
+                  <dt>{getLang('email')}: </dt>
+                  <dd><a href={`mailto:${initData.hotel.email}`}>{initData.hotel.email}</a></dd>
                 </div> : null}
+                {initData.hotel?.address ? <div>
+                  <dt>{getLang('address')}: </dt>
+                  <dd>{initData.hotel.address}</dd>
+                </div> : null}
+              </dl>
             </div>
 
-            <dl className='menu__data'>
-              {initData.hotel?.phone ? <div>
-                <dt>{getLang('phone')}: </dt>
-                <dd><a href={`tel:${initData.hotel.phone}`}>{initData.hotel.phone}</a></dd>
-              </div> : null}
-              {initData.hotel?.email ? <div>
-                <dt>{getLang('email')}: </dt>
-                <dd><a href={`mailto:${initData.hotel.email}`}>{initData.hotel.email}</a></dd>
-              </div> : null}
-              {initData.hotel?.address ? <div>
-                <dt>{getLang('address')}: </dt>
-                <dd>{initData.hotel.address}</dd>
-              </div> : null}
-            </dl>
+            <div className='menu__copyright' dangerouslySetInnerHTML={{ __html: getLang('copyrights') }} />
           </div>
         </div>
       </div>

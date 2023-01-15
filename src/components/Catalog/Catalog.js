@@ -74,6 +74,7 @@ const Catalog = ({
                 </div>
               </div>
 
+              {/*
               <button
                 type='button'
                 className='catalog__nav-arrow _prev'
@@ -89,6 +90,7 @@ const Catalog = ({
                   clickArrowHandler('next')
                 }}
               ><MdChevronRight /></button>
+              */}
             </div>
           </div>
 
