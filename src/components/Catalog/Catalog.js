@@ -1,10 +1,13 @@
 import './Catalog.css'
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
+import { FiAlertTriangle } from 'react-icons/fi'
+
 import CatalogScroll from './CatalogScroll'
 import CatalogStatic from './CatalogStatic'
+import { isClose } from '../../utils/isClose'
 
 const Catalog = ({
   categories,
@@ -16,11 +19,18 @@ const Catalog = ({
   const menuClicked = useRef(true)
   const navRef = useRef(null)
   const activeLinkRef = useRef(null)
+  const [close, setClose] = useState(false)
 
   useEffect(() => {
     if (categoryId && (!categories.find(category => category.id === categoryId) || categories.find(category => category.id === categoryId).category_id !== 0)) {
       navigate('/catalog/' + storeId)
     } else {
+      let category = categories.find(category => category.id === categoryId)
+
+      if (category.storeWorkTime && isClose(category.storeWorkTime.from, category.storeWorkTime.to)) {
+        setClose(category.noWorkMessage || 'Close')
+      }
+
       setTimeout(() => {
         menuClicked.current = false
       }, 500)
@@ -94,25 +104,38 @@ const Catalog = ({
             </div>
           </div>
 
-          {categories.find(category => category.category_id === categoryId) ?
+          {close ?
+            <div className='close-message'>
+              <FiAlertTriangle />
+              <div>{close}</div>
+            </div> :
+
+            categories.find(category => category.category_id === categoryId) ?
+              <CatalogScroll
+                categories={categories.filter(category => category.category_id === categoryId)}
+                items={items}
+                storeId={storeId}
+              /> :
+              <CatalogStatic
+                categories={categories.filter(category => category.id === categoryId)}
+                items={items}
+                storeId={storeId}
+              />
+          }
+        </div> :
+        <div className='catalog'>
+          {close ?
+            <div className='close-message'>
+              <FiAlertTriangle />
+              <div>{close}</div>
+            </div> :
+
             <CatalogScroll
-              categories={categories.filter(category => category.category_id === categoryId)}
-              items={items}
-              storeId={storeId}
-            /> :
-            <CatalogStatic
-              categories={categories.filter(category => category.id === categoryId)}
+              categories={categories}
               items={items}
               storeId={storeId}
             />
           }
-        </div> :
-        <div className='catalog'>
-          <CatalogScroll
-            categories={categories}
-            items={items}
-            storeId={storeId}
-          />
         </div>
       }
     </>

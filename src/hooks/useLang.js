@@ -18,6 +18,9 @@ export const useLang = () => {
     "formErrorRequired": "Обязательное поле",
     "send": "Отправить",
     "pay": "Оплатить",
+    "attention": "Внимание",
+    "close": "Закрыть",
+    "hasRemovedItems": "Некоторые товары были удалены из корзины т.к. они стали недоступны сейчас, проверьте ваш заказ и продолжите",
   }
 
   return (text) => (messages[text] ? messages[text] : '!__' + text + '__!')

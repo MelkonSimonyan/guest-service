@@ -749,6 +749,10 @@ textarea.form-control {
   pointer-events: none;
 }
 
+.lazy-load-image-background {
+  vertical-align: top;
+}
+
 .lazy-load-image-background.opacity {
   opacity: 0;
 }
@@ -756,6 +760,20 @@ textarea.form-control {
 .lazy-load-image-background.opacity.lazy-load-image-loaded {
   opacity: 1;
   transition: opacity .3s;
+}
+
+.close-message {
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.5;
+  max-width: 15em;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+
+.close-message svg {
+  font-size: 48px;
+  color: var(--error-color);
 }
 
 @media (max-width: 1399.98px) {}

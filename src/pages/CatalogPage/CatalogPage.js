@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
+import { FiAlertTriangle } from 'react-icons/fi'
 
 import { selectInit } from '../../features/init/initSlice'
 import { setPageInfo } from '../../features/pageInfo/pageInfoSlice'
@@ -8,6 +9,7 @@ import { setPageInfo } from '../../features/pageInfo/pageInfoSlice'
 import { getStore } from '../../utils/getStore'
 
 import Catalog from '../../components/Catalog/Catalog'
+import { isClose } from '../../utils/isClose'
 
 const CatalogPage = () => {
   const navigate = useNavigate()
@@ -15,11 +17,16 @@ const CatalogPage = () => {
   const params = useParams()
   const { initData } = useSelector(selectInit)
   const [pageData, setPageData] = useState({})
+  const [close, setClose] = useState(false)
 
   useEffect(() => {
     const data = getStore(initData.pages, params.storeId)
 
     if (data) {
+      if (data.storeWorkTime && isClose(data.storeWorkTime.from, data.storeWorkTime.to)) {
+        setClose(data.noWorkMessage || 'Close')
+      }
+
       setPageData(data)
 
       dispatch(setPageInfo({
@@ -49,13 +56,20 @@ const CatalogPage = () => {
             </a>
           </div> : null
         }
-        {pageData.categories ?
-          <Catalog
-            items={pageData.items}
-            categories={pageData.categories}
-            storeId={parseInt(params.storeId)}
-            categoryId={parseInt(params.categoryId) || pageData.categories.find(category => category.category_id === 0).id}
-          /> : null
+
+        {close ?
+          <div className='close-message'>
+            <FiAlertTriangle />
+            <div>{close}</div>
+          </div> :
+
+          pageData.categories ?
+            <Catalog
+              items={pageData.items}
+              categories={pageData.categories}
+              storeId={parseInt(params.storeId)}
+              categoryId={parseInt(params.categoryId) || pageData.categories.find(category => category.category_id === 0).id}
+            /> : null
         }
       </div>
     </div>

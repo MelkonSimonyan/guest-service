@@ -20,6 +20,7 @@ const Cart = ({
   cartType,
   store,
   service,
+  setHasRemovedItems,
 }) => {
   const getLang = useLang()
   const dispatch = useDispatch()
@@ -195,6 +196,7 @@ const Cart = ({
         noPersons={store?.noPersons || service?.noPersons}
         maxDaysDelivery={store?.maxDaysDelivery || service?.maxDaysDelivery}
         hidePrice={total?.amount ? false : true}
+        setHasRemovedItems={setHasRemovedItems}
       />
     </div>
   )

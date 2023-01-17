@@ -1,11 +1,12 @@
 import './CartForm.css'
 
 import React, { useEffect, useState, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useForm } from 'react-hook-form'
 
 import { selectInit } from '../../features/init/initSlice'
+import { removeFromCart } from '../../features/cart/cartSlice'
 
 import API from '../../API/API'
 import { useLang } from '../../hooks/useLang'
@@ -13,6 +14,8 @@ import { useFetching } from '../../hooks/useFetching'
 
 import NumberControl from '../NumberControl/NumberControl'
 import Timepicker from '../Timepicker/Timepicker'
+import { getStore } from '../../utils/getStore'
+import { isClose } from '../../utils/isClose'
 
 const CartForm = ({
   cart,
@@ -25,7 +28,9 @@ const CartForm = ({
   hidePrice,
   setError,
   setSuccess,
+  setHasRemovedItems,
 }) => {
+  const dispatch = useDispatch()
   const getLang = useLang()
   const textareaRef = useRef(null)
   const recaptchaRef = useRef()
@@ -60,21 +65,45 @@ const CartForm = ({
     localStorage.setItem('formDataName', data.name)
     localStorage.setItem('formDataPhone', data.phone)
 
-    const token = await recaptchaRef.current.executeAsync()
+    let removedItem = 0
 
-    const response = await API.order({
-      ...data,
-      type,
-      storeId,
-      cart,
-      person,
-      payMethod,
-      time,
-      text: textareaValue,
-      recaptcha: token,
-    })
+    for (let item of cart) {
+      let store = getStore(initData.pages, item.storeId)
+      let category = store.categories.find(cat => cat.id === item.categoryId)
 
-    setOrderData(response.data)
+      if (category.category_id > 0) {
+        category = store.categories.find(cat => cat.id === category.category_id)
+      }
+
+      if ((store.storeWorkTime && isClose(store.storeWorkTime.from, store.storeWorkTime.to)) || (category.storeWorkTime && isClose(category.storeWorkTime.from, category.storeWorkTime.to))) {
+        removedItem++
+
+        dispatch(removeFromCart({
+          id: item.id,
+          storeId: item.storeId
+        }))
+      }
+    }
+
+    if (removedItem) {
+      setHasRemovedItems(true)
+    } else {
+      const token = await recaptchaRef.current.executeAsync()
+
+      const response = await API.order({
+        ...data,
+        type,
+        storeId,
+        cart,
+        person,
+        payMethod,
+        time,
+        text: textareaValue,
+        recaptcha: token,
+      })
+
+      setOrderData(response.data)
+    }
   })
 
   useEffect(() => {
