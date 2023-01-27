@@ -69,19 +69,21 @@ const CartForm = ({
 
     for (let item of cart) {
       let store = getStore(initData.pages, item.storeId)
-      let category = store.categories.find(cat => cat.id === item.categoryId)
+      if (store) {
+        let category = store.categories?.find(cat => cat.id === item.categoryId)
 
-      if (category.category_id > 0) {
-        category = store.categories.find(cat => cat.id === category.category_id)
-      }
+        if (category?.category_id > 0) {
+          category = store.categories.find(cat => cat.id === category.category_id)
+        }
 
-      if ((store.storeWorkTime && isClose(store.storeWorkTime.from, store.storeWorkTime.to)) || (category.storeWorkTime && isClose(category.storeWorkTime.from, category.storeWorkTime.to))) {
-        removedItem++
+        if ((store.storeWorkTime && isClose(store.storeWorkTime.from, store.storeWorkTime.to)) || (category?.storeWorkTime && isClose(category?.storeWorkTime.from, category?.storeWorkTime.to))) {
+          removedItem++
 
-        dispatch(removeFromCart({
-          id: item.id,
-          storeId: item.storeId
-        }))
+          dispatch(removeFromCart({
+            id: item.id,
+            storeId: item.storeId
+          }))
+        }
       }
     }
 

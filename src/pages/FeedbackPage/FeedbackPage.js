@@ -76,17 +76,21 @@ const FeedbackPage = () => {
 
   if (success) {
     return (
-      <div className='page-message'>
-        <div className='page-message__content'>
-          <div className='page-message__icon' style={{ color: 'var(--success-color)' }}>
-            <MdOutlineCheckCircleOutline />
-          </div>
+      <div className='content'>
+        <div className='container'>
+          <div className='page-message'>
+            <div className='page-message__content'>
+              <div className='page-message__icon' style={{ color: 'var(--success-color)' }}>
+                <MdOutlineCheckCircleOutline />
+              </div>
 
-          <div className='page-message__subtitle'>
-            <span dangerouslySetInnerHTML={{ __html: success.length ? success : getLang('orderSuccess') }}></span>
-          </div>
+              <div className='page-message__subtitle'>
+                <span dangerouslySetInnerHTML={{ __html: success.length ? success : getLang('orderSuccess') }}></span>
+              </div>
 
-          <Link className='page-message__btn btn btn_lg' to='/'>{getLang('mainMenu')}</Link>
+              <Link className='page-message__btn btn btn_lg' to='/'>{getLang('mainMenu')}</Link>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -94,22 +98,26 @@ const FeedbackPage = () => {
 
   if (error) {
     return (
-      <div className='page-message'>
-        <div className='page-message__content'>
-          <div className='page-message__icon' style={{ color: 'var(--error-color)' }}>
-            <MdErrorOutline />
-          </div>
+      <div className='content'>
+        <div className='container'>
+          <div className='page-message'>
+            <div className='page-message__content'>
+              <div className='page-message__icon' style={{ color: 'var(--error-color)' }}>
+                <MdErrorOutline />
+              </div>
 
-          <div className='page-message__subtitle'>
-            {/* <span dangerouslySetInnerHTML={{ __html: error }}></span> */}
-          </div>
+              <div className='page-message__subtitle'>
+                {/* <span dangerouslySetInnerHTML={{ __html: error }}></span> */}
+              </div>
 
-          <button type='button'
-            className='page-message__btn btn btn_lg'
-            onClick={() => {
-              window.location.reload()
-            }}
-          >{getLang('tryAgain')}</button>
+              <button type='button'
+                className='page-message__btn btn btn_lg'
+                onClick={() => {
+                  window.location.reload()
+                }}
+              >{getLang('tryAgain')}</button>
+            </div>
+          </div>
         </div>
       </div>
     )

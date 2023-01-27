@@ -55,8 +55,12 @@ const OrderPage = () => {
     }
   }, [orderData])
 
-  if (!orderData) {
-    return null
+  if (isOrderLoading || !orderData) {
+    return <div className='content'>
+      <div className='container'>
+        {isOrderLoading && <div className='loader _fix'></div>}
+      </div>
+    </div>
   }
 
   if (orderData.success) {

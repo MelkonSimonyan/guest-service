@@ -12,6 +12,7 @@ export const useFetching = (callback) => {
       await callback(...args)
       setError('')
     } catch (e) {
+      console.error(e)
       setError(getLang('serverError'))
     } finally {
       setIsLoading(false)
