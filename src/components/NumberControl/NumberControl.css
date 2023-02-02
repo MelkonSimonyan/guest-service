@@ -11,6 +11,7 @@
   font-size: 16px;
   line-height: 1;
   font-weight: 500;
+  color: var(--main-color);
 }
 
 .number-control__btn {

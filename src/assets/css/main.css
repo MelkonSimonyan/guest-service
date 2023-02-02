@@ -204,7 +204,7 @@ a:hover {
 
 .btn[disabled],
 .btn.is-disabled {
-  opacity: 0.55;
+  box-shadow: 0 0 0 100px rgb(255 255 255 / 70%) inset;
   cursor: default;
   cursor: not-allowed;
 }

@@ -49,6 +49,10 @@
   margin-bottom: 10px;
 }
 
+.timepicker__col._asap {
+  width: 100%;
+}
+
 .timepicker__col._day {
   width: 50%;
 }

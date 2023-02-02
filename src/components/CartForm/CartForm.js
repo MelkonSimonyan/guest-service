@@ -14,20 +14,24 @@ import { useFetching } from '../../hooks/useFetching'
 
 import NumberControl from '../NumberControl/NumberControl'
 import Timepicker from '../Timepicker/Timepicker'
-import { getStore } from '../../utils/getStore'
 import { isClose } from '../../utils/isClose'
 
 const CartForm = ({
   cart,
-  type,
-  storeId,
-  waitTime,
+  store,
+  time,
+  asap,
+  close,
+  setTime,
   noTime,
-  noPersons,
-  maxDaysDelivery,
-  hidePrice,
+  cartType,
+  waitTime,
   setError,
+  noPersons,
+  hidePrice,
   setSuccess,
+  storeWorkTime,
+  maxDaysDelivery,
   setHasRemovedItems,
 }) => {
   const dispatch = useDispatch()
@@ -37,8 +41,7 @@ const CartForm = ({
   const { initData } = useSelector(selectInit)
   const [textareaValue, setTextareaValue] = useState('')
   const [person, setPerson] = useState(1)
-  const [payMethod, setPayMethod] = useState({})
-  const [time, setTime] = useState((new Date()).getTime())
+  const [payMethod, setPayMethod] = useState(initData.payMethods[0].id)
   const [orderData, setOrderData] = useState(null)
 
   const {
@@ -48,63 +51,42 @@ const CartForm = ({
   } = useForm()
 
   useEffect(() => {
-    if (noTime) {
-      setTime('')
-    }
-
-    setPayMethod(initData.payMethods[0].id)
-  }, [])
-
-  useEffect(() => {
     textareaRef.current.rows = 2
     textareaRef.current.rows = parseInt((textareaRef.current.scrollHeight - 22) / 20)
   }, [textareaValue])
 
   const [fetchOrder, isOrderLoading, orderError] = useFetching(async (data) => {
-    localStorage.setItem('formDataRoom', data.room)
-    localStorage.setItem('formDataName', data.name)
-    localStorage.setItem('formDataPhone', data.phone)
+    if (!close) {
+      localStorage.setItem('formDataRoom', data.room)
+      localStorage.setItem('formDataName', data.name)
+      localStorage.setItem('formDataPhone', data.phone)
 
-    let removedItem = 0
+      let closedItemCount = 0
 
-    for (let item of cart) {
-      let store = getStore(initData.pages, item.storeId)
-      if (store) {
-        let category = store.categories?.find(cat => cat.id === item.categoryId)
-
-        if (category?.category_id > 0) {
-          category = store.categories.find(cat => cat.id === category.category_id)
-        }
-
-        if ((store.storeWorkTime && isClose(store.storeWorkTime.from, store.storeWorkTime.to)) || (category?.storeWorkTime && isClose(category?.storeWorkTime.from, category?.storeWorkTime.to))) {
-          removedItem++
-
-          dispatch(removeFromCart({
-            id: item.id,
-            storeId: item.storeId
-          }))
-        }
+      if (cartType === 'store') {
+        const closedItems = document.querySelectorAll('.cart-item.is-closed')
+        closedItemCount = closedItems.length
       }
-    }
 
-    if (removedItem) {
-      setHasRemovedItems(true)
-    } else {
-      const token = await recaptchaRef.current.executeAsync()
+      if (closedItemCount > 0) {
+        setHasRemovedItems(true)
+      } else {
+        const token = await recaptchaRef.current.executeAsync()
 
-      const response = await API.order({
-        ...data,
-        type,
-        storeId,
-        cart,
-        person,
-        payMethod,
-        time,
-        text: textareaValue,
-        recaptcha: token,
-      })
+        const response = await API.order({
+          ...data,
+          cart,
+          person,
+          payMethod,
+          time,
+          type: cartType,
+          storeId: store.storeId,
+          text: textareaValue,
+          recaptcha: token,
+        })
 
-      setOrderData(response.data)
+        setOrderData(response.data)
+      }
     }
   })
 
@@ -147,9 +129,11 @@ const CartForm = ({
           <div className='cart__row-content'>
             <Timepicker
               time={time}
+              asap={asap}
               setTime={setTime}
               waitTime={((waitTime || initData.waitTime) * 60 * 1000) || 0}
               noTime={noTime}
+              availableTime={storeWorkTime}
               maxDaysDelivery={maxDaysDelivery || initData.maxDaysDelivery}
             />
           </div>
@@ -235,7 +219,7 @@ const CartForm = ({
         <div className='container'>
           <div className='footer-btn-row'>
             <div className='footer-btn-col'>
-              <button type='submit' className='cart__btn btn btn_lg'>{getLang('acceptOrder')}</button>
+              <button type='submit' className='cart__btn btn btn_lg' disabled={close}>{getLang('acceptOrder')}</button>
             </div>
           </div>
         </div>

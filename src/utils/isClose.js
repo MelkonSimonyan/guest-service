@@ -1,11 +1,11 @@
-export const isClose = (fromArr, toArr) => {
-  let today = new Date()
+export const isClose = (from, to, time) => {
+  let now = time ? new Date(time) : new Date()
 
-  let from = fromArr[0] * 60 + fromArr[1] * 1
-  let to = toArr[0] * 60 + toArr[1] * 1
-  let now = today.getHours() * 60 + today.getMinutes() * 1
+  let fromMin = from[0] * 60 + from[1] * 1
+  let toMin = to[0] * 60 + to[1] * 1
+  let nowMin = now.getHours() * 60 + now.getMinutes() * 1
 
-  if ((to > from && now < from || now >= to) || (to < from && (now < from && now >= to))) {
+  if ((toMin > fromMin && nowMin < fromMin || nowMin >= toMin) || (toMin < fromMin && (nowMin < fromMin && nowMin >= toMin))) {
     return true
   }
 

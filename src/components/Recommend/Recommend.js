@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux'
 import CatalogItem from '../CatalogItem/CatalogItem'
 
 const Recommend = ({
-  card,
+  cart,
   storeId
 }) => {
   const { initData } = useSelector(selectInit)
@@ -21,7 +21,9 @@ const Recommend = ({
 
   const [fetchRecommend, isRecommendLoading, recommendError] = useFetching(async () => {
     const response = await API.recommend({
-      card,
+      cart: cart.map(item => (
+        item.id
+      )),
     }, storeId)
     setRecommendIds(response.data)
   })

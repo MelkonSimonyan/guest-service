@@ -79,7 +79,9 @@ const CartBtn = () => {
                     to={'/cart/' + btnData.storeId}
                   >
                     <span className='cart-btn__content'>
-                      <span className='cart-btn__title'>{btnData.storeTitle || getLang('basket')}</span>
+                      {cartBtnVisible > 1 ? null :
+                        <span className='cart-btn__title'>{btnData.storeTitle || getLang('basket')}</span>
+                      }
                       <span className='cart-btn__count'>{btnData.quantity}</span>
                     </span>
 

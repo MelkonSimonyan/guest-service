@@ -10,8 +10,10 @@ import { getStore } from '../../utils/getStore'
 
 import Catalog from '../../components/Catalog/Catalog'
 import { isClose } from '../../utils/isClose'
+import { useLang } from '../../hooks/useLang'
 
 const CatalogPage = () => {
+  const getLang = useLang()
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const params = useParams()
@@ -24,7 +26,7 @@ const CatalogPage = () => {
 
     if (data) {
       if (data.storeWorkTime && isClose(data.storeWorkTime.from, data.storeWorkTime.to)) {
-        setClose(data.noWorkMessage || 'Close')
+        setClose(data.noWorkMessage || getLang('noWorkMessage'))
       }
 
       setPageData(data)
