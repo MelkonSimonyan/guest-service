@@ -27,7 +27,7 @@ const Catalog = ({
     } else {
       let category = categories.find(category => category.id === categoryId)
 
-      if (category.storeWorkTime && isClose(category.storeWorkTime.from, category.storeWorkTime.to)) {
+      if (category.storeWorkTime && category.hideWhenDontWork && isClose(category.storeWorkTime.from, category.storeWorkTime.to)) {
         setClose(category.noWorkMessage || 'Close')
       }
 

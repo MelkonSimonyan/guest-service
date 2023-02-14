@@ -80,7 +80,7 @@ const CartForm = ({
           payMethod,
           time,
           type: cartType,
-          storeId: store.storeId,
+          storeId: store?.storeId,
           text: textareaValue,
           recaptcha: token,
         })

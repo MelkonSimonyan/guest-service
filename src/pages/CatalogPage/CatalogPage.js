@@ -25,7 +25,7 @@ const CatalogPage = () => {
     const data = getStore(initData.pages, params.storeId)
 
     if (data) {
-      if (data.storeWorkTime && isClose(data.storeWorkTime.from, data.storeWorkTime.to)) {
+      if (data.storeWorkTime && data.hideWhenDontWork && isClose(data.storeWorkTime.from, data.storeWorkTime.to)) {
         setClose(data.noWorkMessage || getLang('noWorkMessage'))
       }
 
