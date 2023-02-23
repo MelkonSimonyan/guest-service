@@ -21,6 +21,7 @@ const CartForm = ({
   store,
   time,
   asap,
+  total,
   close,
   setTime,
   noTime,
@@ -33,6 +34,7 @@ const CartForm = ({
   storeWorkTime,
   maxDaysDelivery,
   setHasRemovedItems,
+  setMinOrderSumAlert,
 }) => {
   const dispatch = useDispatch()
   const getLang = useLang()
@@ -70,6 +72,8 @@ const CartForm = ({
 
       if (closedItemCount > 0) {
         setHasRemovedItems(true)
+      } else if (store?.minOrderSum && total.amountWithFee < store.minOrderSum) {
+        setMinOrderSumAlert(true)
       } else {
         const token = await recaptchaRef.current.executeAsync()
 

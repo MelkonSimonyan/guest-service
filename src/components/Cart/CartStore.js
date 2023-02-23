@@ -30,6 +30,7 @@ const CartStore = ({ store }) => {
   const [time, setTime] = useState(store.noTime ? '' : (new Date()).getTime())
   const [cart, setCart] = useState([])
   const [hasRemovedItems, setHasRemovedItems] = useState(false)
+  const [minOrderSumAlert, setMinOrderSumAlert] = useState(false)
   const [total, setTotal] = useState(null)
   const [asap, setAsap] = useState(true)
   const [success, setSuccess] = useState(null)
@@ -127,6 +128,7 @@ const CartStore = ({ store }) => {
           store={store}
           time={time}
           asap={asap}
+          total={total}
           close={close}
           setTime={setTime}
           noTime={store.noTime}
@@ -139,6 +141,7 @@ const CartStore = ({ store }) => {
           storeWorkTime={store.storeWorkTime}
           maxDaysDelivery={store.maxDaysDelivery}
           setHasRemovedItems={setHasRemovedItems}
+          setMinOrderSumAlert={setMinOrderSumAlert}
         />
       </div>
 
@@ -160,6 +163,29 @@ const CartStore = ({ store }) => {
         </div>
 
         <div className='modal__desc'>{getLang('hasClosedItems')}<br /><br /></div>
+      </ModalLayout>
+
+      <ModalLayout
+        visible={minOrderSumAlert}
+        close={() => {
+          setMinOrderSumAlert(false)
+        }}
+        footer={<button
+          type='button'
+          className='btn btn_lg'
+          onClick={() => {
+            setMinOrderSumAlert(false)
+          }}
+        >{getLang('close')}</button>}
+      >
+        <div className='modal__header'>
+          <h2 className='modal__title'>{getLang('attention')}</h2>
+        </div>
+
+        <div className='modal__desc'>
+          {getLang('minOrderSumError').replace(':amount', store.minOrderSum)} <span dangerouslySetInnerHTML={{ __html: initData.currencies[initData.currency].symbol }} />
+          <br /><br />
+        </div>
       </ModalLayout>
     </>
   )
