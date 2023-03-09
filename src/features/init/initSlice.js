@@ -8,7 +8,12 @@ const initialState = {
 }
 
 export const getInitData = createAsyncThunk('init/getData', async () => {
-  const response = await axios.get(apiRoot + 'init', { headers })
+  const response = await axios.get(apiRoot + 'init', {
+    headers: {
+      ...headers,
+      access: localStorage.getItem('access')
+    }
+  })
 
   return response.data
 })

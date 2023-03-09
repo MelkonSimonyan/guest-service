@@ -75,7 +75,11 @@ const CartForm = ({
       } else if (store?.minOrderSum && total.amountWithFee < store.minOrderSum) {
         setMinOrderSumAlert(true)
       } else {
-        const token = await recaptchaRef.current.executeAsync()
+        let token = ''
+
+        if (initData.recaptchaKey) {
+          token = await recaptchaRef.current.executeAsync()
+        }
 
         const response = await API.order({
           ...data,
@@ -217,7 +221,10 @@ const CartForm = ({
         </div>
       </div>
 
-      <ReCAPTCHA ref={recaptchaRef} size='invisible' sitekey={initData.recaptchaKey} />
+      {initData.recaptchaKey ?
+        <ReCAPTCHA ref={recaptchaRef} size='invisible' sitekey={initData.recaptchaKey} /> :
+        null
+      }
 
       <div className='footer-btn-wrapper'>
         <div className='container'>

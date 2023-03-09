@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Navigate, Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import { MdErrorOutline } from 'react-icons/md'
 
 import { selectInit, getInitData } from './features/init/initSlice'
 import { selectCart, setCart } from './features/cart/cartSlice'
@@ -28,9 +29,13 @@ const App = () => {
   const location = useLocation()
   const { initData, initStatus } = useSelector(selectInit)
   const { carts } = useSelector(selectCart)
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
+    if (searchParams.get('access')) {
+      localStorage.setItem('access', searchParams.get('access'))
+    }
+
     if (searchParams.get('room')) {
       localStorage.setItem('formDataRoom', searchParams.get('room'))
     }
@@ -39,7 +44,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    if (initData) {
+    if (initData && !initData.error) {
       let stores = getStores(initData.pages)
 
       if (localStorage.getItem('cart') && JSON.parse(localStorage.getItem('cart')).length === stores.length) {
@@ -62,6 +67,26 @@ const App = () => {
     })
   }, [location.pathname])
 
+  useEffect(() => {
+    if (initData && !initData.error) {
+      if (!initData.accessToUrl) {
+        if (searchParams.get('access')) {
+          searchParams.delete('access')
+          setSearchParams(searchParams, {
+            replace: true,
+          })
+        }
+      } else {
+        if (localStorage.getItem('access') && !searchParams.get('access')) {
+          searchParams.set('access', localStorage.getItem('access'))
+          setSearchParams(searchParams, {
+            replace: true,
+          })
+        }
+      }
+    }
+  }, [initData, location])
+
   return (
     <>
       <Helmet>
@@ -81,40 +106,53 @@ const App = () => {
         <div className='loader _start'></div>
       </CSSTransition>
 
-      {initStatus === 'loading' ? null :
-        <>
-          <Helmet>
-            <html lang={initData.lang} />
-            <title>{initData.hotel.name}</title>
-            <style type="text/css">{initData.hotel.cssStyles}</style>
-          </Helmet>
+      {initStatus === 'loading' ?
+        null :
+        initData.error ?
+          <div className='page-message'>
+            <div className='page-message__content'>
+              <div className='page-message__icon' style={{ color: 'var(--error-color)' }}>
+                <MdErrorOutline />
+              </div>
 
-          <Header />
+              <div className='page-message__subtitle'>
+                <span dangerouslySetInnerHTML={{ __html: initData.error }}></span>
+              </div>
+            </div>
+          </div>
+          : <>
+            <Helmet>
+              <html lang={initData.lang} />
+              <title>{initData.hotel.name}</title>
+              <style type="text/css">{initData.hotel.cssStyles}</style>
+            </Helmet>
 
-          <TransitionGroup className='content-wrapper'>
-            <CSSTransition
-              key={location.pathname}
-              timeout={300}
-              classNames={'content'}
-            >
-              <Routes location={location}>
-                <Route path='/' element={<HomePage />} />
-                <Route path='/page/:id' element={<CommonPage />} />
-                <Route path='/catalog/:storeId' element={<CatalogPage />} />
-                <Route path='/catalog/:storeId/:categoryId' element={<CatalogPage />} />
-                <Route path='/cart/:id' element={<CartPage />} />
-                <Route path='/cart/' element={<CartPage />} />
-                <Route path='/feedback/' element={<FeedbackPage />} />
-                <Route path='/order/:id' element={<OrderPage />} />
-                <Route path='*' element={<Navigate to='/' />} />
-              </Routes>
-            </CSSTransition>
-          </TransitionGroup>
+            <Header />
 
-          <CartBtn />
+            <TransitionGroup className='content-wrapper'>
+              <CSSTransition
+                key={location.pathname}
+                timeout={300}
+                classNames={'content'}
+              >
+                <Routes location={location}>
+                  <Route path='/' element={<HomePage />} />
+                  <Route path='/page/:id' element={<CommonPage />} />
+                  <Route path='/catalog/:storeId' element={<CatalogPage />} />
+                  <Route path='/catalog/:storeId/:categoryId' element={<CatalogPage />} />
+                  <Route path='/cart/:id' element={<CartPage />} />
+                  <Route path='/cart/' element={<CartPage />} />
+                  <Route path='/feedback/' element={<FeedbackPage />} />
+                  <Route path='/order/:id' element={<OrderPage />} />
+                  <Route path='*' element={<Navigate to='/' />} />
+                </Routes>
+              </CSSTransition>
+            </TransitionGroup>
 
-          <Modal />
-        </>
+            <CartBtn />
+
+            <Modal />
+          </>
       }
     </>
   )

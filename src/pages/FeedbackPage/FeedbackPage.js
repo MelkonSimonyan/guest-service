@@ -55,7 +55,11 @@ const FeedbackPage = () => {
     localStorage.setItem('formDataPhone', data.phone)
     localStorage.setItem('formDataEmail', data.email)
 
-    const token = await recaptchaRef.current.executeAsync()
+    let token = ''
+
+    if (initData.recaptchaKey) {
+      token = await recaptchaRef.current.executeAsync()
+    }
 
     const response = await API.feedback({
       ...data,
@@ -215,7 +219,10 @@ const FeedbackPage = () => {
               </div>
             </div>
 
-            <ReCAPTCHA ref={recaptchaRef} size='invisible' sitekey={initData.recaptchaKey} />
+            {initData.recaptchaKey ?
+              <ReCAPTCHA ref={recaptchaRef} size='invisible' sitekey={initData.recaptchaKey} /> :
+              null
+            }
 
             <div className='footer-btn-wrapper'>
               <div className='container'>

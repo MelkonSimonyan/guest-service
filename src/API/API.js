@@ -7,6 +7,8 @@ export const headers = {
   hotel: localStorage.getItem('hotel') || '1:ea66c06c1e1c05fa9f1aa39d98dc5bc1',
   lang: localStorage.getItem('lang') || 'ru',
   currency: localStorage.getItem('currency') || 'RUB',
+  portal: localStorage.getItem('portal'),
+  access: localStorage.getItem('access'),
 }
 
 export default class API {
