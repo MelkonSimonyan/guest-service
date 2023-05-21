@@ -217,6 +217,19 @@ const FeedbackPage = () => {
                 ></textarea>
                 <label className='form-label'>{getLang('formMessage')}</label>
               </div>
+
+              {initData.hotel.legacyLink ? <div className='form-check'>
+                <label className='form-check__label'>
+                  <input
+                    type='checkbox'
+                    className={'form-check__input' + (errors.aggreement ? ' error' : '')}
+                    {...register('aggreement', { required: true })}
+                    defaultChecked
+                  />
+                  <span className='form-check__text' dangerouslySetInnerHTML={{ __html: getLang('legacyPhrase').replace(':link:', initData.hotel.legacyLink) }} />
+                </label>
+                {errors.aggreement && <div className='form-error' style={{ position: 'relative', top: '5px' }}>{getLang('formErrorRequired')}</div>}
+              </div> : null}
             </div>
 
             {initData.recaptchaKey ?
