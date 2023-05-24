@@ -32,8 +32,8 @@ const CartTotal = ({
       fee:
         !fee ? null :
           fee.type === 'percent' ?
-            fee.value + '%' :
-            fee.value + initData.currencies[initData.currency].symbol,
+            fee.value + ' %' :
+            fee.value + '&nbsp;' + initData.currencies[initData.currency].symbol,
       amountWithFee:
         !fee ? amount :
           fee.type === 'percent' ?
@@ -57,7 +57,7 @@ const CartTotal = ({
 
           <div className='cart__data-row'>
             <div className='cart__data-title'>{getLang('serviceFee')}</div>
-            <div className='cart__data-value'>{total?.fee}</div>
+            <div className='cart__data-value'><span dangerouslySetInnerHTML={{ __html: total?.fee }} /></div>
           </div>
         </> : null
       }
