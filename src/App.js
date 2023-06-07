@@ -25,154 +25,165 @@ import FeedbackPage from './pages/FeedbackPage/FeedbackPage'
 import OrderPage from './pages/OrderPage/OrderPage'
 
 const App = () => {
-    const dispatch = useDispatch()
-    const location = useLocation()
-    const { initData, initStatus } = useSelector(selectInit)
-    const { carts } = useSelector(selectCart)
-    const [searchParams, setSearchParams] = useSearchParams()
+  const dispatch = useDispatch()
+  const location = useLocation()
+  const { initData, initStatus } = useSelector(selectInit)
+  const { carts } = useSelector(selectCart)
+  const [searchParams, setSearchParams] = useSearchParams()
 
-    useEffect(() => {
-        let ww = window.innerWidth;
-        let vh = document.documentElement.clientHeight * 0.01;
+  useEffect(() => {
+    let ww = window.innerWidth;
+    let vh = document.documentElement.clientHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', vh + 'px');
+
+    setTimeout(function () {
+      vh = document.documentElement.clientHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }, 500);
+
+    window.addEventListener('resize', function () {
+      if (window.innerWidth != ww) {
+        ww = window.innerWidth;
+        vh = document.documentElement.clientHeight * 0.01;
         document.documentElement.style.setProperty('--vh', vh + 'px');
+      }
+    });
 
-        setTimeout(function () {
-            vh = document.documentElement.clientHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', vh + 'px');
-        }, 500);
+    if (searchParams.get('access')) {
+      localStorage.setItem('access', searchParams.get('access'))
+      localStorage.setItem('accessStartTime', new Date().getTime())
+    } else if (localStorage.getItem('accessTimeout')) {
+      if (new Date().getTime() - localStorage.getItem('accessStartTime') > localStorage.getItem('accessTimeout') * 60 * 1000) {
+        localStorage.removeItem('access');
+        localStorage.removeItem('accessStartTime');
+        localStorage.removeItem('accessTimeout');
+      }
+    }
 
-        window.addEventListener('resize', function () {
-            if (window.innerWidth != ww) {
-                ww = window.innerWidth;
-                vh = document.documentElement.clientHeight * 0.01;
-                document.documentElement.style.setProperty('--vh', vh + 'px');
-            }
-        });
+    if (searchParams.get('room')) {
+      localStorage.setItem('formDataRoom', searchParams.get('room'))
+    }
 
+    dispatch(getInitData())
+  }, [])
+
+  useEffect(() => {
+    if (initData && !initData.error) {
+      let stores = getStores(initData.pages)
+
+      if (localStorage.getItem('cart') && JSON.parse(localStorage.getItem('cart')).length === stores.length) {
+        stores = JSON.parse(localStorage.getItem('cart'))
+      }
+      dispatch(setCart(stores))
+    }
+  }, [initData])
+
+  useEffect(() => {
+    if (carts?.length) {
+      localStorage.setItem('cart', JSON.stringify(carts))
+    }
+  }, [carts])
+
+  useLayoutEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }, [location.pathname])
+
+  useEffect(() => {
+    if (initData && !initData.error) {
+      if (initData.accessTimeout) {
+        localStorage.setItem('accessTimeout', initData.accessTimeout)
+      }
+
+      if (!initData.accessToUrl) {
         if (searchParams.get('access')) {
-            localStorage.setItem('access', searchParams.get('access'))
+          searchParams.delete('access')
+          setSearchParams(searchParams, {
+            replace: true,
+          })
         }
-
-        if (searchParams.get('room')) {
-            localStorage.setItem('formDataRoom', searchParams.get('room'))
+      } else {
+        if (localStorage.getItem('access') && !searchParams.get('access')) {
+          searchParams.set('access', localStorage.getItem('access'))
+          setSearchParams(searchParams, {
+            replace: true,
+          })
         }
+      }
+    }
+  }, [initData, location])
 
-        dispatch(getInitData())
-    }, [])
+  return (
+    <>
+      <Helmet>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+        <meta name="theme-color" content="#000000" />
+        <link rel="icon" href={`${process.env.REACT_APP_WIDGET_URL}/favicon.ico`} />
+        <link rel="apple-touch-icon" href={`${process.env.REACT_APP_WIDGET_URL}/favicon192.png`} />
+        {/* <link rel="manifest" href={`${process.env.REACT_APP_WIDGET_URL}/manifest.json`} /> */}
+      </Helmet>
 
-    useEffect(() => {
-        if (initData && !initData.error) {
-            let stores = getStores(initData.pages)
+      <CSSTransition
+        in={initStatus === 'loading'}
+        timeout={500}
+        unmountOnExit
+      >
+        <div className='loader _start'></div>
+      </CSSTransition>
 
-            if (localStorage.getItem('cart') && JSON.parse(localStorage.getItem('cart')).length === stores.length) {
-                stores = JSON.parse(localStorage.getItem('cart'))
-            }
-            dispatch(setCart(stores))
-        }
-    }, [initData])
+      {initStatus === 'loading' ?
+        null :
+        initData.error ?
+          <div className='page-message'>
+            <div className='page-message__content'>
+              <div className='page-message__icon' style={{ color: 'var(--error-color)' }}>
+                <MdErrorOutline />
+              </div>
 
-    useEffect(() => {
-        if (carts?.length) {
-            localStorage.setItem('cart', JSON.stringify(carts))
-        }
-    }, [carts])
-
-    useLayoutEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        })
-    }, [location.pathname])
-
-    useEffect(() => {
-        if (initData && !initData.error) {
-            if (!initData.accessToUrl) {
-                if (searchParams.get('access')) {
-                    searchParams.delete('access')
-                    setSearchParams(searchParams, {
-                        replace: true,
-                    })
-                }
-            } else {
-                if (localStorage.getItem('access') && !searchParams.get('access')) {
-                    searchParams.set('access', localStorage.getItem('access'))
-                    setSearchParams(searchParams, {
-                        replace: true,
-                    })
-                }
-            }
-        }
-    }, [initData, location])
-
-    return (
-        <>
+              <div className='page-message__subtitle'>
+                <span dangerouslySetInnerHTML={{ __html: initData.error }}></span>
+              </div>
+            </div>
+          </div>
+          : <>
             <Helmet>
-                <meta charset="utf-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-                <meta name="theme-color" content="#000000" />
-                <link rel="icon" href={`${process.env.REACT_APP_WIDGET_URL}/favicon.ico`} />
-                <link rel="apple-touch-icon" href={`${process.env.REACT_APP_WIDGET_URL}/favicon192.png`} />
-                {/* <link rel="manifest" href={`${process.env.REACT_APP_WIDGET_URL}/manifest.json`} /> */}
+              <html lang={initData.lang} />
+              <title>{initData.hotel.name}</title>
+              <style type="text/css">{initData.hotel.cssStyles}</style>
             </Helmet>
 
-            <CSSTransition
-                in={initStatus === 'loading'}
-                timeout={500}
-                unmountOnExit
-            >
-                <div className='loader _start'></div>
-            </CSSTransition>
+            <Header />
 
-            {initStatus === 'loading' ?
-                null :
-                initData.error ?
-                    <div className='page-message'>
-                        <div className='page-message__content'>
-                            <div className='page-message__icon' style={{ color: 'var(--error-color)' }}>
-                                <MdErrorOutline />
-                            </div>
+            <TransitionGroup className='content-wrapper'>
+              <CSSTransition
+                key={location.pathname}
+                timeout={300}
+                classNames={'content'}
+              >
+                <Routes location={location}>
+                  <Route path='/' element={<HomePage />} />
+                  <Route path='/page/:id' element={<CommonPage />} />
+                  <Route path='/catalog/:storeId' element={<CatalogPage />} />
+                  <Route path='/catalog/:storeId/:categoryId' element={<CatalogPage />} />
+                  <Route path='/cart/:id' element={<CartPage />} />
+                  <Route path='/cart/' element={<CartPage />} />
+                  <Route path='/feedback/' element={<FeedbackPage />} />
+                  <Route path='/order/:id' element={<OrderPage />} />
+                  <Route path='*' element={<Navigate to='/' />} />
+                </Routes>
+              </CSSTransition>
+            </TransitionGroup>
 
-                            <div className='page-message__subtitle'>
-                                <span dangerouslySetInnerHTML={{ __html: initData.error }}></span>
-                            </div>
-                        </div>
-                    </div>
-                    : <>
-                        <Helmet>
-                            <html lang={initData.lang} />
-                            <title>{initData.hotel.name}</title>
-                            <style type="text/css">{initData.hotel.cssStyles}</style>
-                        </Helmet>
+            <CartBtn />
 
-                        <Header />
-
-                        <TransitionGroup className='content-wrapper'>
-                            <CSSTransition
-                                key={location.pathname}
-                                timeout={300}
-                                classNames={'content'}
-                            >
-                                <Routes location={location}>
-                                    <Route path='/' element={<HomePage />} />
-                                    <Route path='/page/:id' element={<CommonPage />} />
-                                    <Route path='/catalog/:storeId' element={<CatalogPage />} />
-                                    <Route path='/catalog/:storeId/:categoryId' element={<CatalogPage />} />
-                                    <Route path='/cart/:id' element={<CartPage />} />
-                                    <Route path='/cart/' element={<CartPage />} />
-                                    <Route path='/feedback/' element={<FeedbackPage />} />
-                                    <Route path='/order/:id' element={<OrderPage />} />
-                                    <Route path='*' element={<Navigate to='/' />} />
-                                </Routes>
-                            </CSSTransition>
-                        </TransitionGroup>
-
-                        <CartBtn />
-
-                        <Modal />
-                    </>
-            }
-        </>
-    )
+            <Modal />
+          </>
+      }
+    </>
+  )
 }
 
 export default App
