@@ -36,6 +36,7 @@ const CartStore = ({ store }) => {
   const [success, setSuccess] = useState(null)
   const [error, setError] = useState(null)
   const [close, setClose] = useState(false)
+  const [bonusesSelected, setBonusesSelected] = useState(false)
 
   useEffect(() => {
     if (store.storeWorkTime && isClose(store.storeWorkTime.from, store.storeWorkTime.to, time)) {
@@ -115,12 +116,13 @@ const CartStore = ({ store }) => {
         />
 
         <CartTotal
-          {...{
-            cart,
-            store,
-            total,
-            setTotal,
-          }}
+          cart={cart}
+          store={store}
+          total={total}
+          setTotal={setTotal}
+          cartType={'store'}
+          bonusesSelected={bonusesSelected}
+          setBonusesSelected={setBonusesSelected}
         />
 
         <CartForm
@@ -142,6 +144,7 @@ const CartStore = ({ store }) => {
           maxDaysDelivery={store.maxDaysDelivery}
           setHasRemovedItems={setHasRemovedItems}
           setMinOrderSumAlert={setMinOrderSumAlert}
+          bonusesSelected={bonusesSelected}
         />
       </div>
 

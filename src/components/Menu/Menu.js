@@ -15,8 +15,11 @@ import {
   currencyShow,
 } from '../../features/visibility/visibilitySlice'
 
+
 import { useLang } from '../../hooks/useLang'
 import { useScrollLock } from '../../hooks/useScrollLock'
+
+import UserField from '../UserField/UserField'
 
 const Menu = () => {
   const dispatch = useDispatch()
@@ -63,9 +66,11 @@ const Menu = () => {
         <div className='menu__inner'>
           <div className='menu__content has-scrollbar'>
             <div className='menu__main'>
-              <h2 className='menu__title'>{getLang('mainMenu')}</h2>
-
+              {/* <h2 className='menu__title'>{getLang('mainMenu')}</h2> */}
+              
               <div className='menu__list'>
+                <UserField closeMenu={closeMenu} />
+
                 {Object.keys(initData.menu).map(key => (
                   <div className='menu__item' key={key}>
                     <Link to={key} className='menu__btn'>

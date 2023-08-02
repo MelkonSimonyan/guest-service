@@ -11,6 +11,7 @@ import { setPageInfo } from '../../features/pageInfo/pageInfoSlice'
 import API from '../../API/API'
 import { useLang } from '../../hooks/useLang'
 import { useFetching } from '../../hooks/useFetching'
+import PageMessage from '../../components/PageMessage/PageMessage'
 
 const FeedbackPage = () => {
   const dispatch = useDispatch()
@@ -82,19 +83,11 @@ const FeedbackPage = () => {
     return (
       <div className='content'>
         <div className='container'>
-          <div className='page-message'>
-            <div className='page-message__content'>
-              <div className='page-message__icon' style={{ color: 'var(--success-color)' }}>
-                <MdOutlineCheckCircleOutline />
-              </div>
-
-              <div className='page-message__subtitle'>
-                <span dangerouslySetInnerHTML={{ __html: success.length ? success : getLang('orderSuccess') }}></span>
-              </div>
-
-              <Link className='page-message__btn btn btn_lg' to='/'>{getLang('mainMenu')}</Link>
-            </div>
-          </div>
+          <PageMessage
+            type='error'
+            subtitle={success.length ? success : getLang('orderSuccess')}
+            button='back'
+          />
         </div>
       </div>
     )
@@ -104,24 +97,10 @@ const FeedbackPage = () => {
     return (
       <div className='content'>
         <div className='container'>
-          <div className='page-message'>
-            <div className='page-message__content'>
-              <div className='page-message__icon' style={{ color: 'var(--error-color)' }}>
-                <MdErrorOutline />
-              </div>
-
-              <div className='page-message__subtitle'>
-                {/* <span dangerouslySetInnerHTML={{ __html: error }}></span> */}
-              </div>
-
-              <button type='button'
-                className='page-message__btn btn btn_lg'
-                onClick={() => {
-                  window.location.reload()
-                }}
-              >{getLang('tryAgain')}</button>
-            </div>
-          </div>
+          <PageMessage
+            type='error'
+            button='reload'
+          />
         </div>
       </div>
     )
@@ -135,7 +114,7 @@ const FeedbackPage = () => {
 
           <form onSubmit={handleSubmit(fetchFeedback)}>
             {isFeedbackLoading && (
-              <div className='loader _fix'></div>
+              <div className='loader'></div>
             )}
 
             <div style={{ marginBottom: '-15px' }}>
@@ -186,7 +165,7 @@ const FeedbackPage = () => {
               </div>
 
               <div className='form-group form-floating'>
-                <input type='text' placeholder='&nbsp;' autoComplete='off'
+                <input type='tel' placeholder='&nbsp;' autoComplete='off'
                   {...register('phone', { required: true })}
                   className={'form-control _required' + (errors.phone ? ' error' : '')}
                   defaultValue={localStorage.getItem('formDataPhone') || ''}
@@ -241,7 +220,7 @@ const FeedbackPage = () => {
               <div className='container'>
                 <div className='footer-btn-row'>
                   <div className='footer-btn-col'>
-                    <button type='submit' className='cart__btn btn btn_lg'>{getLang('send')}</button>
+                    <button type='submit' className='btn btn_lg'>{getLang('send')}</button>
                   </div>
                 </div>
               </div>

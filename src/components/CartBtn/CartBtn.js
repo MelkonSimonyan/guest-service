@@ -59,7 +59,7 @@ const CartBtn = () => {
     }
   }, [carts])
 
-  if ((pageId === 'cart' || pageId === 'feedback') || !cartBtnVisible) {
+  if ((pageId === 'cart' || pageId === 'feedback' || pageId === 'profile') || !cartBtnVisible) {
     return null
   }
 

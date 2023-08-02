@@ -33,6 +33,7 @@ const CartForm = ({
     setSuccess,
     storeWorkTime,
     maxDaysDelivery,
+    bonusesSelected,
     setHasRemovedItems,
     setMinOrderSumAlert,
 }) => {
@@ -92,6 +93,7 @@ const CartForm = ({
                     storeId: store?.storeId,
                     text: textareaValue,
                     recaptcha: token,
+                    bonuses: bonusesSelected,
                 })
 
                 setOrderData(response.data)
@@ -110,7 +112,7 @@ const CartForm = ({
     return (
         <form onSubmit={handleSubmit(fetchOrder)}>
             {isOrderLoading && (
-                <div className='loader _fix'></div>
+                <div className='loader'></div>
             )}
 
             {!noPersons ?
@@ -200,7 +202,7 @@ const CartForm = ({
                     </div>
 
                     <div className='form-group form-floating'>
-                        <input {...register('phone', { required: true })} type='text' placeholder='&nbsp;' className={'form-control _required' + (errors.phone ? ' error' : '')} autoComplete='off' defaultValue={localStorage.getItem('formDataPhone') || ''} />
+                        <input {...register('phone', { required: true })} type='tel' placeholder='&nbsp;' className={'form-control _required' + (errors.phone ? ' error' : '')} autoComplete='off' defaultValue={localStorage.getItem('formDataPhone') || ''} />
                         <label className='form-label'>{getLang('formPhone')}</label>
                         {errors.phone && <div className='form-error'>{getLang('formErrorRequired')}</div>}
                     </div>
@@ -244,7 +246,7 @@ const CartForm = ({
                 <div className='container'>
                     <div className='footer-btn-row'>
                         <div className='footer-btn-col'>
-                            <button type='submit' className='cart__btn btn btn_lg' disabled={close}>{getLang('acceptOrder')}</button>
+                            <button type='submit' className='btn btn_lg' disabled={close}>{getLang('acceptOrder')}</button>
                         </div>
                     </div>
                 </div>

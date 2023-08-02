@@ -10,12 +10,16 @@
 }
 
 .cart__data {
-  margin-top: -19px;
   margin-bottom: 19px;
   padding: 17px 0;
   border-bottom: 1px solid var(--border-color);
   font-size: 15px;
   line-height: 24px;
+}
+
+.cart__list + .cart__data,
+.cart__list + .reccommend {
+  margin-top: -19px;
 }
 
 .cart__data-row {
@@ -28,5 +32,10 @@
 .cart__data-value {}
 
 .cart__data-row._total {
+  font-weight: bold;
+}
+
+.cart__data-row._bonus .cart__data-value {
+  color: #EB4B4B;
   font-weight: bold;
 }

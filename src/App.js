@@ -6,10 +6,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Navigate, Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
-import { MdErrorOutline } from 'react-icons/md'
 
 import { selectInit, getInitData } from './features/init/initSlice'
 import { selectCart, setCart } from './features/cart/cartSlice'
+import { setUser } from './features/user/userSlice'
 
 import { getStores } from './utils/getStores'
 
@@ -18,11 +18,16 @@ import CommonPage from './pages/CommonPage/CommonPage'
 import CatalogPage from './pages/CatalogPage/CatalogPage'
 import CartPage from './pages/CartPage/CartPage'
 
+import PageMessage from './components/PageMessage/PageMessage'
 import Header from './components/Header/Header'
 import CartBtn from './components/CartBtn/CartBtn'
 import Modal from './components/Modal/Modal'
 import FeedbackPage from './pages/FeedbackPage/FeedbackPage'
 import OrderPage from './pages/OrderPage/OrderPage'
+import ProfilePage from './pages/ProfilePage/ProfilePage'
+import ProfileHistoryPage from './pages/ProfileHistoryPage/ProfileHistoryPage'
+import ProfileDataPage from './pages/ProfileDataPage/ProfileDataPage'
+import ProfileLoyaltyPage from './pages/ProfileLoyaltyPage/ProfileLoyaltyPage'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -75,6 +80,13 @@ const App = () => {
         stores = JSON.parse(localStorage.getItem('cart'))
       }
       dispatch(setCart(stores))
+
+      if(initData.user?.auth){
+        dispatch(setUser(initData.user))
+      } else {
+        dispatch(setUser(null))
+        localStorage.removeItem('authToken')
+      }
     }
   }, [initData])
 
@@ -137,15 +149,12 @@ const App = () => {
       {initStatus === 'loading' ?
         null :
         initData.error ?
-          <div className='page-message'>
-            <div className='page-message__content'>
-              <div className='page-message__icon' style={{ color: 'var(--error-color)' }}>
-                <MdErrorOutline />
-              </div>
-
-              <div className='page-message__subtitle'>
-                <span dangerouslySetInnerHTML={{ __html: initData.error }}></span>
-              </div>
+          <div className="content">
+            <div className="container">
+              <PageMessage
+                type='error'
+                subtitle={initData.error}
+              />
             </div>
           </div>
           : <>
@@ -172,6 +181,11 @@ const App = () => {
                   <Route path='/cart/' element={<CartPage />} />
                   <Route path='/feedback/' element={<FeedbackPage />} />
                   <Route path='/order/:id' element={<OrderPage />} />
+                  <Route path='/profile' element={<ProfilePage />}>
+                    <Route index element={<ProfileDataPage />} />
+                    <Route path='history' element={<ProfileHistoryPage />} />
+                    <Route path='loyalty' element={<ProfileLoyaltyPage />} />
+                  </Route>
                   <Route path='*' element={<Navigate to='/' />} />
                 </Routes>
               </CSSTransition>

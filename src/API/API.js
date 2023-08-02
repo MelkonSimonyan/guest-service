@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-export const apiRoot = 'https://api.travelstay.ru/api/widget/v1/guestportal/'
+//export const apiRoot = 'https://api.travelstay.ru/api/widget/v1/guestportal/'
+export const apiRoot = 'https://account2.uhotels.app/api/widget/v1/guestportal/'
 
 export const headers = {
   domain: window.location.hostname,
@@ -9,6 +10,7 @@ export const headers = {
   currency: localStorage.getItem('currency') || 'RUB',
   portal: localStorage.getItem('portal'),
   access: localStorage.getItem('access'),
+  Authorization: localStorage.getItem('authToken') ? 'Bearer ' + localStorage.getItem('authToken') : null
 }
 
 export default class API {
@@ -29,6 +31,46 @@ export default class API {
 
   static async recommend(params, storeId) {
     const response = await axios.post(apiRoot + 'recommend' + '/' + storeId, { ...params }, { headers })
+    return response
+  }
+
+  static async hasUser(params) {
+    const response = await axios.post(apiRoot + 'user/has', { ...params }, { headers })
+    return response
+  }
+
+  static async authorize(params) {
+    const response = await axios.post(apiRoot + 'user/authorize', { ...params }, { headers })
+    return response
+  }
+
+  static async registration(params) {
+    const response = await axios.post(apiRoot + 'user/register', { ...params }, { headers })
+    return response
+  }
+
+  static async confirmEmail(params) {
+    const response = await axios.post(apiRoot + 'user/confirm-email', { ...params }, { headers })
+    return response
+  }
+
+  static async sendPassword(params) {
+    const response = await axios.post(apiRoot + 'user/send-password', { ...params }, { headers })
+    return response
+  }
+
+  static async resetPassword(params) {
+    const response = await axios.post(apiRoot + 'user/reset-password', { ...params }, { headers })
+    return response
+  }
+
+  static async updateProfile(params) {
+    const response = await axios.post(apiRoot + 'user/profile', { ...params }, { headers })
+    return response
+  }
+
+  static async getBonuses(params) {
+    const response = await axios.post(apiRoot + 'bonuses', { ...params }, { headers })
     return response
   }
 }

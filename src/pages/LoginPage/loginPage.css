@@ -1,0 +1,19 @@
+.reset-password-btn-row {
+  margin: 0 0 8px;
+  text-align: right;
+  position: relative;
+  top: -4px;
+}
+
+.reset-password-btn {
+  display: inline-block;
+  vertical-align: middle;
+  border: none;
+  padding: 0;
+  background: none;
+  color: var(--main-color);
+}
+
+.reset-password-btn:hover {
+  color: var(--blue-dark-color);
+}

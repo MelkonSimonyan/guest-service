@@ -1,0 +1,60 @@
+.user-field {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.user-field__bonuses {
+  color: #64748B;
+  margin-bottom: 16px;
+}
+
+.user-field__wrapper {
+  display: flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+  margin-bottom: 18px;
+}
+
+.user-field__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--page-item-bg);
+  margin-right: 8px;
+}
+
+.user-field__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-field__image svg {
+  font-size: 20px;
+}
+
+.user-field__content {
+  flex-grow: 1;
+  min-width: 1px;
+}
+
+.user-field__name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-field__email {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+  color: #A0ABBB;
+}

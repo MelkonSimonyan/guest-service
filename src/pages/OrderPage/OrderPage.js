@@ -8,7 +8,7 @@ import { setPageInfo } from '../../features/pageInfo/pageInfoSlice'
 
 import { useFetching } from '../../hooks/useFetching'
 import { useLang } from '../../hooks/useLang'
-
+import PageMessage from '../../components/PageMessage/PageMessage'
 
 const OrderPage = () => {
   const dispatch = useDispatch()
@@ -58,7 +58,7 @@ const OrderPage = () => {
   if (isOrderLoading || !orderData) {
     return <div className='content'>
       <div className='container'>
-        {isOrderLoading && <div className='loader _fix'></div>}
+        {isOrderLoading && <div className='loader'></div>}
       </div>
     </div>
   }
@@ -98,19 +98,11 @@ const OrderPage = () => {
   return (
     <div className='content'>
       <div className='container'>
-        <div className='page-message'>
-          <div className='page-message__content'>
-            <div className='page-message__icon' style={{ color: 'var(--error-color)' }}>
-              <MdErrorOutline />
-            </div>
-
-            <div className='page-message__subtitle'>
-              <span dangerouslySetInnerHTML={{ __html: orderError || orderData?.pay?.error }}></span>
-            </div>
-
-            <Link className='page-message__btn btn btn_lg' to='/'>{getLang('mainMenu')}</Link>
-          </div>
-        </div>
+        <PageMessage
+          type='error'
+          subtitle={orderError || orderData?.pay?.error}
+          button='back'
+        />
       </div>
     </div>
   )

@@ -105,9 +105,13 @@
 }
 
 .menu__btn-icon {
-  font-size: 26px;
+  font-size: 24px;
   flex-shrink: 0;
-  margin-right: 15px;
+  margin-right: 16px;
+}
+
+.menu__btn-icon svg {
+  display: block;
 }
 
 .menu__btn-text {
@@ -115,9 +119,23 @@
   min-width: 1px;
 }
 
+.menu__btn-title {
+  display: block;
+  margin: 0;
+}
+
+.menu__btn-desc {
+  display: block;
+  opacity: 0.5;
+}
+
 .menu__btn-arrow {
   font-size: 24px;
   flex-shrink: 0;
+}
+
+.menu__btn-arrow svg {
+  display: block;
 }
 
 .menu__data {
@@ -151,4 +169,59 @@
 
 .menu__copyright {
   margin-top: 20px;
+}
+
+.menu__group {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.menu__group .menu__btn {
+  border: none;
+}
+
+.menu__group-header .menu__btn-arrow {
+  font-size: 16px;
+  margin-right: 4px;
+  transform: rotate(90deg);
+}
+
+.menu__group.is-open .menu__group-header .menu__btn-arrow {
+  transform: rotate(-90deg);
+}
+
+.menu__group-list {
+  position: relative;
+  padding-left: 32px;
+  padding-bottom: 16px;
+}
+
+.menu__group-list:before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 54px;
+  border-left: 1px solid var(--border-color);
+}
+
+.menu__group:not(.is-open) .menu__group-list {
+  display: none;
+}
+
+.menu__group-list .menu__item:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.menu__group-list .menu__btn {
+  padding: 9px 8px;
+}
+
+.menu__group-list .menu__btn:hover,
+.menu__group-list .menu__btn.active {
+  background: #E7EAEE;
+}
+
+.menu__group-list .menu__btn-icon {
+  font-size: 20px;
+  margin-right: 10px;
 }
