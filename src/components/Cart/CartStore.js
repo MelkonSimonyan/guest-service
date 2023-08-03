@@ -36,7 +36,7 @@ const CartStore = ({ store }) => {
   const [success, setSuccess] = useState(null)
   const [error, setError] = useState(null)
   const [close, setClose] = useState(false)
-  const [bonusesSelected, setBonusesSelected] = useState(false)
+  const [bonusesSelected, setBonusesSelected] = useState(localStorage.getItem('bonusesSelected') === 'true' ? true : false)
 
   useEffect(() => {
     if (store.storeWorkTime && isClose(store.storeWorkTime.from, store.storeWorkTime.to, time)) {

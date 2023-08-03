@@ -16,7 +16,7 @@ const PasswordInput = ({
     <div className='password-field'>
       <input
         {...register(name, registerData)}
-        autoFocus={autoFocus}
+        autoFocus={autoFocus || false}
         className={className}
         type={showPassword ? 'text' : 'password'}
       />

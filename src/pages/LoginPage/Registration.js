@@ -87,9 +87,9 @@ const Registration = ({
             {...register('name', {
               required: true
             })}
-            autoFocus={true}
-            className={'form-control' + (errors.name ? ' error' : '')}
             type='text'
+            autoComplete='off'
+            className={'form-control' + (errors.name ? ' error' : '')}
           />
           {errors.name && <div className='form-error'>{getLang('form_error_required')}</div>}
         </div>
@@ -100,8 +100,9 @@ const Registration = ({
             {...register('surname', {
               required: true
             })}
-            className={'form-control' + (errors.surname ? ' error' : '')}
             type='text'
+            autoComplete='off'
+            className={'form-control' + (errors.surname ? ' error' : '')}
           />
           {errors.surname && <div className='form-error'>{getLang('form_error_required')}</div>}
         </div>
@@ -112,8 +113,9 @@ const Registration = ({
             {...register('phone', {
               required: true
             })}
-            className={'form-control' + (errors.phone ? ' error' : '')}
             type='tel'
+            autoComplete='off'
+            className={'form-control' + (errors.phone ? ' error' : '')}
           />
           {errors.phone && <div className='form-error'>{getLang('form_error_required')}</div>}
         </div>

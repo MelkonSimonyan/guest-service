@@ -82,9 +82,9 @@ const ProfileDataPage = () => {
             {...register('name', {
               required: true
             })}
-            autoFocus={true}
-            className={'form-control' + (errors.name ? ' error' : '')}
             type='text'
+            autoComplete='off'
+            className={'form-control' + (errors.name ? ' error' : '')}
             defaultValue={userData.profile.name}
           />
           {errors.name && <div className='form-error'>{getLang('form_error_required')}</div>}
@@ -96,8 +96,9 @@ const ProfileDataPage = () => {
             {...register('surname', {
               required: true
             })}
-            className={'form-control' + (errors.surname ? ' error' : '')}
             type='text'
+            autoComplete='off'
+            className={'form-control' + (errors.surname ? ' error' : '')}
             defaultValue={userData.profile.surname}
           />
           {errors.surname && <div className='form-error'>{getLang('form_error_required')}</div>}
@@ -113,8 +114,9 @@ const ProfileDataPage = () => {
                 message: getLang('form_error_email'),
               },
             })}
-            className={'form-control' + (errors.email ? ' error' : '')}
             type='email'
+            autoComplete='off'
+            className={'form-control' + (errors.email ? ' error' : '')}
             defaultValue={userData.profile.email}
           />
           {errors.email && <div className='form-error'>{errors.email.message}</div>}
@@ -126,8 +128,9 @@ const ProfileDataPage = () => {
             {...register('phone', {
               required: true
             })}
-            className={'form-control' + (errors.phone ? ' error' : '')}
             type='tel'
+            autoComplete='off'
+            className={'form-control' + (errors.phone ? ' error' : '')}
             defaultValue={userData.profile.phone}
           />
           {errors.phone && <div className='form-error'>{getLang('form_error_required')}</div>}
@@ -139,8 +142,9 @@ const ProfileDataPage = () => {
             {...register('birthday', {
               required: true
             })}
-            className={'form-control' + (errors.birthday ? ' error' : '')}
             type='text'
+            autoComplete='off'
+            className={'form-control' + (errors.birthday ? ' error' : '')}
             defaultValue={userData.profile.birthday}
           />
           {errors.birthday && <div className='form-error'>{getLang('form_error_required')}</div>}

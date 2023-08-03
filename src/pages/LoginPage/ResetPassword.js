@@ -106,9 +106,9 @@ const ResetPassword = ({
             {...register('code', {
               required: true
             })}
-            autoFocus={true}
-            className={'form-control' + (errors.code ? ' error' : '')}
             type='text'
+            autoComplete='off'
+            className={'form-control' + (errors.code ? ' error' : '')}
           />
           {errors.code && <div className='form-error'>{getLang('form_error_required')}</div>}
         </div>

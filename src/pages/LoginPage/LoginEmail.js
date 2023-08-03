@@ -90,9 +90,9 @@ const LoginEmail = ({
                 message: getLang('form_error_email'),
               },
             })}
-            autoFocus
-            className={'form-control' + (errors.email ? ' error' : '')}
             type='email'
+            autoComplete='off'
+            className={'form-control' + (errors.email ? ' error' : '')}
             defaultValue={formData?.email || ''}
           />
           {errors.email && <div className='form-error'>{errors.email.message}</div>}

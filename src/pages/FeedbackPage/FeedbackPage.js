@@ -121,7 +121,9 @@ const FeedbackPage = () => {
               <div className='form-label'>{getLang('numRoom')}</div>
               <div className='form-group'>
                 <select
-                  {...register('room', { required: true })}
+                  {...register('room', {
+                    required: true
+                  })}
                   className={'form-select' + (errors.room ? ' error' : '')}
                   defaultValue={localStorage.getItem('formDataRoom')}
                 >
@@ -139,7 +141,9 @@ const FeedbackPage = () => {
               <div className='form-label'>{getLang('feedbackTheme')}</div>
               <div className='form-group'>
                 <select
-                  {...register('theme', { required: true })}
+                  {...register('theme', {
+                    required: true
+                  })}
                   className={'form-select' + (errors.theme ? ' error' : '')}
                 >
                   <option></option>
@@ -155,8 +159,13 @@ const FeedbackPage = () => {
 
               <div className='form-label'>{getLang('contacts')}</div>
               <div className='form-group form-floating'>
-                <input type='text' placeholder='&nbsp;' autoComplete='off'
-                  {...register('name', { required: true })}
+                <input
+                  {...register('name', {
+                    required: true
+                  })}
+                  type='text'
+                  autoComplete='off'
+                  placeholder='&nbsp;'
                   className={'form-control _required' + (errors.name ? ' error' : '')}
                   defaultValue={localStorage.getItem('formDataName') || ''}
                 />
@@ -165,8 +174,13 @@ const FeedbackPage = () => {
               </div>
 
               <div className='form-group form-floating'>
-                <input type='tel' placeholder='&nbsp;' autoComplete='off'
-                  {...register('phone', { required: true })}
+                <input
+                  {...register('phone', {
+                    required: true
+                  })}
+                  type='tel'
+                  autoComplete='off'
+                  placeholder='&nbsp;'
                   className={'form-control _required' + (errors.phone ? ' error' : '')}
                   defaultValue={localStorage.getItem('formDataPhone') || ''}
                 />
@@ -175,8 +189,13 @@ const FeedbackPage = () => {
               </div>
 
               <div className='form-group form-floating'>
-                <input type='email' placeholder='&nbsp;' autoComplete='off'
-                  {...register('email', { required: true })}
+                <input
+                  {...register('email', {
+                    required: true
+                  })}
+                  type='email'
+                  autoComplete='off'
+                  placeholder='&nbsp;'
                   className={'form-control _required' + (errors.email ? ' error' : '')}
                   defaultValue={localStorage.getItem('formDataEmail') || ''}
                 />
@@ -185,11 +204,13 @@ const FeedbackPage = () => {
               </div>
 
               <div className='form-group form-floating'>
-                <textarea placeholder='&nbsp;' rows='2'
+                <textarea 
                   {...register('text')}
+                  placeholder='&nbsp;' 
                   className='form-control'
                   value={textareaValue}
                   ref={textareaRef}
+                  rows='2'
                   onChange={(e) => {
                     setTextareaValue(e.target.value)
                   }}
@@ -200,9 +221,11 @@ const FeedbackPage = () => {
               {initData.hotel.legacyLink ? <div className='form-check'>
                 <label className='form-check__label'>
                   <input
+                    {...register('aggreement', {
+                      required: true
+                    })}
                     type='checkbox'
                     className={'form-check__input' + (errors.aggreement ? ' error' : '')}
-                    {...register('aggreement', { required: true })}
                     defaultChecked
                   />
                   <span className='form-check__text' dangerouslySetInnerHTML={{ __html: getLang('legacyPhrase').replace(':link:', initData.hotel.legacyLink) }} />

@@ -87,7 +87,6 @@ const LoginPassword = ({
               required: true
             }}
             name={'password'}
-            autoFocus={true}
             className={'form-control' + (errors.password ? ' error' : '')}
           />
           {errors.password && <div className='form-error'>{getLang('form_error_required')}</div>}

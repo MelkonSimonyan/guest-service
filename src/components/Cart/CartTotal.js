@@ -66,6 +66,7 @@ const CartTotal = ({
                 type='checkbox'
                 className='form-check__input'
                 onChange={(e) => {
+                  localStorage.setItem('bonusesSelected', e.target.checked)
                   setBonusesSelected(e.target.checked)
                 }}
                 checked={bonusesSelected}
