@@ -48,6 +48,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   overscroll-behavior: none;
   scroll-behavior: smooth;
+  background-color: var(--main-bg);
 }
 
 html.is-scroll-lock body {
