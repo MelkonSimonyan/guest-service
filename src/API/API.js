@@ -39,6 +39,11 @@ export default class API {
     return response
   }
 
+  static async logout() {
+    const response = await axios.get(apiRoot + 'user/logout?hotel=' + headers.hotel, { headers })
+    return response
+  }
+
   static async authorize(params) {
     const response = await axios.post(apiRoot + 'user/authorize', { ...params }, { headers })
     return response

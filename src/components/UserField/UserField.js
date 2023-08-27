@@ -11,6 +11,7 @@ import { selectInit } from '../../features/init/initSlice'
 import { selectUser } from '../../features/user/userSlice'
 import { MdChevronRight } from 'react-icons/md'
 import { FiLogIn, FiUsers } from 'react-icons/fi'
+import API from '../../API/API'
 
 const UserField = ({ closeMenu }) => {
   const { userData } = useSelector(selectUser)
@@ -104,6 +105,7 @@ const UserField = ({ closeMenu }) => {
                 className='menu__btn'
                 type='button'
                 onClick={() => {
+                  API.logout()
                   dispatch(setUser(null))
                   localStorage.removeItem('authToken')
                   window.location.reload()
