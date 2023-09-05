@@ -26,7 +26,7 @@ const Registration = ({
     let token = ''
 
     if (initData.recaptchaKey) {
-        token = await recaptchaRef.current.executeAsync()
+      token = await recaptchaRef.current.executeAsync()
     }
 
     const response = await API.registration({
@@ -79,7 +79,7 @@ const Registration = ({
       )}
 
       <div style={{ marginBottom: '-15px' }}>
-        <div className='page-desc text-center' dangerouslySetInnerHTML={{  __html:  getLang('ts_login_name_lead')}}/>
+        <div className='page-desc text-center' dangerouslySetInnerHTML={{ __html: getLang('ts_login_name_lead') }} />
 
         <label className='form-label'>{getLang('ts_login_name_label')}</label>
         <div className='form-group'>

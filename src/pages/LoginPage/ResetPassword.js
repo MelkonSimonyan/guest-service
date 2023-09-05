@@ -26,7 +26,7 @@ const ResetPassword = ({
     let token = ''
 
     if (initData.recaptchaKey) {
-        token = await recaptchaRef.current.executeAsync()
+      token = await recaptchaRef.current.executeAsync()
     }
 
     const response = await API.authorize({
@@ -49,7 +49,7 @@ const ResetPassword = ({
     let token = ''
 
     if (initData.recaptchaKey) {
-        token = await recaptchaRef.current.executeAsync()
+      token = await recaptchaRef.current.executeAsync()
     }
 
     const response = await API.resetPassword({
@@ -95,12 +95,12 @@ const ResetPassword = ({
     <form onSubmit={handleSubmit(fetchResetPassword)}>
       <div className='page-desc'>{getLang('ts_login_reset_password_lead')}</div>
 
-      {isResetPasswordLoading || isLoginLoading && 
+      {isResetPasswordLoading || isLoginLoading &&
         <div className='loader'></div>
       }
 
       <div style={{ marginBottom: '-15px' }}>
-      <label className='form-label'>{getLang('ts_login_reset_password_code_label')}</label>
+        <label className='form-label'>{getLang('ts_login_reset_password_code_label')}</label>
         <div className='form-group'>
           <input
             {...register('code', {

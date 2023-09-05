@@ -23,7 +23,7 @@ const LoginEmail = ({
     let token = ''
 
     if (initData.recaptchaKey) {
-        token = await recaptchaRef.current.executeAsync()
+      token = await recaptchaRef.current.executeAsync()
     }
 
     const response = await API.hasUser({
@@ -37,7 +37,7 @@ const LoginEmail = ({
     }))
 
     setTimeout(() => {
-      if(response.data.success){
+      if (response.data.success) {
         setStep('loginPassword')
         window.history.pushState({ loginStep: 'loginPassword' }, '', window.location.href)
       } else {

@@ -23,7 +23,7 @@ const ResetPassword = ({
     let token = ''
 
     if (initData.recaptchaKey) {
-        token = await recaptchaRef.current.executeAsync()
+      token = await recaptchaRef.current.executeAsync()
     }
 
     const response = await API.sendPassword({
@@ -69,7 +69,7 @@ const ResetPassword = ({
     <form onSubmit={handleSubmit(fetchResetPasswordEmail)}>
       <div className='page-desc'>{getLang('ts_login_reset_password_email_lead')}</div>
 
-      {isResetPasswordEmailLoading && 
+      {isResetPasswordEmailLoading &&
         <div className='loader'></div>
       }
 

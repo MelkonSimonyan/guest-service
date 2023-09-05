@@ -27,7 +27,7 @@ const LoginPassword = ({
     let token = ''
 
     if (initData.recaptchaKey) {
-        token = await recaptchaRef.current.executeAsync()
+      token = await recaptchaRef.current.executeAsync()
     }
 
     const response = await API.authorize({
@@ -74,7 +74,7 @@ const LoginPassword = ({
 
   return (
     <form onSubmit={handleSubmit(fetchLogin)}>
-      {isLoginLoading && 
+      {isLoginLoading &&
         <div className='loader'></div>
       }
 
