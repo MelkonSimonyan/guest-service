@@ -28,6 +28,7 @@ import ProfilePage from './pages/ProfilePage/ProfilePage'
 import ProfileHistoryPage from './pages/ProfileHistoryPage/ProfileHistoryPage'
 import ProfileDataPage from './pages/ProfileDataPage/ProfileDataPage'
 import ProfileLoyaltyPage from './pages/ProfileLoyaltyPage/ProfileLoyaltyPage'
+import HtmlPage from './pages/HtmlPage/HtmlPage'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -175,6 +176,7 @@ const App = () => {
                 <Routes location={location}>
                   <Route path='/' element={<HomePage />} />
                   <Route path='/page/:id' element={<CommonPage />} />
+                  <Route path='/pageHtml/:id' element={<HtmlPage />} />
                   <Route path='/catalog/:storeId' element={<CatalogPage />} />
                   <Route path='/catalog/:storeId/:categoryId' element={<CatalogPage />} />
                   <Route path='/cart/:id' element={<CartPage />} />

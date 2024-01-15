@@ -26,7 +26,10 @@ const UserField = ({ closeMenu }) => {
     if (!userData?.userId) {
       return (
         <div className='menu__item'>
-          <Link to='/profile' className='menu__btn' onClick={closeMenu}>
+          <Link to='/profile' className='menu__btn' onClick={() => {
+            localStorage.setItem('redirectUrl', window.location.hash.replace('#/', ''))
+            closeMenu()
+          }}>
             <span className='menu__btn-text'>
               <span className='menu__btn-title h2'>{getLang('ts_login_title')}</span>
               <span className='menu__btn-desc'>{getLang('ts_login_description')}</span>

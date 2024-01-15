@@ -654,6 +654,15 @@ textarea.form-control {
   margin-top: var(--bs-gutter-y);
 }
 
+.iframe-wrapper {
+  height: calc(100 * var(--vh) - 80px);
+  margin-bottom: -15px;
+}
+
+html.is-cart-btn-visible .iframe-wrapper {
+  height: calc(100 * var(--vh) - 143px);
+}
+
 .content-wrapper {
   position: relative;
 }

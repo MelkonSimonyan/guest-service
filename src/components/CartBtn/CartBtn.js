@@ -59,7 +59,19 @@ const CartBtn = () => {
     }
   }, [carts])
 
-  if ((pageId === 'cart' || pageId === 'feedback' || pageId === 'profile') || !cartBtnVisible) {
+  useEffect(() => {
+    if(cartBtnVisible && (pageId !== 'cart' && pageId !== 'feedback' && pageId !== 'profile' && pageId !== 'page-html')){
+      document.documentElement.classList.add('is-cart-btn-visible')
+    } else {
+      document.documentElement.classList.remove('is-cart-btn-visible')
+    }
+
+    return () => {
+      document.documentElement.classList.remove('is-cart-btn-visible')
+    }
+  }, [cartBtnVisible])
+
+  if ((pageId === 'cart' || pageId === 'feedback' || pageId === 'profile' || pageId === 'page-html') || !cartBtnVisible) {
     return null
   }
 

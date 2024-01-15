@@ -42,7 +42,8 @@ const LoginPassword = ({
       dispatch(setUser(response.data))
       localStorage.setItem('authToken', response.data.authToken)
       headers.Authorization = 'Bearer ' + response.data.authToken
-      navigate('/')
+      navigate('/' + localStorage.getItem('redirectUrl') || '')
+      window.location.reload()
     }
   })
 

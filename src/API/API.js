@@ -1,7 +1,16 @@
 import axios from 'axios'
 
-//export const apiRoot = 'https://api.travelstay.ru/api/widget/v1/guestportal/'
-export const apiRoot = 'https://api.uhotels.app/api/widget/v1/guestportal/'
+const searchParams = new URLSearchParams(window.location.search)
+
+if (searchParams.get('isDev')) {
+  localStorage.setItem('isDev', searchParams.get('isDev'))
+} else if (searchParams.get('hotel')) {
+  localStorage.removeItem('isDev')
+}
+
+export const apiRoot = localStorage.getItem('isDev') ?
+  'https://account2.uhotels.app/api/widget/v1/guestportal/' :
+  'https://api.uhotels.app/api/widget/v1/guestportal/'
 
 export const headers = {
   domain: window.location.hostname,

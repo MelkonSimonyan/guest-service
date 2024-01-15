@@ -11,7 +11,9 @@ const PageItem = ({ page }) => {
   const clickHandler = () => {
     if (page.type === 'section') {
       navigate('/page/' + page.id)
-    } else if (page.type === 'store') {
+    } else if (page.type === 'page-html') {
+      navigate('/pageHtml/' + page.id)
+    }  else if (page.type === 'store') {
       navigate('/catalog/' + page.storeId)
     } else if (page.type === 'feedback') {
       navigate('/feedback/')
